@@ -53,7 +53,7 @@ body {
   /* Page setup - A4 */
   @page {
     size: A4;
-    margin: 0;
+    margin: 10mm 0;
   }
 
   /* Hide interactive elements */
@@ -72,7 +72,7 @@ body {
     margin: 0 !important;
     padding: 0 !important;
     width: 210mm !important;
-    min-height: 297mm !important;
+    min-height: auto !important;
   }
 
   /* Disable animations */
@@ -88,7 +88,7 @@ body {
     display: flex !important;
     flex-direction: row !important;
     width: 210mm !important;
-    min-height: 297mm !important;
+    min-height: auto !important;
     max-width: none !important;
     margin: 0 !important;
     box-shadow: none !important;
@@ -106,7 +106,7 @@ body {
     height: auto !important;
     min-height: auto !important;
     margin-left: 0 !important;
-    padding: 10mm 6mm !important;
+    padding: 8mm 6mm !important;
     flex-shrink: 0 !important;
     overflow: visible !important;
     display: flex !important;
@@ -121,23 +121,23 @@ body {
   }
 
   .print-container main {
-    padding: 10mm 8mm !important;
+    padding: 8mm 8mm !important;
     overflow: visible !important;
   }
 
   /* Typography adjustments for print */
   .print-container h1 {
-    font-size: 24pt !important;
+    font-size: 22pt !important;
     line-height: 1.1 !important;
     margin-bottom: 2mm !important;
   }
 
   .print-container h2 {
-    font-size: 12pt !important;
+    font-size: 11pt !important;
   }
 
   .print-container h3 {
-    font-size: 10pt !important;
+    font-size: 9pt !important;
   }
 
   .print-container p,
@@ -153,8 +153,8 @@ body {
   }
 
   .print-container .avatar-wrapper > div:first-child {
-    width: 30mm !important;
-    height: 30mm !important;
+    width: 25mm !important;
+    height: 25mm !important;
   }
 
   /* Sidebar headings for print */
@@ -178,79 +178,104 @@ body {
     height: 1.5mm !important;
   }
 
-  /* Section badges for print */
+  /* Section badges - ATTACHED to content, not floating */
   .print-container .section-badge {
     margin-left: 0 !important;
-    padding: 2mm 4mm !important;
-    font-size: 9pt !important;
-    border-radius: 0 3mm 3mm 0 !important;
+    padding: 1.5mm 3mm !important;
+    font-size: 8pt !important;
+    border-radius: 0 2mm 2mm 0 !important;
+    display: inline-block !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
   }
 
   /* Timeline adjustments */
   .print-container .timeline-line::before {
-    left: 10px !important;
+    left: 8px !important;
   }
 
   .print-container .timeline-line > div {
-    padding-left: 6mm !important;
-    margin-bottom: 4mm !important;
+    padding-left: 5mm !important;
+    margin-bottom: 3mm !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 
   /* Header section for print */
   .print-container header {
-    margin-bottom: 6mm !important;
+    margin-bottom: 5mm !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 
   .print-container header p {
-    margin-top: 2mm !important;
+    margin-top: 1mm !important;
   }
 
   /* Summary border */
   .print-container header > div:last-child {
-    margin-top: 4mm !important;
+    margin-top: 3mm !important;
     padding-left: 3mm !important;
     border-left-width: 2px !important;
   }
 
-  /* Experience/Education sections - allow page breaks */
+  /* SECTIONS - keep heading with content */
   .print-container section {
-    margin-bottom: 2mm !important;
+    margin-bottom: 4mm !important;
     page-break-inside: auto !important;
     break-inside: auto !important;
   }
 
+  /* Keep section header with at least some content */
   .print-container section > div:first-child {
     margin-bottom: 2mm !important;
-  }
-
-  /* Prevent orphaned headings */
-  .print-container .section-badge {
     page-break-after: avoid !important;
+    break-after: avoid !important;
   }
 
-  /* Timeline items can break */
+  /* Each experience/education item should not break */
   .print-container .timeline-line > div {
     page-break-inside: avoid !important;
-    margin-bottom: 2mm !important;
+    break-inside: avoid !important;
   }
 
-  /* Fix grid to single column for print */
+  /* Bento Grid for skills in print - 2 columns */
   .print-container .grid {
-    display: block !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2mm !important;
   }
 
   .print-container .grid > div {
-    margin-bottom: 1.5mm !important;
+    padding: 2mm !important;
+    border: 0.5px solid #e5e7eb !important;
+    border-radius: 2mm !important;
+    margin-bottom: 0 !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Skill category headers in print */
+  .print-container .grid h4 {
+    font-size: 7pt !important;
+    margin-bottom: 1mm !important;
+  }
+
+  /* Skill tags in print */
+  .print-container .grid span {
+    font-size: 6pt !important;
+    padding: 0.5mm 1mm !important;
   }
 
   /* Skills section specific */
   .print-container section[id*="skills"] {
     margin-bottom: 3mm !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 
   /* Skill bars compact for print */
   .print-container .h-2 {
-    height: 2mm !important;
+    height: 1.5mm !important;
   }
 
   /* Tags in timeline */
@@ -259,20 +284,26 @@ body {
     font-size: 6pt !important;
   }
 
-  /* Languages section */
+  /* Languages section - keep together */
+  .print-container .languages-container {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
   .print-container .languages-container > div {
     padding: 1.5mm 3mm !important;
   }
 
   /* Footer */
   .print-container footer {
-    margin-top: 4mm !important;
+    margin-top: 3mm !important;
     padding-top: 2mm !important;
   }
 
-  /* Page breaks */
+  /* Page breaks - headings stay with content */
   h2, h3 {
-    page-break-after: avoid;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
   }
 
   /* Links as text */
@@ -283,6 +314,11 @@ body {
   /* Hide spacer div on print */
   .print-container .print-spacer {
     display: none !important;
+  }
+
+  /* Projects section - avoid break before if possible */
+  .print-container section[id*="projects"] {
+    page-break-before: auto !important;
   }
 }
 
