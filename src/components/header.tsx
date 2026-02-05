@@ -1,6 +1,6 @@
 'use client';
 
-import { Languages, Download, Mail, Linkedin, Github, MessageCircle, MapPin } from 'lucide-react';
+import { Languages, Download, Mail, Linkedin, MessageCircle, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/language-context';
 import { resumeData, uiStrings } from '@/data/resume-data';
@@ -66,16 +66,7 @@ export function Header() {
           className="flex items-center gap-1.5 hover:text-blue-600 transition-colors"
         >
           <Linkedin size={16} className="print:w-3 print:h-3" />
-          {data.contacts.linkedin}
-        </a>
-        <a
-          href={`https://${data.contacts.github}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1.5 hover:text-blue-600 transition-colors"
-        >
-          <Github size={16} className="print:w-3 print:h-3" />
-          {data.contacts.github}
+          LinkedIn
         </a>
         <a
           href={`https://t.me/${data.contacts.telegram.replace('@', '')}`}

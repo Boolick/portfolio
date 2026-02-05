@@ -6,19 +6,13 @@ import { useLanguage } from '@/context/language-context';
 import { resumeData, uiStrings } from '@/data/resume-data';
 import { TimelineItem } from './ui/timeline-item';
 import { SkillBar } from './ui/skill-bar';
+import { ProjectsSection } from './projects-section';
 
 export function MainContent() {
   const { locale } = useLanguage();
   const data = resumeData[locale];
   const ui = uiStrings[locale];
 
-  const coreSkills = [
-    { name: locale === 'en' ? 'Frontend Architecture' : 'Frontend-архитектура', level: 95 },
-    { name: 'React / Next.js', level: 90 },
-    { name: 'TypeScript', level: 85 },
-    { name: locale === 'en' ? 'Node.js & GraphQL' : 'Node.js и GraphQL', level: 80 },
-    { name: locale === 'en' ? 'Team Leadership' : 'Лидерство команды', level: 100 },
-  ];
 
   const handlePrint = () => {
     window.print();
@@ -37,10 +31,10 @@ export function MainContent() {
         <div className="flex justify-between items-start gap-6">
           {/* Left: Name & Title */}
           <div className="flex-1">
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-[#0a192f] tracking-tight leading-tight">
+            <h1 className="text-4xl md:text-5xl font-bold text-[#0a192f] tracking-tight leading-tight">
               {data.name.split(' ')[0]}
               <br />
-              <span className="text-[#0a192f]">{data.name.split(' ')[1]}</span>
+              <span className="text-4xl md:text-5xl text-[#0a192f]">{data.name.split(' ')[1]}</span>
             </h1>
             <p className="text-base md:text-lg text-gray-500 font-light tracking-wide uppercase mt-3">
               {data.title}
@@ -67,7 +61,7 @@ export function MainContent() {
             className="shrink-0"
           >
             <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-[#fca311]/20 flex items-center justify-center p-1.5 border-3 border-[#fca311] shadow-xl">
-              <div className="w-full h-full rounded-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center text-3xl md:text-4xl font-serif text-[#fca311]">
+              <div className="w-full h-full rounded-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center text-3xl md:text-4xl font-bold text-[#fca311]">
                 AB
               </div>
             </div>
@@ -85,7 +79,7 @@ export function MainContent() {
         </motion.div>
       </motion.header>
 
-      {/* Core Skills - NOW IN MAIN CONTENT */}
+      {/* Tech Stack - Modern Tag Cloud */}
       <motion.section
         id="desktop-skills"
         initial={{ opacity: 0, y: 30 }}
@@ -95,28 +89,34 @@ export function MainContent() {
       >
         <div className="flex items-center mb-8">
           <div className="bg-[#fca311] text-[#0a192f] px-6 py-2 rounded-r-full -ml-6 md:-ml-10 lg:-ml-12 font-bold text-base shadow-sm section-badge">
-            {locale === 'en' ? 'Core Skills' : 'Ключевые навыки'}
+            {locale === 'en' ? 'Tech Stack' : 'Технологии'}
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
-          {coreSkills.map((skill, idx) => (
+        
+        {/* Bento Grid for Skills */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          {data.skills.map((category, catIdx) => (
             <motion.div
-              key={skill.name}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 + idx * 0.05, duration: 0.3 }}
+              key={category.name}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 + catIdx * 0.05, duration: 0.3 }}
+              className="group p-4 rounded-xl bg-gradient-to-br from-slate-50 to-white border border-gray-100 
+                         hover:border-[#fca311]/50 hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
             >
-              <div className="flex justify-between text-sm mb-1">
-                <span className="font-semibold text-gray-800">{skill.name}</span>
-                <span className="text-gray-500">{skill.level}%</span>
-              </div>
-              <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: `${skill.level}%` }}
-                  transition={{ delay: 0.3 + idx * 0.05, duration: 0.6, ease: "easeOut" }}
-                  className="h-full bg-[#fca311] rounded-full"
-                />
+              <h4 className="text-xs font-bold text-[#fca311] uppercase tracking-wider mb-3">
+                {category.name}
+              </h4>
+              <div className="flex flex-wrap gap-1.5">
+                {category.skills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="px-2 py-1 bg-[#0a192f]/5 text-[#0a192f] rounded-md text-xs font-medium 
+                               group-hover:bg-[#0a192f]/10 transition-colors"
+                  >
+                    {skill}
+                  </span>
+                ))}
               </div>
             </motion.div>
           ))}
@@ -155,6 +155,9 @@ export function MainContent() {
           ))}
         </div>
       </motion.section>
+
+      {/* Projects */}
+      <ProjectsSection />
 
       {/* Education */}
       <motion.section

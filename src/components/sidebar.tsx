@@ -2,7 +2,7 @@
 import { animate } from 'framer-motion';
 
 import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Globe, Briefcase, GraduationCap, User, Code2 } from 'lucide-react';
+import { MapPin, Mail, Globe, Briefcase, GraduationCap, User, Code2, FolderKanban, Linkedin, Send } from 'lucide-react';
 import { useLanguage } from '@/context/language-context';
 import { resumeData, uiStrings } from '@/data/resume-data';
 
@@ -15,6 +15,7 @@ export function Sidebar() {
     { id: 'desktop-about', label: locale === 'en' ? 'About Me' : 'Обо мне', icon: User },
     { id: 'desktop-skills', label: locale === 'en' ? 'Skills' : 'Навыки', icon: Code2 },
     { id: 'desktop-experience', label: locale === 'en' ? 'Experience' : 'Опыт', icon: Briefcase },
+    { id: 'desktop-projects', label: ui.projects, icon: FolderKanban },
     { id: 'desktop-education', label: locale === 'en' ? 'Education' : 'Образование', icon: GraduationCap },
   ];
 
@@ -81,26 +82,41 @@ export function Sidebar() {
             </div>
             <div>
               <span className="block">{data.contacts.location}</span>
-              <span className="text-xs text-slate-400">{locale === 'en' ? 'Open to Remote' : 'Готов к удаленке'}</span>
             </div>
-          </motion.li>
-          <motion.li variants={itemVariants} className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-[#fca311]/20 flex items-center justify-center shrink-0">
-              <Phone size={16} className="text-[#fca311]" />
-            </div>
-            <span>+7 (999) 000-0000</span>
           </motion.li>
           <motion.li variants={itemVariants} className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-[#fca311]/20 flex items-center justify-center shrink-0">
               <Mail size={16} className="text-[#fca311]" />
             </div>
-            <span>{data.contacts.email}</span>
+            <a href={`mailto:${data.contacts.email}`} className="hover:text-[#fca311] transition-colors">
+              {data.contacts.email}
+            </a>
           </motion.li>
           <motion.li variants={itemVariants} className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-[#fca311]/20 flex items-center justify-center shrink-0">
               <Globe size={16} className="text-[#fca311]" />
             </div>
-            <span>{data.contacts.linkedin}</span>
+            <a 
+              href={`https://${data.contacts.linkedin}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#fca311] transition-colors"
+            >
+              LinkedIn
+            </a>
+          </motion.li>
+          <motion.li variants={itemVariants} className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-[#fca311]/20 flex items-center justify-center shrink-0">
+              <Mail size={16} className="text-[#fca311]" />
+            </div>
+            <a 
+              href={`https://t.me/${data.contacts.telegram.replace('@', '')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#fca311] transition-colors"
+            >
+              {data.contacts.telegram}
+            </a>
           </motion.li>
         </ul>
       </motion.div>
@@ -133,6 +149,40 @@ export function Sidebar() {
             </motion.li>
           ))}
         </ul>
+      </motion.div>
+
+      {/* Social Links */}
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="space-y-4"
+      >
+        <h3 className="text-lg font-bold text-[#fca311] border-b border-white/10 pb-2">
+          {locale === 'en' ? 'Links' : 'Ссылки'}
+        </h3>
+        <div className="flex flex-wrap gap-2">
+          <motion.a
+            variants={itemVariants}
+            href={`https://${data.contacts.linkedin}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-10 h-10 rounded-lg bg-[#fca311]/20 flex items-center justify-center text-[#fca311] hover:bg-[#fca311] hover:text-[#0a192f] transition-all duration-200"
+            title="LinkedIn"
+          >
+            <Linkedin size={18} />
+          </motion.a>
+          <motion.a
+            variants={itemVariants}
+            href={`https://t.me/${data.contacts.telegram.replace('@', '')}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-10 h-10 rounded-lg bg-[#fca311]/20 flex items-center justify-center text-[#fca311] hover:bg-[#fca311] hover:text-[#0a192f] transition-all duration-200"
+            title="Telegram"
+          >
+            <Send size={18} />
+          </motion.a>
+        </div>
       </motion.div>
 
       {/* Spacer */}

@@ -12,7 +12,6 @@ export function JsonLdSchema() {
     url: `https://${data.contacts.linkedin}`,
     sameAs: [
       `https://${data.contacts.linkedin}`,
-      `https://${data.contacts.github}`,
       `https://t.me/${data.contacts.telegram.replace('@', '')}`,
     ],
     knowsAbout: data.skills.flatMap((cat) => cat.skills),

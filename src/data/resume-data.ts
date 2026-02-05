@@ -7,11 +7,21 @@ export interface ExperienceItem {
   period: string;
   description: string[];
   stack: string[];
+  isCommercial?: boolean;
 }
 
 export interface SkillCategory {
   name: string;
   skills: string[];
+}
+
+export interface ProjectItem {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  link: string;
+  tags: string[];
 }
 
 export interface ResumeData {
@@ -20,17 +30,18 @@ export interface ResumeData {
   contacts: {
     email: string;
     linkedin: string;
-    github: string;
     telegram: string;
     location: string;
   };
   summary: string;
   experience: ExperienceItem[];
   skills: SkillCategory[];
+  projects: ProjectItem[];
   education: {
     degree: string;
     institution: string;
     year: string;
+    additional?: string[];
   };
   languages: {
     name: string;
@@ -40,89 +51,124 @@ export interface ResumeData {
 
 const resumeDataEN: ResumeData = {
   name: "Alexander Bullo",
-  title: "Senior Frontend Developer | Team Lead",
+  title: "Middle Frontend Developer · React · Next.js · TypeScript",
   contacts: {
-    email: "your-email@domain.com",
-    linkedin: "linkedin.com/in/yourprofile",
-    github: "github.com/yourprofile",
-    telegram: "@yourhandle",
-    location: "Remote / Worldwide",
+    email: "bullo.aliaksandr@gmail.com",
+    linkedin: "linkedin.com/in/aliaksandr-bullo",
+    telegram: "@boolodev",
+    location: "Remote | Open to relocation",
   },
-  summary: `Frontend Developer with 2+ years of hands-on experience building production React/Next.js applications, backed by 11 years of engineering and process optimization background that brings mature leadership, structured thinking, and a results-driven approach to software development.
+  summary: `Frontend Developer with 3+ years of experience in the React ecosystem. Specializing in SPA/SSR applications, real-time functionality, and Telegram Mini Apps.
 
-Currently leading development of a Telegram Mini App with real-time features, notification systems, and database integrations. Previously served as Team Lead at Tower Empire, managing a team of 5 developers and architecting WebSocket-based multiplayer game systems.`,
+Currently developing two commercial projects: a social platform (TG MiniApp) and a multiplayer game system with WebSocket. I value clean architecture, strong typing, and predictable code.`,
   experience: [
     {
-      title: "Lead Frontend Developer",
-      company: "Telegram Mini App Platform",
+      title: "Frontend Developer",
+      company: "DEXSA / IPU (Telegram Mini App)",
       location: "Remote",
-      period: "2024 – Present",
+      period: "August 2025 – Present",
       description: [
-        "Architected real-time notification system using Supabase and Next.js API routes, enabling push notifications with scheduled delivery",
-        "Implemented WebSocket-based features for live updates and interactive user experiences within Telegram Mini App",
-        "Built responsive React interfaces with Tailwind CSS and Feature-Sliced Design architecture across 30+ components",
-        "Integrated Supabase for database operations, authentication, and serverless functions",
-        "Solved cross-platform compatibility issues (iOS video uploads, Telegram WebApp quirks)",
+        "Built frontend architecture for Telegram Mini App with native-like performance",
+        "Developed 30+ UI components following Feature-Sliced Design",
+        "Created notification pipeline: Supabase → Next.js API → Telegram Bot (98% delivery, <3s latency)",
+        "Resolved iOS WebView-specific issues (video upload, navigation, safe area)",
+        "Integrating Telegram Stars payment system for monetization",
       ],
-      stack: ["React", "Next.js", "TypeScript", "Supabase", "PostgreSQL", "Telegram Mini Apps SDK", "Tailwind CSS"],
+      stack: ["Next.js", "TypeScript", "TailwindCSS", "TanStack Query", "Supabase"],
+      isCommercial: true,
     },
     {
-      title: "Team Lead / Senior Frontend Developer",
-      company: "Tower Empire",
+      title: "Frontend Developer",
+      company: "Tower Empire (WebSocket Multiplayer)",
       location: "Remote",
-      period: "2023 – 2024",
+      period: "September 2024 – Present",
       description: [
-        "Managed a team of 5 developers, conducting code reviews, sprint planning, and technical mentorship",
-        "Architected WebSocket communication layer for real-time multiplayer game state synchronization",
-        "Implemented RTK Query for efficient server state management, reducing redundant API calls",
-        "Built complex game UI components with React and TypeScript handling intricate state transitions",
-        "Established development workflows including Git strategies, PR reviews, and deployment pipelines",
+        "Migrated entire codebase from JavaScript to TypeScript — reduced production bugs by 40%",
+        "Designed WebSocket architecture: state sync, reconnect logic, disconnect handling",
+        "Developed second game 'Hire for Fun' — full cycle from architecture to deployment",
+        "Optimized API calls via RTK Query: eliminated duplication, improved caching",
+        "Participated in code reviews and onboarding new developers",
       ],
-      stack: ["React", "TypeScript", "Redux Toolkit", "RTK Query", "WebSocket", "Styled Components"],
+      stack: ["React", "TypeScript", "Redux Toolkit", "RTK Query", "WebSocket", "Bootstrap 5"],
+      isCommercial: true,
     },
     {
-      title: "Lead Engineer / Technologist",
-      company: "Engineering Industry",
-      location: "Belarus",
-      period: "2011 – 2022",
+      title: "Frontend Developer",
+      company: "Project-based Development (Requalification Period)",
+      location: "Remote",
+      period: "2022 – 2024",
       description: [
-        "Led engineering teams and managed technical projects from planning to delivery",
-        "Optimized processes and implemented systematic improvements",
-        "Developed structured problem-solving approach now applied to software architecture",
-        "Built leadership and communication skills through cross-functional collaboration",
+        "Completed 10+ projects: from landing pages to SPAs with authentication and API integration",
+        "Passed RS School full cycle (Stage 1-2) — team projects, cross-check reviews",
+        "Mastered modern practices: FSD architecture, Git-flow, CI/CD",
       ],
-      stack: [],
+      stack: ["JavaScript", "React", "Redux", "HTML5", "CSS3/SCSS"],
+      isCommercial: false,
     },
   ],
   skills: [
     {
-      name: "Frontend",
-      skills: ["React", "Next.js", "TypeScript", "JavaScript", "Redux Toolkit", "RTK Query", "Zustand", "Tailwind CSS"],
+      name: "Core",
+      skills: ["React", "Next.js 14/15", "TypeScript", "TailwindCSS"],
     },
     {
-      name: "Real-time & State",
-      skills: ["WebSocket", "RTK Query", "Redux", "React Query", "Event-driven Architecture"],
+      name: "State & Real-time",
+      skills: ["Redux Toolkit", "TanStack Query", "WebSocket", "Zustand"],
     },
     {
-      name: "Backend (working knowledge)",
-      skills: ["Supabase", "PostgreSQL", "Next.js API Routes", "REST API"],
+      name: "Backend & Telegram",
+      skills: ["REST API", "Supabase", "TG Mini Apps", "aiogram"],
     },
     {
-      name: "Telegram Ecosystem",
-      skills: ["Telegram Mini Apps", "Telegram Bot API", "WebApp Authentication"],
+      name: "Tools",
+      skills: ["Git", "Docker", "Vercel", "Figma"],
+    },
+  ],
+  projects: [
+    {
+      id: "ipu-app",
+      title: "IPU App",
+      description: "Social platform as Telegram Mini App with real-time notifications, gamification, and monetization via Telegram Stars",
+      image: "/projects/placeholder-1.svg",
+      link: "#",
+      tags: ["Next.js", "TypeScript", "TailwindCSS", "Supabase"],
     },
     {
-      name: "Tools & DevOps",
-      skills: ["Git", "GitHub", "Docker", "Vercel", "Figma"],
+      id: "tower-empire",
+      title: "Tower Empire",
+      description: "Browser-based multiplayer card games with real-time WebSocket synchronization",
+      image: "/projects/placeholder-2.svg",
+      link: "#",
+      tags: ["React", "TypeScript", "WebSocket", "RTK Query"],
+    },
+    {
+      id: "portfolio",
+      title: "Portfolio",
+      description: "This resume/portfolio site with Bento Grid layout, bilingual support, and PDF export",
+      image: "/projects/placeholder-3.svg",
+      link: "#",
+      tags: ["Next.js", "TypeScript", "Framer Motion", "TailwindCSS"],
+    },
+    {
+      id: "rs-school",
+      title: "RS School Projects",
+      description: "10+ training projects: from landing pages to SPA with API integration and authorization",
+      image: "/projects/placeholder-4.svg",
+      link: "#",
+      tags: ["JavaScript", "React", "Redux", "HTML5"],
     },
   ],
   education: {
-    degree: "Bachelor of Engineering",
-    institution: "Technical University",
+    degree: "Higher Technical Education",
+    institution: "Belarusian State Technological University (BSTU)",
     year: "2011",
+    additional: [
+      "RS School — JavaScript/Frontend (Stage 1-2) · 2023–2024",
+      "SkyPro — Frontend Developer · 2022–2023",
+    ],
   },
   languages: [
-    { name: "English", level: "Professional working proficiency" },
+    { name: "English", level: "B2 (documentation, correspondence, calls)" },
     { name: "Russian", level: "Native" },
     { name: "Belarusian", level: "Native" },
   ],
@@ -130,91 +176,126 @@ Currently leading development of a Telegram Mini App with real-time features, no
 
 const resumeDataRU: ResumeData = {
   name: "Александр Булло",
-  title: "Senior Frontend Developer | Team Lead",
+  title: "Middle Frontend Developer · React · Next.js · TypeScript",
   contacts: {
-    email: "your-email@domain.com",
-    linkedin: "linkedin.com/in/yourprofile",
-    github: "github.com/yourprofile",
-    telegram: "@yourhandle",
-    location: "Удалённо / Весь мир",
+    email: "bullo.aliaksandr@gmail.com",
+    linkedin: "linkedin.com/in/aliaksandr-bullo",
+    telegram: "@boolodev",
+    location: "Удалённо | Готов к релокации",
   },
-  summary: `Frontend-разработчик с 2+ годами практического опыта создания production-приложений на React/Next.js, подкреплённый 11 годами инженерного и технологического опыта, который обеспечивает зрелый подход к лидерству, структурное мышление и ориентацию на результат.
+  summary: `Frontend-разработчик с 3+ годами опыта в React-экосистеме. Специализируюсь на SPA/SSR-приложениях, real-time функционале и Telegram Mini Apps.
 
-Сейчас руковожу разработкой Telegram Mini App с real-time функциями, системой уведомлений и интеграцией баз данных. Ранее работал Team Lead в Tower Empire, управляя командой из 5 разработчиков и проектируя WebSocket-системы для мультиплеерных игр.`,
+Сейчас развиваю два коммерческих проекта: социальную платформу (TG MiniApp) и игровую систему с мультиплеером на WebSocket. Ценю чистую архитектуру, типизацию и предсказуемый код.`,
   experience: [
     {
-      title: "Lead Frontend Developer",
-      company: "Платформа Telegram Mini App",
+      title: "Frontend Developer",
+      company: "DEXSA / IPU (Telegram Mini App)",
       location: "Удалённо",
-      period: "2024 – настоящее время",
+      period: "Август 2025 — по настоящее время",
       description: [
-        "Спроектировал систему уведомлений на Supabase и Next.js API routes с запланированной доставкой",
-        "Реализовал WebSocket-функционал для live-обновлений в Telegram Mini App",
-        "Построил адаптивные React-интерфейсы с Tailwind CSS и архитектурой Feature-Sliced Design (30+ компонентов)",
-        "Интегрировал Supabase для работы с БД, аутентификации и serverless-функций",
-        "Решил кросс-платформенные проблемы (загрузка iOS-видео, особенности Telegram WebApp)",
+        "Разработал архитектуру фронтенда для Telegram Mini App с нативной производительностью",
+        "Реализовал 30+ UI-компонентов по Feature-Sliced Design",
+        "Создал систему уведомлений: Supabase → Next.js API → Telegram Bot (доставка 98%, latency <3 сек)",
+        "Решаю специфичные баги iOS WebView (video upload, navigation, safe area)",
+        "Интегрирую платёжную систему Telegram Stars для монетизации",
       ],
-      stack: ["React", "Next.js", "TypeScript", "Supabase", "PostgreSQL", "Telegram Mini Apps SDK", "Tailwind CSS"],
+      stack: ["Next.js", "TypeScript", "TailwindCSS", "TanStack Query", "Supabase"],
+      isCommercial: true,
     },
     {
-      title: "Team Lead / Senior Frontend Developer",
-      company: "Tower Empire",
+      title: "Frontend Developer",
+      company: "Tower Empire (WebSocket Multiplayer)",
       location: "Удалённо",
-      period: "2023 – 2024",
+      period: "Сентябрь 2024 — по настоящее время",
       description: [
-        "Управлял командой из 5 разработчиков: код-ревью, планирование спринтов, техническое менторство",
-        "Спроектировал WebSocket-коммуникацию для синхронизации игрового состояния в реальном времени",
-        "Внедрил RTK Query для эффективного управления серверным состоянием",
-        "Разработал игровые UI-компоненты на React и TypeScript со сложными переходами состояний",
-        "Выстроил процессы разработки: Git-стратегии, PR-ревью, пайплайны деплоя",
+        "Провёл полную миграцию codebase с JavaScript на TypeScript — снизил количество багов на 40%",
+        "Спроектировал WebSocket-архитектуру: синхронизация состояния, reconnect-логика, обработка disconnect",
+        "Разработал вторую игру «Найм по фану» — полный цикл от архитектуры до деплоя",
+        "Оптимизировал запросы через RTK Query: устранил дублирование, улучшил кеширование",
+        "Участвовал в код-ревью и онбординге новых разработчиков",
       ],
-      stack: ["React", "TypeScript", "Redux Toolkit", "RTK Query", "WebSocket", "Styled Components"],
+      stack: ["React", "TypeScript", "Redux Toolkit", "RTK Query", "WebSocket", "Bootstrap 5"],
+      isCommercial: true,
     },
     {
-      title: "Ведущий инженер / Технолог",
-      company: "Инженерная отрасль",
-      location: "Беларусь",
-      period: "2011 – 2022",
+      title: "Frontend Developer",
+      company: "Проектная разработка (период переквалификации)",
+      location: "Удалённо",
+      period: "2022 — 2024",
       description: [
-        "Руководил инженерными командами и управлял техническими проектами полного цикла",
-        "Оптимизировал процессы и внедрял системные улучшения",
-        "Развил структурный подход к решению проблем, который теперь применяю в архитектуре ПО",
-        "Приобрёл навыки лидерства и коммуникации через кросс-функциональное сотрудничество",
+        "Реализовал 10+ проектов: от лендингов до SPA с авторизацией и работой с API",
+        "Прошёл полный цикл RS School (Stage 1-2) — командные проекты, cross-check ревью",
+        "Освоил современные практики: FSD-архитектуру, Git-flow, CI/CD",
       ],
-      stack: [],
+      stack: ["JavaScript", "React", "Redux", "HTML5", "CSS3/SCSS"],
+      isCommercial: false,
     },
   ],
   skills: [
     {
-      name: "Frontend",
-      skills: ["React", "Next.js", "TypeScript", "JavaScript", "Redux Toolkit", "RTK Query", "Zustand", "Tailwind CSS"],
+      name: "Core",
+      skills: ["React", "Next.js 14/15", "TypeScript", "TailwindCSS"],
     },
     {
-      name: "Real-time и State",
-      skills: ["WebSocket", "RTK Query", "Redux", "React Query", "Event-driven Architecture"],
+      name: "State & Real-time",
+      skills: ["Redux Toolkit", "TanStack Query", "WebSocket", "Zustand"],
     },
     {
-      name: "Backend (рабочий уровень)",
-      skills: ["Supabase", "PostgreSQL", "Next.js API Routes", "REST API"],
+      name: "Backend & Telegram",
+      skills: ["REST API", "Supabase", "TG Mini Apps", "aiogram"],
     },
     {
-      name: "Telegram-экосистема",
-      skills: ["Telegram Mini Apps", "Telegram Bot API", "WebApp Authentication"],
+      name: "Инструменты",
+      skills: ["Git", "Docker", "Vercel", "Figma"],
+    },
+  ],
+  projects: [
+    {
+      id: "ipu-app",
+      title: "IPU App",
+      description: "Социальная платформа TG Mini App с real-time уведомлениями и монетизацией через Telegram Stars",
+      image: "/projects/placeholder-1.svg",
+      link: "#",
+      tags: ["Next.js", "TypeScript", "TailwindCSS", "Supabase"],
     },
     {
-      name: "Инструменты и DevOps",
-      skills: ["Git", "GitHub", "Docker", "Vercel", "Figma"],
+      id: "tower-empire",
+      title: "Tower Empire",
+      description: "Браузерные мультиплеерные карточные игры с WebSocket-синхронизацией",
+      image: "/projects/placeholder-2.svg",
+      link: "#",
+      tags: ["React", "TypeScript", "WebSocket", "RTK Query"],
+    },
+    {
+      id: "portfolio",
+      title: "Портфолио",
+      description: "Этот сайт-резюме с Bento Grid, двуязычностью и экспортом в PDF",
+      image: "/projects/placeholder-3.svg",
+      link: "#",
+      tags: ["Next.js", "TypeScript", "Framer Motion", "TailwindCSS"],
+    },
+    {
+      id: "rs-school",
+      title: "RS School Проекты",
+      description: "10+ учебных проектов: от лендингов до SPA с API и авторизацией",
+      image: "/projects/placeholder-4.svg",
+      link: "#",
+      tags: ["JavaScript", "React", "Redux", "HTML5"],
     },
   ],
   education: {
-    degree: "Инженерная специальность",
-    institution: "Технический университет",
+    degree: "Высшее техническое образование",
+    institution: "Белорусский государственный технологический университет (БГТУ)",
     year: "2011",
+    additional: [
+      "RS School — JavaScript/Frontend (Stage 1-2) · 2023–2024",
+      "SkyPro — Frontend-разработчик · 2022–2023",
+    ],
   },
   languages: [
-    { name: "Английский", level: "Professional working proficiency" },
+    { name: "Английский", level: "B2 (документация, переписка, созвоны)" },
     { name: "Русский", level: "Родной" },
-    { name: "Белорусский", level: "Родной" },
+    { name: "Беларуская", level: "Родной" },
   ],
 };
 
@@ -226,25 +307,40 @@ export const resumeData: Record<Locale, ResumeData> = {
 export const uiStrings: Record<Locale, {
   downloadPdf: string;
   experience: string;
+  commercialExperience: string;
+  projectExperience: string;
   skills: string;
   education: string;
   languages: string;
   contact: string;
+  projects: string;
+  additionalEducation: string;
+  aboutMe: string;
 }> = {
   en: {
     downloadPdf: "Download PDF",
     experience: "Experience",
+    commercialExperience: "Commercial Experience",
+    projectExperience: "Project Experience",
     skills: "Skills",
     education: "Education",
     languages: "Languages",
     contact: "Contact",
+    projects: "Projects",
+    additionalEducation: "Professional Development",
+    aboutMe: "About Me",
   },
   ru: {
     downloadPdf: "Скачать PDF",
     experience: "Опыт работы",
+    commercialExperience: "Коммерческий опыт",
+    projectExperience: "Проектный опыт",
     skills: "Навыки",
     education: "Образование",
     languages: "Языки",
     contact: "Контакты",
+    projects: "Проекты",
+    additionalEducation: "Профессиональное развитие",
+    aboutMe: "О себе",
   },
 };

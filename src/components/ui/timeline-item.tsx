@@ -31,7 +31,7 @@ export function TimelineItem({
       </div>
 
       {/* Company */}
-      <h4 className="text-md font-serif italic text-gray-500 mb-3">{company}</h4>
+      <h4 className="text-md italic text-gray-500 mb-3">{company}</h4>
 
       {/* Description */}
       {description.length > 0 && (

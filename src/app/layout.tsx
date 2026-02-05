@@ -1,39 +1,40 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/language-context";
 
-const inter = Inter({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-inter",
+const geistSans = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
   display: "swap",
 });
 
-const playfair = Playfair_Display({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-playfair",
-  weight: ["700"],
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Alexander Bullo | Senior Frontend Developer & Team Lead",
+  title: "Alexander Bullo | Middle Frontend Developer · React · Next.js",
   description:
-    "Senior Frontend Developer with expertise in React, Next.js, TypeScript, and real-time systems. Team Lead experienced in managing developers and building scalable web applications.",
+    "Frontend Developer with 3+ years in the React ecosystem. Specializing in SPA/SSR applications, real-time WebSocket systems, and Telegram Mini Apps.",
   keywords: [
     "Frontend Developer",
-    "React",
-    "Next.js",
+    "React Developer",
+    "Next.js Developer",
     "TypeScript",
-    "Team Lead",
     "WebSocket",
     "Telegram Mini Apps",
+    "React Ecosystem",
+    "SPA",
+    "SSR",
   ],
   authors: [{ name: "Alexander Bullo" }],
   openGraph: {
-    title: "Alexander Bullo | Senior Frontend Developer",
+    title: "Alexander Bullo | Middle Frontend Developer",
     description:
-      "Senior Frontend Developer with 2+ years of hands-on experience and 11 years of engineering leadership background.",
+      "Frontend Developer with 3+ years of experience building production applications with React, Next.js, TypeScript, and real-time systems.",
     type: "profile",
   },
   robots: {
@@ -48,8 +49,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable} scroll-smooth`}>
-      <body className="antialiased m-0 p-0">
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} scroll-smooth`}>
+      <body className="antialiased m-0 p-0 font-sans">
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
