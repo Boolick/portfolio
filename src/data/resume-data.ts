@@ -1,4 +1,4 @@
-export type Locale = 'en' | 'ru';
+export type Locale = "en" | "ru";
 
 export interface ExperienceItem {
   title: string;
@@ -34,6 +34,7 @@ export interface ResumeData {
     location: string;
   };
   summary: string;
+  whyMe?: string; // "Why am I the best?" - competitive advantage section
   experience: ExperienceItem[];
   skills: SkillCategory[];
   projects: ProjectItem[];
@@ -51,16 +52,15 @@ export interface ResumeData {
 
 const resumeDataEN: ResumeData = {
   name: "Alexander Bullo",
-  title: "Middle Frontend Developer · React · Next.js · TypeScript",
+  title: "Frontend Developer · React · Next.js · TypeScript",
   contacts: {
     email: "bullo.aliaksandr@gmail.com",
     linkedin: "linkedin.com/in/aliaksandr-bullo",
     telegram: "@boolodev",
     location: "Remote | Open to relocation",
   },
-  summary: `Frontend Developer with 3+ years of experience in the React ecosystem. Specializing in SPA/SSR applications, real-time functionality, and Telegram Mini Apps.
-
-Currently developing two commercial projects: a social platform (TG MiniApp) and a multiplayer game system with WebSocket. I value clean architecture, strong typing, and predictable code.`,
+  summary: `Frontend Developer with 3+ years of experience in the React ecosystem. Specializing in SPA/SSR applications, real-time functionality, and Telegram Mini Apps. Currently developing two commercial projects with proven production results.`,
+  whyMe: `Before transitioning to frontend development, I spent 11 years as a Production Engineer working with complex industrial systems. This background gives me a unique advantage: systematic thinking, attention to critical details, and experience managing high-stakes production environments where failures have real consequences. I bring engineering discipline to software development — not just writing code, but building reliable systems.`,
   experience: [
     {
       title: "Frontend Developer",
@@ -74,7 +74,13 @@ Currently developing two commercial projects: a social platform (TG MiniApp) and
         "Resolved iOS WebView-specific issues (video upload, navigation, safe area)",
         "Integrating Telegram Stars payment system for monetization",
       ],
-      stack: ["Next.js", "TypeScript", "TailwindCSS", "TanStack Query", "Supabase"],
+      stack: [
+        "Next.js",
+        "TypeScript",
+        "TailwindCSS",
+        "TanStack Query",
+        "Supabase",
+      ],
       isCommercial: true,
     },
     {
@@ -89,18 +95,25 @@ Currently developing two commercial projects: a social platform (TG MiniApp) and
         "Optimized API calls via RTK Query: eliminated duplication, improved caching",
         "Participated in code reviews and onboarding new developers",
       ],
-      stack: ["React", "TypeScript", "Redux Toolkit", "RTK Query", "WebSocket", "Bootstrap 5"],
+      stack: [
+        "React",
+        "TypeScript",
+        "Redux Toolkit",
+        "RTK Query",
+        "WebSocket",
+        "Bootstrap 5",
+      ],
       isCommercial: true,
     },
     {
       title: "Frontend Developer",
-      company: "Project-based Development (Requalification Period)",
+      company: "Freelance & Contract Software Engineering",
       location: "Remote",
       period: "2022 – 2024",
       description: [
-        "Completed 10+ projects: from landing pages to SPAs with authentication and API integration",
-        "Passed RS School full cycle (Stage 1-2) — team projects, cross-check reviews",
-        "Mastered modern practices: FSD architecture, Git-flow, CI/CD",
+        "Delivered 10+ web solutions for small businesses and private clients",
+        "Specialized in landing pages, SPAs with authentication, and API integration",
+        "Implemented modern practices: Feature-Sliced Design, Git-flow workflows, CI/CD pipelines",
       ],
       stack: ["JavaScript", "React", "Redux", "HTML5", "CSS3/SCSS"],
       isCommercial: false,
@@ -128,7 +141,8 @@ Currently developing two commercial projects: a social platform (TG MiniApp) and
     {
       id: "ipu-app",
       title: "IPU App",
-      description: "Social platform as Telegram Mini App with real-time notifications, gamification, and monetization via Telegram Stars",
+      description:
+        "Social platform as Telegram Mini App with real-time notifications, gamification, and monetization via Telegram Stars",
       image: "/projects/placeholder-1.svg",
       link: "#",
       tags: ["Next.js", "TypeScript", "TailwindCSS", "Supabase"],
@@ -136,7 +150,8 @@ Currently developing two commercial projects: a social platform (TG MiniApp) and
     {
       id: "tower-empire",
       title: "Tower Empire",
-      description: "Browser-based multiplayer card games with real-time WebSocket synchronization",
+      description:
+        "Browser-based multiplayer card games with real-time WebSocket synchronization",
       image: "/projects/placeholder-2.svg",
       link: "#",
       tags: ["React", "TypeScript", "WebSocket", "RTK Query"],
@@ -144,7 +159,8 @@ Currently developing two commercial projects: a social platform (TG MiniApp) and
     {
       id: "portfolio",
       title: "Portfolio",
-      description: "This resume/portfolio site with Bento Grid layout, bilingual support, and PDF export",
+      description:
+        "This resume/portfolio site with Bento Grid layout, bilingual support, and PDF export",
       image: "/projects/placeholder-3.svg",
       link: "#",
       tags: ["Next.js", "TypeScript", "Framer Motion", "TailwindCSS"],
@@ -152,7 +168,8 @@ Currently developing two commercial projects: a social platform (TG MiniApp) and
     {
       id: "rs-school",
       title: "RS School Projects",
-      description: "10+ training projects: from landing pages to SPA with API integration and authorization",
+      description:
+        "10+ training projects: from landing pages to SPA with API integration and authorization",
       image: "/projects/placeholder-4.svg",
       link: "#",
       tags: ["JavaScript", "React", "Redux", "HTML5"],
@@ -176,16 +193,15 @@ Currently developing two commercial projects: a social platform (TG MiniApp) and
 
 const resumeDataRU: ResumeData = {
   name: "Александр Булло",
-  title: "Middle Frontend Developer · React · Next.js · TypeScript",
+  title: "Frontend Developer · React · Next.js · TypeScript",
   contacts: {
     email: "bullo.aliaksandr@gmail.com",
     linkedin: "linkedin.com/in/aliaksandr-bullo",
     telegram: "@boolodev",
     location: "Удалённо | Готов к релокации",
   },
-  summary: `Frontend-разработчик с 3+ годами опыта в React-экосистеме. Специализируюсь на SPA/SSR-приложениях, real-time функционале и Telegram Mini Apps.
-
-Сейчас развиваю два коммерческих проекта: социальную платформу (TG MiniApp) и игровую систему с мультиплеером на WebSocket. Ценю чистую архитектуру, типизацию и предсказуемый код.`,
+  summary: `Frontend-разработчик с 3+ годами опыта в React-экосистеме. Специализируюсь на SPA/SSR-приложениях, real-time функционале и Telegram Mini Apps. Сейчас развиваю два коммерческих проекта с подтверждёнными результатами.`,
+  whyMe: `До перехода во frontend я 11 лет работал инженером-технологом на производстве сложных промышленных систем. Этот опыт даёт мне уникальное преимущество: системное мышление, внимание к критическим деталям и опыт управления средами, где ошибки имеют реальные последствия. Я привношу инженерную дисциплину в разработку — не просто пишу код, а строю надёжные системы.`,
   experience: [
     {
       title: "Frontend Developer",
@@ -199,7 +215,13 @@ const resumeDataRU: ResumeData = {
         "Решаю специфичные баги iOS WebView (video upload, navigation, safe area)",
         "Интегрирую платёжную систему Telegram Stars для монетизации",
       ],
-      stack: ["Next.js", "TypeScript", "TailwindCSS", "TanStack Query", "Supabase"],
+      stack: [
+        "Next.js",
+        "TypeScript",
+        "TailwindCSS",
+        "TanStack Query",
+        "Supabase",
+      ],
       isCommercial: true,
     },
     {
@@ -214,18 +236,25 @@ const resumeDataRU: ResumeData = {
         "Оптимизировал запросы через RTK Query: устранил дублирование, улучшил кеширование",
         "Участвовал в код-ревью и онбординге новых разработчиков",
       ],
-      stack: ["React", "TypeScript", "Redux Toolkit", "RTK Query", "WebSocket", "Bootstrap 5"],
+      stack: [
+        "React",
+        "TypeScript",
+        "Redux Toolkit",
+        "RTK Query",
+        "WebSocket",
+        "Bootstrap 5",
+      ],
       isCommercial: true,
     },
     {
       title: "Frontend Developer",
-      company: "Проектная разработка (период переквалификации)",
+      company: "Фриланс и контрактная разработка",
       location: "Удалённо",
       period: "2022 — 2024",
       description: [
-        "Реализовал 10+ проектов: от лендингов до SPA с авторизацией и работой с API",
-        "Прошёл полный цикл RS School (Stage 1-2) — командные проекты, cross-check ревью",
-        "Освоил современные практики: FSD-архитектуру, Git-flow, CI/CD",
+        "Реализовал 10+ веб-решений для малого бизнеса и частных клиентов",
+        "Специализация: лендинги, SPA с авторизацией и интеграцией с API",
+        "Внедрил современные практики: Feature-Sliced Design, Git-flow, CI/CD",
       ],
       stack: ["JavaScript", "React", "Redux", "HTML5", "CSS3/SCSS"],
       isCommercial: false,
@@ -234,7 +263,13 @@ const resumeDataRU: ResumeData = {
   skills: [
     {
       name: "Core",
-      skills: ["React", "Next.js 14/15", "TypeScript", "TailwindCSS"],
+      skills: [
+        "JavaScript",
+        "React",
+        "Next.js 14/15",
+        "TypeScript",
+        "TailwindCSS",
+      ],
     },
     {
       name: "State & Real-time",
@@ -246,14 +281,15 @@ const resumeDataRU: ResumeData = {
     },
     {
       name: "Инструменты",
-      skills: ["Git", "Docker", "Vercel", "Figma"],
+      skills: ["Git", "Docker", "Figma"],
     },
   ],
   projects: [
     {
       id: "ipu-app",
       title: "IPU App",
-      description: "Социальная платформа TG Mini App с real-time уведомлениями и монетизацией через Telegram Stars",
+      description:
+        "Социальная платформа TG Mini App с real-time уведомлениями и монетизацией через Telegram Stars",
       image: "/projects/placeholder-1.svg",
       link: "#",
       tags: ["Next.js", "TypeScript", "TailwindCSS", "Supabase"],
@@ -261,7 +297,8 @@ const resumeDataRU: ResumeData = {
     {
       id: "tower-empire",
       title: "Tower Empire",
-      description: "Браузерные мультиплеерные карточные игры с WebSocket-синхронизацией",
+      description:
+        "Браузерные мультиплеерные карточные игры с WebSocket-синхронизацией",
       image: "/projects/placeholder-2.svg",
       link: "#",
       tags: ["React", "TypeScript", "WebSocket", "RTK Query"],
@@ -269,7 +306,8 @@ const resumeDataRU: ResumeData = {
     {
       id: "portfolio",
       title: "Портфолио",
-      description: "Этот сайт-резюме с Bento Grid, двуязычностью и экспортом в PDF",
+      description:
+        "Этот сайт-резюме с Bento Grid, двуязычностью и экспортом в PDF",
       image: "/projects/placeholder-3.svg",
       link: "#",
       tags: ["Next.js", "TypeScript", "Framer Motion", "TailwindCSS"],
@@ -277,7 +315,8 @@ const resumeDataRU: ResumeData = {
     {
       id: "rs-school",
       title: "RS School Проекты",
-      description: "10+ учебных проектов: от лендингов до SPA с API и авторизацией",
+      description:
+        "10+ учебных проектов: от лендингов до SPA с API и авторизацией",
       image: "/projects/placeholder-4.svg",
       link: "#",
       tags: ["JavaScript", "React", "Redux", "HTML5"],
@@ -285,7 +324,8 @@ const resumeDataRU: ResumeData = {
   ],
   education: {
     degree: "Высшее техническое образование",
-    institution: "Белорусский государственный технологический университет (БГТУ)",
+    institution:
+      "Белорусский государственный технологический университет (БГТУ)",
     year: "2011",
     additional: [
       "RS School — JavaScript/Frontend (Stage 1-2) · 2023–2024",
@@ -304,19 +344,23 @@ export const resumeData: Record<Locale, ResumeData> = {
   ru: resumeDataRU,
 };
 
-export const uiStrings: Record<Locale, {
-  downloadPdf: string;
-  experience: string;
-  commercialExperience: string;
-  projectExperience: string;
-  skills: string;
-  education: string;
-  languages: string;
-  contact: string;
-  projects: string;
-  additionalEducation: string;
-  aboutMe: string;
-}> = {
+export const uiStrings: Record<
+  Locale,
+  {
+    downloadPdf: string;
+    experience: string;
+    commercialExperience: string;
+    projectExperience: string;
+    skills: string;
+    education: string;
+    languages: string;
+    contact: string;
+    projects: string;
+    additionalEducation: string;
+    aboutMe: string;
+    whyMe: string;
+  }
+> = {
   en: {
     downloadPdf: "Download PDF",
     experience: "Experience",
@@ -329,6 +373,7 @@ export const uiStrings: Record<Locale, {
     projects: "Projects",
     additionalEducation: "Professional Development",
     aboutMe: "About Me",
+    whyMe: "Why Me?",
   },
   ru: {
     downloadPdf: "Скачать PDF",
@@ -342,5 +387,6 @@ export const uiStrings: Record<Locale, {
     projects: "Проекты",
     additionalEducation: "Профессиональное развитие",
     aboutMe: "О себе",
+    whyMe: "Почему я?",
   },
 };

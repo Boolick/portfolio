@@ -1,11 +1,28 @@
-'use client';
-import { animate } from 'framer-motion';
+"use client";
+import { animate } from "framer-motion";
 
-import { motion } from 'framer-motion';
-import { MapPin, Mail, Globe, Briefcase, GraduationCap, User, Code2, FolderKanban, Linkedin, Send, Github } from 'lucide-react';
-import { useLanguage } from '@/context/language-context';
-import { resumeData, uiStrings } from '@/data/resume-data';
-import { SOCIAL_LINKS, EXTERNAL_LINK_ATTRS } from '@/shared/constants/social-links';
+import { motion } from "framer-motion";
+import {
+  MapPin,
+  Mail,
+  Globe,
+  Briefcase,
+  GraduationCap,
+  User,
+  Code2,
+  FolderKanban,
+  Linkedin,
+  Send,
+  Github,
+  Sparkles,
+} from "lucide-react";
+import { useLanguage } from "@/context/language-context";
+import { resumeData, uiStrings } from "@/data/resume-data";
+import {
+  SOCIAL_LINKS,
+  EXTERNAL_LINK_ATTRS,
+} from "@/shared/constants/social-links";
+import { PrintContacts } from "./print-contacts";
 
 export function Sidebar() {
   const { locale, toggleLocale } = useLanguage();
@@ -13,23 +30,41 @@ export function Sidebar() {
   const ui = uiStrings[locale];
 
   const navItems = [
-    { id: 'desktop-about', label: locale === 'en' ? 'About Me' : 'Обо мне', icon: User },
-    { id: 'desktop-skills', label: locale === 'en' ? 'Skills' : 'Навыки', icon: Code2 },
-    { id: 'desktop-experience', label: locale === 'en' ? 'Experience' : 'Опыт', icon: Briefcase },
-    { id: 'desktop-projects', label: ui.projects, icon: FolderKanban },
-    { id: 'desktop-education', label: locale === 'en' ? 'Education' : 'Образование', icon: GraduationCap },
+    {
+      id: "desktop-about",
+      label: locale === "en" ? "About Me" : "Обо мне",
+      icon: User,
+    },
+    { id: "desktop-whyme", label: ui.whyMe, icon: Sparkles },
+    {
+      id: "desktop-skills",
+      label: locale === "en" ? "Skills" : "Навыки",
+      icon: Code2,
+    },
+    {
+      id: "desktop-experience",
+      label: locale === "en" ? "Experience" : "Опыт",
+      icon: Briefcase,
+    },
+    { id: "desktop-projects", label: ui.projects, icon: FolderKanban },
+    {
+      id: "desktop-education",
+      label: locale === "en" ? "Education" : "Образование",
+      icon: GraduationCap,
+    },
   ];
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
       const offset = 24; // scroll-mt-6 equivalent
-      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+      const elementPosition =
+        element.getBoundingClientRect().top + window.scrollY;
       const targetY = elementPosition - offset;
 
       animate(window.scrollY, targetY, {
-        type: 'tween',
-        ease: 'easeInOut',
+        type: "tween",
+        ease: "easeInOut",
         duration: 0.8,
         onUpdate: (latest) => window.scrollTo(0, latest),
       });
@@ -102,6 +137,19 @@ export function Sidebar() {
           >
             <Send size={16} />
           </a>
+          <a
+            href={`mailto:${data.contacts.email}`}
+            className="
+              w-8 h-8 rounded-lg bg-[var(--color-accent)]/10 
+              flex items-center justify-center text-[var(--color-accent)] 
+              hover:bg-[var(--color-accent)] hover:text-[var(--color-on-accent)] 
+              transition-all duration-200
+            "
+            title="Email"
+            aria-label="Send email"
+          >
+            <Mail size={16} />
+          </a>
         </div>
 
         <div className="w-px h-6 bg-white/10 mx-1" />
@@ -118,10 +166,13 @@ export function Sidebar() {
           "
           aria-label="Toggle language"
         >
-          {locale === 'en' ? 'RU' : 'EN'}
+          {locale === "en" ? "RU" : "EN"}
         </button>
       </motion.div>
-      
+
+      {/* Print-Only Contacts */}
+      <PrintContacts />
+
       {/* Navigation */}
       <motion.div
         variants={containerVariants}
@@ -130,7 +181,7 @@ export function Sidebar() {
         className="space-y-3 print:hidden"
       >
         <h3 className="text-lg font-bold text-[var(--color-accent)] border-b border-white/10 pb-2">
-          {locale === 'en' ? 'Navigate' : 'Навигация'}
+          {locale === "en" ? "Navigate" : "Навигация"}
         </h3>
         <ul className="space-y-1">
           {navItems.map((item) => (
@@ -158,52 +209,7 @@ export function Sidebar() {
         </ul>
       </motion.div>
 
-
-      {/* Contact - with Lucide icons */}
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="space-y-3"
-      >
-        <h3 className="text-lg font-bold text-[var(--color-accent)] border-b border-white/10 pb-2">
-          {ui.contact}
-        </h3>
-        <ul className="space-y-2 text-sm font-light text-slate-200">
-          <motion.li variants={itemVariants} className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-lg bg-[var(--color-accent)]/20 flex items-center justify-center shrink-0 hover:bg-[var(--color-accent)]/30 transition-colors">
-              <MapPin size={16} className="text-[var(--color-accent)]" />
-            </div>
-            <div>
-              <span className="block">{data.contacts.location}</span>
-            </div>
-          </motion.li>
-          <motion.li variants={itemVariants} className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-[var(--color-accent)]/20 flex items-center justify-center shrink-0 hover:bg-[var(--color-accent)]/30 transition-colors">
-              <Mail size={16} className="text-[var(--color-accent)]" />
-            </div>
-            <a href={`mailto:${data.contacts.email}`} className="hover:text-[var(--color-accent)] transition-colors">
-              {data.contacts.email}
-            </a>
-          </motion.li>
-          <motion.li variants={itemVariants} className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-[var(--color-accent)]/20 flex items-center justify-center shrink-0 hover:bg-[var(--color-accent)]/30 transition-colors">
-              <Mail size={16} className="text-[var(--color-accent)]" />
-            </div>
-            <a 
-              href={`https://t.me/${data.contacts.telegram.replace('@', '')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[var(--color-accent)] transition-colors"
-            >
-              {data.contacts.telegram}
-            </a>
-          </motion.li>
-        </ul>
-      </motion.div>
-
-
-
+    
       {/* Spacer */}
       <div className="flex-1 print-spacer" />
     </aside>

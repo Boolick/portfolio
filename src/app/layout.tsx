@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/language-context";
+import { resumeData } from "@/data/resume-data";
+import { ConsoleEasterEgg } from "@/components/console-easter-egg";
 
 const geistSans = Geist({
   subsets: ["latin"],
@@ -15,10 +17,12 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
+// Use English data as the default for metadata
+const defaultData = resumeData.en;
+
 export const metadata: Metadata = {
-  title: "Alexander Bullo | Middle Frontend Developer · React · Next.js",
-  description:
-    "Frontend Developer with 3+ years in the React ecosystem. Specializing in SPA/SSR applications, real-time WebSocket systems, and Telegram Mini Apps.",
+  title: `${defaultData.name} | ${defaultData.title}`,
+  description: defaultData.summary,
   keywords: [
     "Frontend Developer",
     "React Developer",
@@ -30,11 +34,10 @@ export const metadata: Metadata = {
     "SPA",
     "SSR",
   ],
-  authors: [{ name: "Alexander Bullo" }],
+  authors: [{ name: defaultData.name }],
   openGraph: {
-    title: "Alexander Bullo | Middle Frontend Developer",
-    description:
-      "Frontend Developer with 3+ years of experience building production applications with React, Next.js, TypeScript, and real-time systems.",
+    title: `${defaultData.name} | ${defaultData.title.split("·")[0].trim()}`,
+    description: defaultData.summary,
     type: "profile",
   },
   robots: {
@@ -44,14 +47,20 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children
+  children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} scroll-smooth`}>
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable} scroll-smooth`}
+    >
       <body className="antialiased m-0 p-0 font-sans">
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider>
+          <ConsoleEasterEgg />
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );
