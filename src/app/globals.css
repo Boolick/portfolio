@@ -1,19 +1,20 @@
 @import "tailwindcss";
+@import "../shared/styles/themes/default.css";
 
 /* ===== Base Styles ===== */
 html, body {
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
 }
 
 body {
-  font-family: "Inter", system-ui, sans-serif;
-  color: #333333;
-  background-color: #f3f4f6;
+  font-family: var(--font-sans);
+  color: var(--color-foreground);
+  background-color: var(--color-background);
 }
 
 ::selection {
-  background-color: rgba(252, 163, 17, 0.3);
+  background-color: var(--color-selection);
 }
 
 /* ===== Skill Bar Styles ===== */
@@ -23,7 +24,7 @@ body {
 }
 
 .skill-bar-fill {
-  background-color: #fca311;
+  background-color: var(--color-accent);
 }
 
 /* ===== Timeline Styles ===== */
@@ -38,7 +39,7 @@ body {
   bottom: 0;
   left: 20px;
   width: 2px;
-  background-color: #e5e7eb;
+  background-color: var(--color-border);
   z-index: 0;
 }
 
@@ -150,11 +151,12 @@ body {
   /* Avatar smaller for print */
   .print-container .avatar-wrapper {
     margin-bottom: 4mm !important;
+    margin-right: 12mm !important;
   }
 
   .print-container .avatar-wrapper > div:first-child {
-    width: 25mm !important;
-    height: 25mm !important;
+    width: 35mm !important;
+    height: 35mm !important;
   }
 
   /* Sidebar headings for print */

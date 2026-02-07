@@ -11,7 +11,7 @@ export function MobileContent() {
   const ui = uiStrings[locale];
 
   return (
-    <main className="min-h-screen bg-white ml-14 p-4 md:hidden print:hidden">
+    <main className="min-h-screen bg-white ml-16 p-4 md:hidden print:hidden">
       {/* Header with Portfolio badge */}
       <div className="flex items-center gap-3 mb-6">
         <div className="w-8 h-8 rounded-md bg-[#0a192f] flex items-center justify-center text-[#fca311] text-xs font-bold">
