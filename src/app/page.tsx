@@ -7,7 +7,7 @@ import { MobileContent } from "@/components/mobile-content";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-[var(--color-background)]">
       {/* ===== MOBILE VERSION (hidden on print) ===== */}
       <div className="md:hidden print:hidden">
         <MobileSidebar />
@@ -17,9 +17,9 @@ export default function Home() {
       {/* ===== DESKTOP VERSION (always visible on print) ===== */}
       <div className="hidden md:block print:block">
         {/* Main Resume Container */}
-        <div className="min-h-screen w-full bg-white print-container">
+        <div className="min-h-screen w-full bg-[var(--color-surface)] print-container">
           <Sidebar />
-          <div className="md:ml-[280px] main-content-wrapper print:ml-0">
+          <div className="md:ml-[var(--sidebar-width)] main-content-wrapper print:ml-0">
             <MainContent />
           </div>
         </div>

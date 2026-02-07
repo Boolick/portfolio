@@ -2,9 +2,10 @@
 import { animate } from 'framer-motion';
 
 import { motion } from 'framer-motion';
-import { MapPin, Mail, Globe, Briefcase, GraduationCap, User, Code2, FolderKanban, Linkedin, Send } from 'lucide-react';
+import { MapPin, Mail, Globe, Briefcase, GraduationCap, User, Code2, FolderKanban, Linkedin, Send, Github } from 'lucide-react';
 import { useLanguage } from '@/context/language-context';
 import { resumeData, uiStrings } from '@/data/resume-data';
+import { SOCIAL_LINKS, EXTERNAL_LINK_ATTRS } from '@/shared/constants/social-links';
 
 export function Sidebar() {
   const { locale, toggleLocale } = useLanguage();
@@ -49,100 +50,106 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="w-full md:w-[280px] md:fixed md:left-0 md:top-0 md:h-screen flex-shrink-0 bg-[#0a192f] text-white p-6 md:py-8 md:px-6 flex flex-col gap-6 overflow-hidden">
+    <aside className="w-full md:w-[280px] md:fixed md:left-0 md:top-0 md:h-screen flex-shrink-0 bg-[var(--color-sidebar)] text-white p-6 md:py-6 md:px-6 flex flex-col gap-4 overflow-y-auto scrollbar-hide">
       {/* Language Toggle - AT TOP RIGHT */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.1 }}
-        className="flex justify-end print:hidden"
+        className="flex justify-end items-center gap-2 print:hidden"
       >
+        {/* Social Links */}
+        <div className="flex items-center gap-2">
+          <a
+            href={SOCIAL_LINKS.GITHUB}
+            {...EXTERNAL_LINK_ATTRS}
+            className="
+              w-8 h-8 rounded-lg bg-[var(--color-accent)]/10 
+              flex items-center justify-center text-[var(--color-accent)] 
+              hover:bg-[var(--color-accent)] hover:text-[var(--color-on-accent)] 
+              transition-all duration-200
+            "
+            title="GitHub"
+            aria-label="GitHub profile"
+          >
+            <Github size={16} />
+          </a>
+          <a
+            href={SOCIAL_LINKS.LINKEDIN}
+            {...EXTERNAL_LINK_ATTRS}
+            className="
+              w-8 h-8 rounded-lg bg-[var(--color-accent)]/10 
+              flex items-center justify-center text-[var(--color-accent)] 
+              hover:bg-[var(--color-accent)] hover:text-[var(--color-on-accent)] 
+              transition-all duration-200
+            "
+            title="LinkedIn"
+            aria-label="LinkedIn profile"
+          >
+            <Linkedin size={16} />
+          </a>
+          <a
+            href={SOCIAL_LINKS.TELEGRAM}
+            {...EXTERNAL_LINK_ATTRS}
+            className="
+              w-8 h-8 rounded-lg bg-[var(--color-accent)]/10 
+              flex items-center justify-center text-[var(--color-accent)] 
+              hover:bg-[var(--color-accent)] hover:text-[var(--color-on-accent)] 
+              transition-all duration-200
+            "
+            title="Telegram"
+            aria-label="Telegram contact"
+          >
+            <Send size={16} />
+          </a>
+        </div>
+
+        <div className="w-px h-6 bg-white/10 mx-1" />
+
         <button
           onClick={toggleLocale}
-          className="px-4 py-2 bg-[#fca311] text-[#0a192f] rounded-full font-bold text-sm hover:bg-[#fca311]/90 transition-all shadow-lg"
+          className="
+            px-3 py-1.5 
+            bg-[var(--color-accent)] text-[var(--color-on-accent)] 
+            rounded-md font-bold text-xs 
+            hover:bg-[var(--color-accent-hover)] hover:scale-105
+            transition-all duration-200 
+            shadow-sm hover:shadow-[var(--shadow-accent)]
+          "
+          aria-label="Toggle language"
         >
           {locale === 'en' ? 'RU' : 'EN'}
         </button>
       </motion.div>
-
-      {/* Contact - with Lucide icons */}
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="space-y-4"
-      >
-        <h3 className="text-lg font-bold text-[#fca311] border-b border-white/10 pb-2">
-          {ui.contact}
-        </h3>
-        <ul className="space-y-3 text-sm font-light text-slate-200">
-          <motion.li variants={itemVariants} className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-lg bg-[#fca311]/20 flex items-center justify-center shrink-0">
-              <MapPin size={16} className="text-[#fca311]" />
-            </div>
-            <div>
-              <span className="block">{data.contacts.location}</span>
-            </div>
-          </motion.li>
-          <motion.li variants={itemVariants} className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-[#fca311]/20 flex items-center justify-center shrink-0">
-              <Mail size={16} className="text-[#fca311]" />
-            </div>
-            <a href={`mailto:${data.contacts.email}`} className="hover:text-[#fca311] transition-colors">
-              {data.contacts.email}
-            </a>
-          </motion.li>
-          <motion.li variants={itemVariants} className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-[#fca311]/20 flex items-center justify-center shrink-0">
-              <Globe size={16} className="text-[#fca311]" />
-            </div>
-            <a 
-              href={`https://${data.contacts.linkedin}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[#fca311] transition-colors"
-            >
-              LinkedIn
-            </a>
-          </motion.li>
-          <motion.li variants={itemVariants} className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-[#fca311]/20 flex items-center justify-center shrink-0">
-              <Mail size={16} className="text-[#fca311]" />
-            </div>
-            <a 
-              href={`https://t.me/${data.contacts.telegram.replace('@', '')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[#fca311] transition-colors"
-            >
-              {data.contacts.telegram}
-            </a>
-          </motion.li>
-        </ul>
-      </motion.div>
-
+      
       {/* Navigation */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="space-y-4 print:hidden"
+        className="space-y-3 print:hidden"
       >
-        <h3 className="text-lg font-bold text-[#fca311] border-b border-white/10 pb-2">
+        <h3 className="text-lg font-bold text-[var(--color-accent)] border-b border-white/10 pb-2">
           {locale === 'en' ? 'Navigate' : 'Навигация'}
         </h3>
-        <ul className="space-y-2">
+        <ul className="space-y-1">
           {navItems.map((item) => (
             <motion.li key={item.id} variants={itemVariants}>
               <button
                 onClick={() => {
                   scrollToSection(item.id);
-                  console.log(item.id);
                 }}
-                className="flex items-center gap-3 w-full text-left px-3 py-2.5 text-sm text-slate-200 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200"
+                className="
+                  flex items-center gap-3 w-full text-left 
+                  px-3 py-2 text-sm text-slate-200 
+                  hover:text-white hover:bg-white/10 
+                  rounded-lg transition-all duration-200
+                  group
+                "
+                aria-label={`Navigate to ${item.label}`}
               >
-                <div className="w-7 h-7 rounded-md bg-white/5 flex items-center justify-center">
-                  <item.icon size={14} className="text-[#fca311]" />
+                <div className="w-7 h-7 rounded-md bg-white/5 flex items-center justify-center group-hover:bg-[var(--color-accent)]/20 transition-colors">
+                  <item.icon size={14} className="text-[var(--color-accent)]" />
                 </div>
                 {item.label}
               </button>
@@ -151,39 +158,51 @@ export function Sidebar() {
         </ul>
       </motion.div>
 
-      {/* Social Links */}
+
+      {/* Contact - with Lucide icons */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="space-y-4"
+        className="space-y-3"
       >
-        <h3 className="text-lg font-bold text-[#fca311] border-b border-white/10 pb-2">
-          {locale === 'en' ? 'Links' : 'Ссылки'}
+        <h3 className="text-lg font-bold text-[var(--color-accent)] border-b border-white/10 pb-2">
+          {ui.contact}
         </h3>
-        <div className="flex flex-wrap gap-2">
-          <motion.a
-            variants={itemVariants}
-            href={`https://${data.contacts.linkedin}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-10 h-10 rounded-lg bg-[#fca311]/20 flex items-center justify-center text-[#fca311] hover:bg-[#fca311] hover:text-[#0a192f] transition-all duration-200"
-            title="LinkedIn"
-          >
-            <Linkedin size={18} />
-          </motion.a>
-          <motion.a
-            variants={itemVariants}
-            href={`https://t.me/${data.contacts.telegram.replace('@', '')}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-10 h-10 rounded-lg bg-[#fca311]/20 flex items-center justify-center text-[#fca311] hover:bg-[#fca311] hover:text-[#0a192f] transition-all duration-200"
-            title="Telegram"
-          >
-            <Send size={18} />
-          </motion.a>
-        </div>
+        <ul className="space-y-2 text-sm font-light text-slate-200">
+          <motion.li variants={itemVariants} className="flex items-start gap-3">
+            <div className="w-8 h-8 rounded-lg bg-[var(--color-accent)]/20 flex items-center justify-center shrink-0 hover:bg-[var(--color-accent)]/30 transition-colors">
+              <MapPin size={16} className="text-[var(--color-accent)]" />
+            </div>
+            <div>
+              <span className="block">{data.contacts.location}</span>
+            </div>
+          </motion.li>
+          <motion.li variants={itemVariants} className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-[var(--color-accent)]/20 flex items-center justify-center shrink-0 hover:bg-[var(--color-accent)]/30 transition-colors">
+              <Mail size={16} className="text-[var(--color-accent)]" />
+            </div>
+            <a href={`mailto:${data.contacts.email}`} className="hover:text-[var(--color-accent)] transition-colors">
+              {data.contacts.email}
+            </a>
+          </motion.li>
+          <motion.li variants={itemVariants} className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-[var(--color-accent)]/20 flex items-center justify-center shrink-0 hover:bg-[var(--color-accent)]/30 transition-colors">
+              <Mail size={16} className="text-[var(--color-accent)]" />
+            </div>
+            <a 
+              href={`https://t.me/${data.contacts.telegram.replace('@', '')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[var(--color-accent)] transition-colors"
+            >
+              {data.contacts.telegram}
+            </a>
+          </motion.li>
+        </ul>
       </motion.div>
+
+
 
       {/* Spacer */}
       <div className="flex-1 print-spacer" />

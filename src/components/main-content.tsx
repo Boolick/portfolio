@@ -5,7 +5,9 @@ import { Download } from 'lucide-react';
 import { useLanguage } from '@/context/language-context';
 import { resumeData, uiStrings } from '@/data/resume-data';
 import { TimelineItem } from './ui/timeline-item';
-import { SkillBar } from './ui/skill-bar';
+import { SectionBadge } from './ui/section-badge';
+import { GlassCard } from './ui/glass-card';
+import { Avatar } from './ui/avatar';
 import { ProjectsSection } from './projects-section';
 
 export function MainContent() {
@@ -13,13 +15,15 @@ export function MainContent() {
   const data = resumeData[locale];
   const ui = uiStrings[locale];
 
-
   const handlePrint = () => {
     window.print();
   };
 
+  // Get initials from name
+  const initials = data.name.split(' ').map(n => n[0]).join('');
+
   return (
-    <main className="flex-grow bg-white p-6 md:p-10 lg:p-12">
+    <main className="flex-grow bg-[var(--color-surface)] p-6 md:p-10 lg:p-12">
       {/* Header with Avatar on RIGHT */}
       <motion.header
         initial={{ opacity: 0, y: -20 }}
@@ -31,12 +35,12 @@ export function MainContent() {
         <div className="flex justify-between items-start gap-6">
           {/* Left: Name & Title */}
           <div className="flex-1">
-            <h1 className="text-4xl md:text-5xl font-bold text-[#0a192f] tracking-tight leading-tight">
+            <h1 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)] tracking-tight leading-tight">
               {data.name.split(' ')[0]}
               <br />
-              <span className="text-4xl md:text-5xl text-[#0a192f]">{data.name.split(' ')[1]}</span>
+              <span className="text-4xl md:text-5xl text-[var(--color-primary)]">{data.name.split(' ')[1]}</span>
             </h1>
-            <p className="text-base md:text-lg text-gray-500 font-light tracking-wide uppercase mt-3">
+            <p className="text-base md:text-lg text-[var(--color-muted)] font-light tracking-wide uppercase mt-3">
               {data.title}
             </p>
 
@@ -46,40 +50,49 @@ export function MainContent() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
               onClick={handlePrint}
-              className="mt-4 flex items-center gap-2 px-5 py-2 bg-[#0a192f] hover:bg-slate-800 text-white text-sm font-bold uppercase tracking-wide rounded-full transition-all shadow-md hover:shadow-lg print:hidden"
+              className="
+                mt-4 flex items-center gap-2 px-5 py-2 
+                bg-[var(--color-primary)] hover:bg-slate-800 
+                text-[var(--color-on-primary)] text-sm font-bold uppercase tracking-wide 
+                rounded-full transition-all duration-200
+                shadow-md hover:shadow-lg hover:translate-y-[-1px]
+                print:hidden
+              "
+              aria-label={ui.downloadPdf}
             >
               <Download size={16} />
               <span>Download PDF</span>
             </motion.button>
           </div>
 
-          {/* Right: Avatar - LARGER */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.4 }}
-            className="shrink-0"
-          >
-            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-[#fca311]/20 flex items-center justify-center p-1.5 border-3 border-[#fca311] shadow-xl">
-              <div className="w-full h-full rounded-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center text-3xl md:text-4xl font-bold text-[#fca311]">
-                AB
-              </div>
-            </div>
-          </motion.div>
+          {/* Right: Avatar - with glow effect */}
+          <div className="avatar-wrapper mr-12 lg:mr-16">
+             <Avatar 
+               initials={initials} 
+               size="xl" 
+               glow 
+               imageSrc="/avatar_photo.png" 
+             />
+          </div>
         </div>
 
-        {/* Summary */}
+        {/* Summary - with gradient border */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.4, duration: 0.4 }}
-          className="mt-6 text-gray-600 leading-relaxed max-w-2xl border-l-4 border-[#fca311] pl-5"
+          className="
+            mt-6 text-[var(--color-foreground)]/80 leading-relaxed max-w-2xl 
+            border-l-4 border-[var(--color-accent)] pl-5
+            bg-gradient-to-r from-[var(--color-accent)]/5 to-transparent
+            py-3 rounded-r-lg
+          "
         >
           <p>{data.summary.split('\n\n')[0]}</p>
         </motion.div>
       </motion.header>
 
-      {/* Tech Stack - Modern Tag Cloud */}
+      {/* Tech Stack - Modern Bento Grid */}
       <motion.section
         id="desktop-skills"
         initial={{ opacity: 0, y: 30 }}
@@ -87,38 +100,38 @@ export function MainContent() {
         transition={{ delay: 0.15, duration: 0.5 }}
         className="mb-10 scroll-mt-6"
       >
-        <div className="flex items-center mb-8">
-          <div className="bg-[#fca311] text-[#0a192f] px-6 py-2 rounded-r-full -ml-6 md:-ml-10 lg:-ml-12 font-bold text-base shadow-sm section-badge">
-            {locale === 'en' ? 'Tech Stack' : 'Технологии'}
-          </div>
-        </div>
+        <SectionBadge delay={0.1}>
+          {locale === 'en' ? 'Tech Stack' : 'Технологии'}
+        </SectionBadge>
         
-        {/* Bento Grid for Skills */}
+        {/* Bento Grid for Skills with Glassmorphism */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {data.skills.map((category, catIdx) => (
-            <motion.div
+            <GlassCard
               key={category.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 + catIdx * 0.05, duration: 0.3 }}
-              className="group p-4 rounded-xl bg-gradient-to-br from-slate-50 to-white border border-gray-100 
-                         hover:border-[#fca311]/50 hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
+              variant="light"
+              delay={0.15 + catIdx * 0.05}
             >
-              <h4 className="text-xs font-bold text-[#fca311] uppercase tracking-wider mb-3">
+              <h4 className="text-xs font-bold text-[var(--color-accent)] uppercase tracking-wider mb-3">
                 {category.name}
               </h4>
               <div className="flex flex-wrap gap-1.5">
                 {category.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="px-2 py-1 bg-[#0a192f]/5 text-[#0a192f] rounded-md text-xs font-medium 
-                               group-hover:bg-[#0a192f]/10 transition-colors"
+                    className="
+                      px-2 py-1 
+                      bg-[var(--color-primary)]/5 text-[var(--color-primary)] 
+                      rounded-md text-xs font-medium 
+                      group-hover:bg-[var(--color-primary)]/10 
+                      transition-colors duration-200
+                    "
                   >
                     {skill}
                   </span>
                 ))}
               </div>
-            </motion.div>
+            </GlassCard>
           ))}
         </div>
       </motion.section>
@@ -131,11 +144,9 @@ export function MainContent() {
         transition={{ delay: 0.25, duration: 0.5 }}
         className="mb-10 scroll-mt-6"
       >
-        <div className="flex items-center mb-8">
-          <div className="bg-[#fca311] text-[#0a192f] px-6 py-2 rounded-r-full -ml-6 md:-ml-10 lg:-ml-12 font-bold text-base shadow-sm section-badge">
-            {locale === 'en' ? 'Work Experience' : 'Опыт работы'}
-          </div>
-        </div>
+        <SectionBadge delay={0.2}>
+          {locale === 'en' ? 'Work Experience' : 'Опыт работы'}
+        </SectionBadge>
         <div className="relative timeline-line pl-2 space-y-8">
           {data.experience.map((exp, idx) => (
             <motion.div
@@ -167,11 +178,9 @@ export function MainContent() {
         transition={{ delay: 0.5, duration: 0.5 }}
         className="mb-10 scroll-mt-6"
       >
-        <div className="flex items-center mb-8">
-          <div className="bg-[#fca311] text-[#0a192f] px-6 py-2 rounded-r-full -ml-6 md:-ml-10 lg:-ml-12 font-bold text-base shadow-sm section-badge">
-            {ui.education}
-          </div>
-        </div>
+        <SectionBadge delay={0.45}>
+          {ui.education}
+        </SectionBadge>
         <div className="relative timeline-line pl-2 space-y-6">
           <motion.div
             initial={{ opacity: 0, x: 20 }}
@@ -196,7 +205,7 @@ export function MainContent() {
         transition={{ delay: 0.7, duration: 0.5 }}
         className="mb-10"
       >
-        <h3 className="text-xl font-bold text-[#0a192f] border-b-2 border-gray-100 pb-2 mb-5">
+        <h3 className="text-xl font-bold text-[var(--color-primary)] border-b-2 border-gray-100 pb-2 mb-5">
           {ui.languages}
         </h3>
         <div className="flex flex-wrap gap-3 languages-container">
@@ -206,17 +215,22 @@ export function MainContent() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.8 + idx * 0.1, duration: 0.3 }}
-              className="px-4 py-2 bg-gray-50 rounded-lg border-l-4 border-[#0a192f]"
+              className="
+                px-4 py-2 bg-gray-50 rounded-lg 
+                border-l-4 border-[var(--color-primary)]
+                hover:bg-gray-100 hover:shadow-sm
+                transition-all duration-200
+              "
             >
-              <span className="font-bold text-[#0a192f]">{lang.name}</span>
-              <span className="text-gray-500 ml-2 text-sm">— {lang.level}</span>
+              <span className="font-bold text-[var(--color-primary)]">{lang.name}</span>
+              <span className="text-[var(--color-muted)] ml-2 text-sm">— {lang.level}</span>
             </motion.div>
           ))}
         </div>
       </motion.section>
 
       {/* Footer */}
-      <footer className="mt-12 pt-6 border-t border-gray-100 text-center md:text-left text-xs text-gray-400">
+      <footer className="mt-12 pt-6 border-t border-gray-100 text-center md:text-left text-xs text-[var(--color-muted)]">
         <p>© {new Date().getFullYear()} {data.name}. {locale === 'en' ? 'References available upon request.' : 'Рекомендации предоставляются по запросу.'}</p>
       </footer>
     </main>
