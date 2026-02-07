@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { Download } from 'lucide-react';
-import { useLanguage } from '@/context/language-context';
-import { resumeData, uiStrings } from '@/data/resume-data';
-import { TimelineItem } from './ui/timeline-item';
-import { SectionBadge } from './ui/section-badge';
-import { GlassCard } from './ui/glass-card';
-import { Avatar } from './ui/avatar';
-import { ProjectsSection } from './projects-section';
+import { motion } from "framer-motion";
+import { Download } from "lucide-react";
+import { useLanguage } from "@/context/language-context";
+import { resumeData, uiStrings } from "@/data/resume-data";
+import { TimelineItem } from "./ui/timeline-item";
+import { SectionBadge } from "./ui/section-badge";
+import { GlassCard } from "./ui/glass-card";
+import { Avatar } from "./ui/avatar";
+import { ProjectsSection } from "./projects-section";
 
 export function MainContent() {
   const { locale } = useLanguage();
@@ -20,7 +20,10 @@ export function MainContent() {
   };
 
   // Get initials from name
-  const initials = data.name.split(' ').map(n => n[0]).join('');
+  const initials = data.name
+    .split(" ")
+    .map((n) => n[0])
+    .join("");
 
   return (
     <main className="flex-grow bg-[var(--color-surface)] p-6 md:p-10 lg:p-12">
@@ -36,9 +39,11 @@ export function MainContent() {
           {/* Left: Name & Title */}
           <div className="flex-1">
             <h1 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)] tracking-tight leading-tight">
-              {data.name.split(' ')[0]}
+              {data.name.split(" ")[0]}
               <br />
-              <span className="text-4xl md:text-5xl text-[var(--color-primary)]">{data.name.split(' ')[1]}</span>
+              <span className="text-4xl md:text-5xl text-[var(--color-primary)]">
+                {data.name.split(" ")[1]}
+              </span>
             </h1>
             <p className="text-base md:text-lg text-[var(--color-muted)] font-light tracking-wide uppercase mt-3">
               {data.title}
@@ -67,12 +72,12 @@ export function MainContent() {
 
           {/* Right: Avatar - with glow effect */}
           <div className="avatar-wrapper mr-12 lg:mr-16">
-             <Avatar 
-               initials={initials} 
-               size="xl" 
-               glow 
-               imageSrc="/avatar_photo.png" 
-             />
+            <Avatar
+              initials={initials}
+              size="xl"
+              glow
+              imageSrc="/avatar_photo.png"
+            />
           </div>
         </div>
 
@@ -88,9 +93,28 @@ export function MainContent() {
             py-3 rounded-r-lg
           "
         >
-          <p>{data.summary.split('\n\n')[0]}</p>
+          <p>{data.summary.split("\n\n")[0]}</p>
         </motion.div>
       </motion.header>
+
+      {/* Why Me Section - Competitive Advantage */}
+      {data.whyMe && (
+        <motion.section
+          id="desktop-whyme"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.12, duration: 0.5 }}
+          className="mb-10 scroll-mt-6"
+        >
+          <SectionBadge delay={0.08}>{ui.whyMe}</SectionBadge>
+
+          <GlassCard variant="accent" delay={0.1}>
+            <p className="text-[var(--color-foreground)]/80 leading-relaxed">
+              {data.whyMe}
+            </p>
+          </GlassCard>
+        </motion.section>
+      )}
 
       {/* Tech Stack - Modern Bento Grid */}
       <motion.section
@@ -101,9 +125,9 @@ export function MainContent() {
         className="mb-10 scroll-mt-6"
       >
         <SectionBadge delay={0.1}>
-          {locale === 'en' ? 'Tech Stack' : 'Технологии'}
+          {locale === "en" ? "Tech Stack" : "Технологии"}
         </SectionBadge>
-        
+
         {/* Bento Grid for Skills with Glassmorphism */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {data.skills.map((category, catIdx) => (
@@ -145,7 +169,7 @@ export function MainContent() {
         className="mb-10 scroll-mt-6"
       >
         <SectionBadge delay={0.2}>
-          {locale === 'en' ? 'Work Experience' : 'Опыт работы'}
+          {locale === "en" ? "Work Experience" : "Опыт работы"}
         </SectionBadge>
         <div className="relative timeline-line pl-2 space-y-8">
           {data.experience.map((exp, idx) => (
@@ -178,9 +202,7 @@ export function MainContent() {
         transition={{ delay: 0.5, duration: 0.5 }}
         className="mb-10 scroll-mt-6"
       >
-        <SectionBadge delay={0.45}>
-          {ui.education}
-        </SectionBadge>
+        <SectionBadge delay={0.45}>{ui.education}</SectionBadge>
         <div className="relative timeline-line pl-2 space-y-6">
           <motion.div
             initial={{ opacity: 0, x: 20 }}
@@ -196,6 +218,34 @@ export function MainContent() {
             />
           </motion.div>
         </div>
+
+        {/* Professional Development / Courses */}
+        {data.education.additional && data.education.additional.length > 0 && (
+          <div className="mt-6">
+            <h4 className="text-sm font-bold text-[var(--color-primary)] mb-3">
+              {ui.additionalEducation}
+            </h4>
+            <ul className="space-y-2">
+              {data.education.additional.map((course, idx) => (
+                <motion.li
+                  key={idx}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.65 + idx * 0.1, duration: 0.3 }}
+                  className="
+                    pl-4 py-2 
+                    border-l-2 border-[var(--color-accent)]/50
+                    bg-gradient-to-r from-[var(--color-accent)]/5 to-transparent
+                    rounded-r-lg
+                    text-sm text-[var(--color-foreground)]/80
+                  "
+                >
+                  {course}
+                </motion.li>
+              ))}
+            </ul>
+          </div>
+        )}
       </motion.section>
 
       {/* Languages */}
@@ -222,8 +272,12 @@ export function MainContent() {
                 transition-all duration-200
               "
             >
-              <span className="font-bold text-[var(--color-primary)]">{lang.name}</span>
-              <span className="text-[var(--color-muted)] ml-2 text-sm">— {lang.level}</span>
+              <span className="font-bold text-[var(--color-primary)]">
+                {lang.name}
+              </span>
+              <span className="text-[var(--color-muted)] ml-2 text-sm">
+                — {lang.level}
+              </span>
             </motion.div>
           ))}
         </div>
@@ -231,7 +285,12 @@ export function MainContent() {
 
       {/* Footer */}
       <footer className="mt-12 pt-6 border-t border-gray-100 text-center md:text-left text-xs text-[var(--color-muted)]">
-        <p>© {new Date().getFullYear()} {data.name}. {locale === 'en' ? 'References available upon request.' : 'Рекомендации предоставляются по запросу.'}</p>
+        <p>
+          © {new Date().getFullYear()} {data.name}.{" "}
+          {locale === "en"
+            ? "References available upon request."
+            : "Рекомендации предоставляются по запросу."}
+        </p>
       </footer>
     </main>
   );
