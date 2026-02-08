@@ -21,6 +21,7 @@ import { resumeData, uiStrings } from "@/data/resume-data";
 import {
   SOCIAL_LINKS,
   EXTERNAL_LINK_ATTRS,
+  CONTACT,
 } from "@/shared/constants/social-links";
 import { PrintContacts } from "./print-contacts";
 
@@ -138,7 +139,12 @@ export function Sidebar() {
             <Send size={16} />
           </a>
           <a
-            href={`mailto:${data.contacts.email}`}
+            href={CONTACT.MAILTO[locale]}
+            onClick={(e) => {
+              // Fallback for some browsers where native mailto might fail
+              // but standard behavior is usually sufficient if href is correct.
+              // We'll keep it as a standard link for accessibility.
+            }}
             className="
               w-8 h-8 rounded-lg bg-[var(--color-accent)]/10 
               flex items-center justify-center text-[var(--color-accent)] 
@@ -209,7 +215,6 @@ export function Sidebar() {
         </ul>
       </motion.div>
 
-    
       {/* Spacer */}
       <div className="flex-1 print-spacer" />
     </aside>

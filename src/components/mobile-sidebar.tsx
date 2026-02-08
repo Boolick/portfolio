@@ -190,7 +190,7 @@ export function MobileSidebar() {
             asChild
             className="text-slate-400 hover:text-[#fca311] hover:bg-white/5"
           >
-            <a href={CONTACT.EMAIL} {...EXTERNAL_LINK_ATTRS} title="Email">
+            <a href={CONTACT.MAILTO[locale]} title="Email">
               <Mail size={20} />
             </a>
           </Button>
