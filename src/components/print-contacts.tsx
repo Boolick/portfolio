@@ -3,7 +3,7 @@
 import { Mail, Linkedin, Send, Github, MapPin } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 import { resumeData } from "@/data/resume-data";
-import { SOCIAL_LINKS } from "@/shared/constants/social-links";
+import { SOCIAL_LINKS, CONTACT } from "@/shared/constants/social-links";
 
 /**
  * PrintContacts - Contact information block visible only in print/PDF
@@ -23,22 +23,22 @@ export function PrintContacts() {
       {/* Email */}
       <div className="flex items-center gap-2">
         <Mail size={12} className="text-[var(--color-accent)] shrink-0" />
-        <a href={`mailto:${data.contacts.email}`}>{data.contacts.email}</a>
+        <a href={CONTACT.MAILTO[locale]}>{data.contacts.email}</a>
       </div>
       {/* LinkedIn */}
       <div className="flex items-center gap-2">
         <Linkedin size={12} className="text-[var(--color-accent)] shrink-0" />
-        <a href={SOCIAL_LINKS.LINKEDIN}>{data.contacts.linkedin}</a>
+        <a href={SOCIAL_LINKS.LINKEDIN}>{SOCIAL_LINKS.LINKEDIN_HANDLE}</a>
       </div>
       {/* Telegram */}
       <div className="flex items-center gap-2">
         <Send size={12} className="text-[var(--color-accent)] shrink-0" />
-        <a href={SOCIAL_LINKS.TELEGRAM}>{data.contacts.telegram}</a>
+        <a href={SOCIAL_LINKS.TELEGRAM}>{SOCIAL_LINKS.TELEGRAM_HANDLE}</a>
       </div>
       {/* GitHub */}
       <div className="flex items-center gap-2">
         <Github size={12} className="text-[var(--color-accent)] shrink-0" />
-        <a href={SOCIAL_LINKS.GITHUB}>github.com/BooLOO</a>
+        <a href={SOCIAL_LINKS.GITHUB}>{SOCIAL_LINKS.GITHUB_HANDLE}</a>
       </div>
     </div>
   );

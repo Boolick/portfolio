@@ -1,9 +1,17 @@
-'use client';
+"use client";
 
-import { Languages, Download, Mail, Linkedin, MessageCircle, MapPin } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { useLanguage } from '@/context/language-context';
-import { resumeData, uiStrings } from '@/data/resume-data';
+import {
+  Languages,
+  Download,
+  Mail,
+  Linkedin,
+  MessageCircle,
+  MapPin,
+} from "lucide-react";
+import { motion } from "framer-motion";
+import { useLanguage } from "@/context/language-context";
+import { resumeData, uiStrings } from "@/data/resume-data";
+import { SOCIAL_LINKS, CONTACT } from "@/shared/constants/social-links";
 
 export function Header() {
   const { locale, toggleLocale } = useLanguage();
@@ -18,7 +26,7 @@ export function Header() {
     <motion.header
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       className="mb-8 print:mb-4"
     >
       {/* Controls - hidden on print */}
@@ -45,22 +53,20 @@ export function Header() {
         <h1 className="text-4xl font-bold text-slate-900 mb-2 print:text-3xl">
           {data.name}
         </h1>
-        <p className="text-xl text-slate-600 print:text-lg">
-          {data.title}
-        </p>
+        <p className="text-xl text-slate-600 print:text-lg">{data.title}</p>
       </div>
 
       {/* Contact Info */}
       <div className="flex flex-wrap justify-center gap-4 text-sm text-slate-600 print:justify-start print:gap-3 print:text-xs">
         <a
-          href={`mailto:${data.contacts.email}`}
+          href={CONTACT.MAILTO[locale]}
           className="flex items-center gap-1.5 hover:text-blue-600 transition-colors"
         >
           <Mail size={16} className="print:w-3 print:h-3" />
           {data.contacts.email}
         </a>
         <a
-          href={`https://${data.contacts.linkedin}`}
+          href={SOCIAL_LINKS.LINKEDIN}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-1.5 hover:text-blue-600 transition-colors"
@@ -69,13 +75,13 @@ export function Header() {
           LinkedIn
         </a>
         <a
-          href={`https://t.me/${data.contacts.telegram.replace('@', '')}`}
+          href={SOCIAL_LINKS.TELEGRAM}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-1.5 hover:text-blue-600 transition-colors"
         >
           <MessageCircle size={16} className="print:w-3 print:h-3" />
-          {data.contacts.telegram}
+          {SOCIAL_LINKS.TELEGRAM_HANDLE}
         </a>
         <span className="flex items-center gap-1.5">
           <MapPin size={16} className="print:w-3 print:h-3" />

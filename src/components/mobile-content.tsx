@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { MapPin, Mail, ArrowUpRight } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 import { resumeData, uiStrings } from "@/data/resume-data";
+import { CONTACT } from "@/shared/constants/social-links";
 
 export function MobileContent() {
   const { locale } = useLanguage();
@@ -49,10 +50,13 @@ export function MobileContent() {
             <MapPin size={12} className="text-[#fca311]" />
             <span>{data.contacts.location}</span>
           </div>
-          <div className="flex items-center gap-1">
+          <a
+            href={CONTACT.MAILTO[locale]}
+            className="flex items-center gap-1 hover:text-[#fca311] transition-colors"
+          >
             <Mail size={12} className="text-[#fca311]" />
             <span>{data.contacts.email}</span>
-          </div>
+          </a>
         </div>
       </section>
 

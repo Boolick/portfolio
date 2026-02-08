@@ -56,7 +56,7 @@ const resumeDataEN: ResumeData = {
   name: "Alexander Bullo",
   title: "Frontend Developer · React · Next.js · TypeScript",
   contacts: {
-    email: CONTACT.EMAIL,
+    email: CONTACT.EMAIL.en,
     linkedin: SOCIAL_LINKS.LINKEDIN,
     telegram: SOCIAL_LINKS.TELEGRAM,
     location: CONTACT.LOCATION,
@@ -197,13 +197,13 @@ const resumeDataRU: ResumeData = {
   name: "Александр Булло",
   title: "Frontend Developer · React · Next.js · TypeScript",
   contacts: {
-    email: CONTACT.EMAIL,
+    email: CONTACT.EMAIL.ru,
     linkedin: SOCIAL_LINKS.LINKEDIN,
     telegram: SOCIAL_LINKS.TELEGRAM,
     location: CONTACT.LOCATION_RU,
   },
   summary: `Frontend-разработчик с 3+ годами опыта в React-экосистеме. Специализируюсь на SPA/SSR-приложениях, real-time функционале и Telegram Mini Apps. Сейчас развиваю два коммерческих проекта с подтверждёнными результатами.`,
-  whyMe: `Мой подход к фронтенду выходит далеко за рамки создания визуальных интерфейсов. Благодаря 11-летнему бэкграунду в классической инженерии, я смотрю на веб-приложения как на сложные взаимосвязанные механизмы. Я привношу системный подход в разработку: проектирую масштабируемую архитектуру на клиенте, выстраиваю строгую типизацию и сложную бизнес-логику. Для меня код — это инструмент создания надежных, предсказуемых и отказоустойчивых продуктов.`,
+  whyMe: `Мой подход к фронтенду выходит далеко за рамки создания визуальных интерфейсов. Благодаря 11-летнему бэкграунду в инженерии, я смотрю на веб-приложения как на сложные взаимосвязанные механизмы. Я привношу системный подход в разработку: проектирую масштабируемую архитектуру на клиенте, выстраиваю строгую типизацию и сложную бизнес-логику. Для меня код — это инструмент создания надежных, предсказуемых и отказоустойчивых продуктов.`,
   experience: [
     {
       title: "Frontend Developer",

@@ -55,9 +55,9 @@ export function ConsoleEasterEgg() {
 • Print-optimized PDF export
 
 %cInterested in working together?
-%c📧 bullo.aliaksandr@gmail.com
-💬 @boolodev (Telegram)
-🐙 github.com/BooLOO
+%c📧 bulloalexander77@gmail.com
+💬 @AlexanderBullo(Telegram)
+🐙 github.com/boolick
 
 %c"Any fool can write code that a computer can understand. 
 Good programmers write code that humans can understand."
