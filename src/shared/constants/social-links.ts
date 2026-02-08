@@ -20,14 +20,14 @@ const SOCIAL_PLATFORM_URLS = {
 
 // User-specific identifiers (sanitized)
 const SOCIAL_IDENTIFIERS = {
-  GITHUB_USERNAME: 'your-github-username', // TODO: Update with actual GitHub username
-  LINKEDIN_USERNAME: 'aliaksandr-bullo',
-  TELEGRAM_USERNAME: 'boolodev',
+  GITHUB_USERNAME: 'boolick', // TODO: Update with actual GitHub username
+  LINKEDIN_USERNAME: 'alexanderbullo',
+  TELEGRAM_USERNAME: 'AlexanderBullo',
 } as const;
 
 // Contact information
 const CONTACT_INFO = {
-  EMAIL: 'bullo.aliaksandr@gmail.com',
+  EMAIL: 'bulloalexander77@gmail.com',
   LOCATION: 'Remote | Open to relocation',
   LOCATION_RU: 'Удалённо | Готов к релокации',
 } as const;
