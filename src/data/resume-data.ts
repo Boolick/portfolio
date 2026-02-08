@@ -1,3 +1,5 @@
+import { SOCIAL_LINKS, CONTACT } from "@/shared/constants/social-links";
+
 export type Locale = "en" | "ru";
 
 export interface ExperienceItem {
@@ -54,19 +56,19 @@ const resumeDataEN: ResumeData = {
   name: "Alexander Bullo",
   title: "Frontend Developer · React · Next.js · TypeScript",
   contacts: {
-    email: "bullo.aliaksandr@gmail.com",
-    linkedin: "linkedin.com/in/aliaksandr-bullo",
-    telegram: "@boolodev",
-    location: "Remote | Open to relocation",
+    email: CONTACT.EMAIL,
+    linkedin: SOCIAL_LINKS.LINKEDIN,
+    telegram: SOCIAL_LINKS.TELEGRAM,
+    location: CONTACT.LOCATION,
   },
   summary: `Frontend Developer with 3+ years of experience in the React ecosystem. Specializing in SPA/SSR applications, real-time functionality, and Telegram Mini Apps. Currently developing two commercial projects with proven production results.`,
-  whyMe: `Before transitioning to frontend development, I spent 11 years as a Production Engineer working with complex industrial systems. This background gives me a unique advantage: systematic thinking, attention to critical details, and experience managing high-stakes production environments where failures have real consequences. I bring engineering discipline to software development — not just writing code, but building reliable systems.`,
+  whyMe: `My approach to frontend development extends far beyond building visual interfaces. With an 11-year background in engineering, I view web applications as complex, interconnected systems. I bring engineering discipline to the codebase: designing scalable client-side architecture, enforcing strict type safety, and managing complex business logic. For me, code is a tool for building reliable, predictable, and fault-tolerant products.`,
   experience: [
     {
       title: "Frontend Developer",
       company: "DEXSA / IPU (Telegram Mini App)",
       location: "Remote",
-      period: "August 2025 – Present",
+      period: "2025 – Present",
       description: [
         "Built frontend architecture for Telegram Mini App with native-like performance",
         "Developed 30+ UI components following Feature-Sliced Design",
@@ -87,7 +89,7 @@ const resumeDataEN: ResumeData = {
       title: "Frontend Developer",
       company: "Tower Empire (WebSocket Multiplayer)",
       location: "Remote",
-      period: "September 2024 – Present",
+      period: "2023 – Present",
       description: [
         "Migrated entire codebase from JavaScript to TypeScript — reduced production bugs by 40%",
         "Designed WebSocket architecture: state sync, reconnect logic, disconnect handling",
@@ -109,7 +111,7 @@ const resumeDataEN: ResumeData = {
       title: "Frontend Developer",
       company: "Freelance & Contract Software Engineering",
       location: "Remote",
-      period: "2022 – 2024",
+      period: "2022 – 2023",
       description: [
         "Delivered 10+ web solutions for small businesses and private clients",
         "Specialized in landing pages, SPAs with authentication, and API integration",
@@ -122,7 +124,7 @@ const resumeDataEN: ResumeData = {
   skills: [
     {
       name: "Core",
-      skills: ["React", "Next.js 14/15", "TypeScript", "TailwindCSS"],
+      skills: ["React 18+", "Next.js 15/16", "TypeScript", "TailwindCSS"],
     },
     {
       name: "State & Real-time",
@@ -142,7 +144,7 @@ const resumeDataEN: ResumeData = {
       id: "ipu-app",
       title: "IPU App",
       description:
-        "Social platform as Telegram Mini App with real-time notifications, gamification, and monetization via Telegram Stars",
+        "IPU is a social platform in the form of a Telegram Mini App featuring gamification and monetization via Telegram Stars. I was responsible for the frontend architecture, real-time notifications, and payment flow integration (Stars), achieving high notification delivery rates and low latency.",
       image: "/projects/placeholder-1.svg",
       link: "#",
       tags: ["Next.js", "TypeScript", "TailwindCSS", "Supabase"],
@@ -180,7 +182,7 @@ const resumeDataEN: ResumeData = {
     institution: "Belarusian State Technological University (BSTU)",
     year: "2011",
     additional: [
-      "RS School — JavaScript/Frontend (Stage 1-2) · 2023–2024",
+      "RS School — JavaScript/Frontend (Stage 1-2-3) · 2023–2024",
       "SkyPro — Frontend Developer · 2022–2023",
     ],
   },
@@ -195,19 +197,19 @@ const resumeDataRU: ResumeData = {
   name: "Александр Булло",
   title: "Frontend Developer · React · Next.js · TypeScript",
   contacts: {
-    email: "bullo.aliaksandr@gmail.com",
-    linkedin: "linkedin.com/in/aliaksandr-bullo",
-    telegram: "@boolodev",
-    location: "Удалённо | Готов к релокации",
+    email: CONTACT.EMAIL,
+    linkedin: SOCIAL_LINKS.LINKEDIN,
+    telegram: SOCIAL_LINKS.TELEGRAM,
+    location: CONTACT.LOCATION_RU,
   },
   summary: `Frontend-разработчик с 3+ годами опыта в React-экосистеме. Специализируюсь на SPA/SSR-приложениях, real-time функционале и Telegram Mini Apps. Сейчас развиваю два коммерческих проекта с подтверждёнными результатами.`,
-  whyMe: `До перехода во frontend я 11 лет работал инженером-технологом на производстве сложных промышленных систем. Этот опыт даёт мне уникальное преимущество: системное мышление, внимание к критическим деталям и опыт управления средами, где ошибки имеют реальные последствия. Я привношу инженерную дисциплину в разработку — не просто пишу код, а строю надёжные системы.`,
+  whyMe: `Мой подход к фронтенду выходит далеко за рамки создания визуальных интерфейсов. Благодаря 11-летнему бэкграунду в классической инженерии, я смотрю на веб-приложения как на сложные взаимосвязанные механизмы. Я привношу системный подход в разработку: проектирую масштабируемую архитектуру на клиенте, выстраиваю строгую типизацию и сложную бизнес-логику. Для меня код — это инструмент создания надежных, предсказуемых и отказоустойчивых продуктов.`,
   experience: [
     {
       title: "Frontend Developer",
       company: "DEXSA / IPU (Telegram Mini App)",
       location: "Удалённо",
-      period: "Август 2025 — по настоящее время",
+      period: "2025 — по настоящее время",
       description: [
         "Разработал архитектуру фронтенда для Telegram Mini App с нативной производительностью",
         "Реализовал 30+ UI-компонентов по Feature-Sliced Design",
@@ -228,7 +230,7 @@ const resumeDataRU: ResumeData = {
       title: "Frontend Developer",
       company: "Tower Empire (WebSocket Multiplayer)",
       location: "Удалённо",
-      period: "Сентябрь 2024 — по настоящее время",
+      period: "2023 — по настоящее время",
       description: [
         "Провёл полную миграцию codebase с JavaScript на TypeScript — снизил количество багов на 40%",
         "Спроектировал WebSocket-архитектуру: синхронизация состояния, reconnect-логика, обработка disconnect",
@@ -266,7 +268,7 @@ const resumeDataRU: ResumeData = {
       skills: [
         "JavaScript",
         "React",
-        "Next.js 14/15",
+        "Next.js 15/16",
         "TypeScript",
         "TailwindCSS",
       ],
@@ -289,10 +291,10 @@ const resumeDataRU: ResumeData = {
       id: "ipu-app",
       title: "IPU App",
       description:
-        "Социальная платформа TG Mini App с real-time уведомлениями и монетизацией через Telegram Stars",
+        "IPU — социальная платформа в формате Telegram Mini App с геймификацией и монетизацией через Telegram Stars. Я отвечал за frontend-архитектуру приложения, реал-тайм нотификации и интеграцию платежного потока (Stars), добившись высоких показателей доставки уведомлений и низкой задержки.",
       image: "/projects/placeholder-1.svg",
       link: "#",
-      tags: ["Next.js", "TypeScript", "TailwindCSS", "Supabase"],
+      tags: ["React", "Next.js", "TypeScript", "TailwindCSS", "Supabase"],
     },
     {
       id: "tower-empire",
@@ -328,7 +330,7 @@ const resumeDataRU: ResumeData = {
       "Белорусский государственный технологический университет (БГТУ)",
     year: "2011",
     additional: [
-      "RS School — JavaScript/Frontend (Stage 1-2) · 2023–2024",
+      "RS School — JavaScript/Frontend (Stage 1-2-3) · 2023–2024",
       "SkyPro — Frontend-разработчик · 2022–2023",
     ],
   },
