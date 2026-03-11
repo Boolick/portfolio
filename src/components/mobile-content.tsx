@@ -188,55 +188,66 @@ export function MobileContent() {
           {/* Bento Grid - 2 columns */}
           <div className="grid grid-cols-2 gap-2">
             {data.projects.slice(0, 4).map((project, idx) => (
-              <motion.a
+              <motion.div
                 key={project.id}
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.35 + idx * 0.08, duration: 0.3 }}
-                className={`relative block rounded-xl overflow-hidden 
-                           bg-gradient-to-br from-[#0a192f] to-slate-800 
-                           border border-white/10 p-3
-                           ${idx === 0 ? "row-span-2" : ""}`}
+                className={`group relative block rounded-xl overflow-hidden 
+                           bg-[#0a192f]
+                           border border-white/10
+                           ${idx === 0 ? "row-span-2" : ""}
+                           ${idx === 3 ? "col-span-2" : ""}`}
               >
-                {/* Project initials */}
+                {/* Background preview image */}
                 <div
-                  className={`absolute top-2 right-2 ${idx === 0 ? "text-4xl" : "text-2xl"} font-bold text-white/5`}
-                >
-                  {project.title.slice(0, 2).toUpperCase()}
-                </div>
+                  className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-500 group-hover:scale-110"
+                  style={{ backgroundImage: `url(${project.image})` }}
+                />
+                
+                {/* Dark gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10 z-10 group-hover:from-black/100 group-hover:via-black/90 group-hover:to-black/70 transition-all duration-300" />
 
-                <div className="relative z-10 h-full flex flex-col justify-end">
-                  <div className="flex items-start justify-between gap-1">
+                <div className="relative z-20 h-full flex flex-col justify-end p-3">
+                  <a 
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between gap-1 cursor-pointer w-full group/link pb-1"
+                    aria-label={`View project: ${project.title}`}
+                  >
                     <h4
-                      className={`font-bold text-white ${idx === 0 ? "text-sm" : "text-xs"}`}
+                      className={`font-bold text-white group-hover/link:text-[#fca311] transition-colors drop-shadow-lg ${idx === 0 ? "text-sm" : "text-xs"}`}
                     >
                       {project.title}
                     </h4>
                     <ArrowUpRight
-                      className="text-white/30 shrink-0"
+                      className="text-white/30 group-hover/link:text-[#fca311] group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-all duration-200 shrink-0 drop-shadow-lg"
                       size={12}
                     />
-                  </div>
-                  <p
-                    className={`text-gray-400 mt-1 line-clamp-2 ${idx === 0 ? "text-xs" : "text-[10px]"}`}
-                  >
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-1 mt-2">
-                    {project.tags.slice(0, idx === 0 ? 3 : 2).map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-1.5 py-0.5 text-[9px] bg-white/10 text-gray-300 rounded"
+                  </a>
+                  
+                  <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-300 opacity-0 group-hover:opacity-100 mt-0 group-hover:mt-1">
+                    <div className="overflow-hidden">
+                      <p
+                        className={`text-gray-300 drop-shadow-md pb-1 ${idx === 0 ? "text-xs" : "text-[10px]"}`}
                       >
-                        {tag}
-                      </span>
-                    ))}
+                        {project.description}
+                      </p>
+                      <div className="flex flex-wrap gap-1 mt-1">
+                        {project.tags.slice(0, idx === 0 ? 3 : 2).map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-1.5 py-0.5 text-[9px] bg-black/40 text-gray-200 rounded backdrop-blur-sm border border-white/5"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </motion.a>
+              </motion.div>
             ))}
           </div>
         </motion.div>

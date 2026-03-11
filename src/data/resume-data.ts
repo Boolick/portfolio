@@ -141,40 +141,40 @@ const resumeDataEN: ResumeData = {
   ],
   projects: [
     {
-      id: "ipu-app",
-      title: "IPU App",
-      description:
-        "IPU is a social platform in the form of a Telegram Mini App featuring gamification and monetization via Telegram Stars. I was responsible for the frontend architecture, real-time notifications, and payment flow integration (Stars), achieving high notification delivery rates and low latency.",
-      image: "/projects/placeholder-1.svg",
-      link: "#",
-      tags: ["Next.js", "TypeScript", "TailwindCSS", "Supabase"],
-    },
-    {
       id: "tower-empire",
       title: "Tower Empire",
       description:
-        "Browser-based multiplayer card games with real-time WebSocket synchronization",
-      image: "/projects/placeholder-2.svg",
-      link: "#",
+        "Online multiplayer board-game platform with real-time WebSocket sync, reconnect logic, and RTK Query caching. Role: Front Lead",
+      image: "/projects/tower-empire.png",
+      link: "https://tower-empire.ru/",
       tags: ["React", "TypeScript", "WebSocket", "RTK Query"],
     },
     {
-      id: "portfolio",
-      title: "Portfolio",
+      id: "ipu-app",
+      title: "IPU · Telegram Mini App",
       description:
-        "This resume/portfolio site with Bento Grid layout, bilingual support, and PDF export",
-      image: "/projects/placeholder-3.svg",
-      link: "#",
-      tags: ["Next.js", "TypeScript", "Framer Motion", "TailwindCSS"],
+        "Social promises platform with gamification and Telegram Stars payments. 30+ components, real-time notifications, native-like UX",
+      image: "/projects/ipu.png",
+      link: "https://t.me/ipu_promise_bot",
+      tags: ["Next.js", "TypeScript", "TailwindCSS", "Supabase"],
     },
     {
-      id: "rs-school",
-      title: "RS School Projects",
+      id: "dkmline",
+      title: "DKMline",
       description:
-        "10+ training projects: from landing pages to SPA with API integration and authorization",
-      image: "/projects/placeholder-4.svg",
-      link: "#",
-      tags: ["JavaScript", "React", "Redux", "HTML5"],
+        "Corporate website for an industrial packaging company. Turnkey development: catalog, delivery calculator, and SEO optimization",
+      image: "/projects/dkmline.png",
+      link: "https://dkmline.netlify.app/",
+      tags: ["Next.js", "TypeScript", "TailwindCSS", "SEO"],
+    },
+    {
+      id: "portfolio",
+      title: "Portfolio & CV",
+      description:
+        "This interactive resume site with Bento Grid layout, bilingual support, dark theme, and PDF export",
+      image: "/projects/portfolio.png",
+      link: "https://resumeportfoliocv.netlify.app/",
+      tags: ["Next.js", "TypeScript", "Framer Motion", "TailwindCSS"],
     },
   ],
   education: {
@@ -288,40 +288,40 @@ const resumeDataRU: ResumeData = {
   ],
   projects: [
     {
-      id: "ipu-app",
-      title: "IPU App",
-      description:
-        "IPU — социальная платформа в формате Telegram Mini App с геймификацией и монетизацией через Telegram Stars. Я отвечал за frontend-архитектуру приложения, реал-тайм нотификации и интеграцию платежного потока (Stars), добившись высоких показателей доставки уведомлений и низкой задержки.",
-      image: "/projects/placeholder-1.svg",
-      link: "#",
-      tags: ["React", "Next.js", "TypeScript", "TailwindCSS", "Supabase"],
-    },
-    {
       id: "tower-empire",
       title: "Tower Empire",
       description:
-        "Браузерные мультиплеерные карточные игры с WebSocket-синхронизацией",
-      image: "/projects/placeholder-2.svg",
-      link: "#",
+        "Онлайн-платформа настольных игр с мультиплеером, WebSocket-синхронизацией, reconnect-логикой и кешированием через RTK Query. Роль: Front Lead",
+      image: "/projects/tower-empire.png",
+      link: "https://tower-empire.ru/",
       tags: ["React", "TypeScript", "WebSocket", "RTK Query"],
     },
     {
-      id: "portfolio",
-      title: "Портфолио",
+      id: "ipu-app",
+      title: "IPU · Telegram Mini App",
       description:
-        "Этот сайт-резюме с Bento Grid, двуязычностью и экспортом в PDF",
-      image: "/projects/placeholder-3.svg",
-      link: "#",
-      tags: ["Next.js", "TypeScript", "Framer Motion", "TailwindCSS"],
+        "Социальная платформа обещаний с геймификацией и оплатой через Telegram Stars. 30+ компонентов, real-time уведомления, нативный UX",
+      image: "/projects/ipu.png",
+      link: "https://t.me/ipu_promise_bot",
+      tags: ["Next.js", "TypeScript", "TailwindCSS", "Supabase"],
     },
     {
-      id: "rs-school",
-      title: "RS School Проекты",
+      id: "dkmline",
+      title: "ДКМлайн",
       description:
-        "10+ учебных проектов: от лендингов до SPA с API и авторизацией",
-      image: "/projects/placeholder-4.svg",
-      link: "#",
-      tags: ["JavaScript", "React", "Redux", "HTML5"],
+        "Корпоративный сайт для компании промышленной упаковки. Разработка «под ключ»: каталог, калькулятор доставки и SEO-оптимизация",
+      image: "/projects/dkmline.png",
+      link: "https://dkmline.netlify.app/",
+      tags: ["Next.js", "TypeScript", "TailwindCSS", "SEO"],
+    },
+    {
+      id: "portfolio",
+      title: "Портфолио и CV",
+      description:
+        "Интерактивный сайт-резюме с Bento Grid, двуязычностью, тёмной темой и экспортом в PDF",
+      image: "/projects/portfolio.png",
+      link: "https://resumeportfoliocv.netlify.app/",
+      tags: ["Next.js", "TypeScript", "Framer Motion", "TailwindCSS"],
     },
   ],
   education: {
