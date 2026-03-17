@@ -1,0 +1,17 @@
+# Netlify Redirects File
+# This file defines URL routing rules for Netlify
+# Documentation: https://docs.netlify.com/routing/redirects/
+
+# Tracking Redirects (Masking the ?ref parameter)
+# These allow sharing clean URLs (e.g., domain.com/hh) that automatically append tracking parameters
+
+/hh       /?ref=hh_cover      301
+/in       /?ref=linkedin      301
+/tg       /?ref=telegram      301
+/pdf      /?ref=cv_pdf        301
+/pdf_eng  /?ref=cv_pdf_eng    301
+/ext      /?ref=external      301
+/v2       /?ref=version_2     301
+
+# Add more customized shortlinks below as needed:
+# /company_name    /?ref=company_name_app    301

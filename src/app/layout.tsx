@@ -4,6 +4,7 @@ import "./globals.css";
 import { LanguageProvider } from "@/context/language-context";
 import { resumeData } from "@/data/resume-data";
 import { ConsoleEasterEgg } from "@/components/console-easter-egg";
+import { RefTracker } from "@/components/analytics/ref-tracker";
 
 const geistSans = Geist({
   subsets: ["latin"],
@@ -62,6 +63,7 @@ export default function RootLayout({
       <body className="antialiased m-0 p-0 font-sans">
         <LanguageProvider>
           <ConsoleEasterEgg />
+          <RefTracker />
           {children}
         </LanguageProvider>
       </body>
