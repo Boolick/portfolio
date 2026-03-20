@@ -1,4 +1,4 @@
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
   // Only allow GET requests
   if (event.httpMethod !== "GET") {
     return { statusCode: 405, body: "Method Not Allowed" };
