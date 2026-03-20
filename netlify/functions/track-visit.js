@@ -19,12 +19,27 @@ exports.handler = async (event) => {
   // Extract Geo Data from Netlify Headers
   const country = event.headers["x-country"] || "Unknown Country";
   const city = event.headers["x-city"] || "Unknown City";
-  const ip = event.headers["x-nf-client-connection-ip"] || event.headers["client-ip"] || "Unknown IP";
+  const ip =
+    event.headers["x-nf-client-connection-ip"] ||
+    event.headers["client-ip"] ||
+    "Unknown IP";
 
   // Sanitize inputs for HTML to prevent breakage
   const safeRef = ref.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   const safeCity = city.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   const safeCountry = country.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  // Format time beautifully (e.g., 17.03.2026, 15:54:27)
+  const formattedTime =
+    new Date().toLocaleString("ru-RU", {
+      timeZone: "Europe/Moscow", // Установил московское/минское время (UTC+3)
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    }) + " (MSK)";
 
   const message = `
 <b>🚀 New Portfolio Visit!</b>
@@ -32,7 +47,7 @@ exports.handler = async (event) => {
 <b>Source:</b> <code>${safeRef}</code>
 <b>Location:</b> ${safeCity}, ${safeCountry}
 <b>IP:</b> <code>${ip}</code>
-<b>Time:</b> ${new Date().toISOString()}
+<b>Time:</b> ${formattedTime}
   `;
 
   try {
@@ -46,7 +61,7 @@ exports.handler = async (event) => {
           text: message,
           parse_mode: "HTML",
         }),
-      }
+      },
     );
 
     if (!response.ok) {
