@@ -29,8 +29,8 @@ const SOCIAL_IDENTIFIERS = {
 const CONTACT_INFO = {
   EMAIL_EN: "bulloalexander77@gmail.com",
   EMAIL_RU: "bulloalexander77@gmail.com",
-  LOCATION: "Remote | Open to relocation",
-  LOCATION_RU: "Удалённо | Готов к релокации",
+  LOCATION: "Hanoi, Vietnam (GMT+7)",
+  LOCATION_RU: "Ханой, Вьетнам (GMT+7)",
 } as const;
 
 /**

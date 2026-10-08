@@ -1,0 +1,841 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Александр Булло — Middle Frontend Engineer (React / Next.js)</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap");
+
+      /* ─── Reset & Base ─── */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --accent: #1b4f72;
+        --accent-mid: #2e86c1;
+        --accent-lite: #d6eaf8;
+        --dark: #0d1b2a;
+        --body: #1c2833;
+        --muted: #566573;
+        --border: #d5d8dc;
+        --bg: #fdfefe;
+        --tag-bg: #eaf4fb;
+        --col-left: 260px;
+        --gap: 24px;
+      }
+
+      html {
+        font-size: 9.5pt;
+      }
+
+      body {
+        font-family: "Inter", "Segoe UI", Arial, sans-serif;
+        background: var(--bg);
+        color: var(--body);
+        line-height: 1.55;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      /* ─── Page wrapper ─── */
+      .page {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: var(--col-left) 1fr;
+        grid-template-rows: auto 1fr;
+      }
+
+      /* ─── HEADER (full-width) ─── */
+      .header {
+        grid-column: 1 / -1;
+        background: var(--dark);
+        color: #fff;
+        padding: 26px 32px 20px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .header-left h1 {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 22pt;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+        line-height: 1.1;
+        color: #fff;
+      }
+
+      .header-left .title-role {
+        font-size: 10.5pt;
+        font-weight: 500;
+        color: #85c1e9;
+        margin-top: 4px;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+      }
+
+      .header-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        font-size: 8.5pt;
+        color: #d6eaf8;
+      }
+
+      .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .contact-item .icon {
+        width: 14px;
+        height: 14px;
+        opacity: 0.85;
+        flex-shrink: 0;
+      }
+
+      .contact-item a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* ─── SIDEBAR ─── */
+      .sidebar {
+        background: #f0f4f8;
+        padding: 22px 20px;
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      /* ─── MAIN CONTENT ─── */
+      .main {
+        padding: 22px 28px 22px 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      /* ─── Section titles ─── */
+      .section-title {
+        font-size: 7pt;
+        font-weight: 700;
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+        color: var(--accent);
+        border-bottom: 2px solid var(--accent);
+        padding-bottom: 4px;
+        margin-bottom: 10px;
+      }
+
+      .section-title-sm {
+        font-size: 6.8pt;
+        font-weight: 700;
+        letter-spacing: 1.6px;
+        text-transform: uppercase;
+        color: var(--accent-mid);
+        border-bottom: 1.5px solid var(--accent-lite);
+        padding-bottom: 3px;
+        margin-bottom: 8px;
+      }
+
+      /* ─── SUMMARY ─── */
+      .summary-text {
+        font-size: 9pt;
+        color: var(--body);
+        line-height: 1.65;
+        text-align: justify;
+      }
+
+      .summary-text strong {
+        color: var(--accent);
+      }
+
+      /* ─── EXPERIENCE ─── */
+      .exp-item {
+        margin-bottom: 14px;
+      }
+
+      .exp-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+
+      .exp-company {
+        font-size: 9.5pt;
+        font-weight: 700;
+        color: var(--dark);
+      }
+
+      .exp-date {
+        font-size: 7.8pt;
+        color: var(--muted);
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      .exp-role {
+        font-size: 8.8pt;
+        font-weight: 600;
+        color: var(--accent-mid);
+        margin-bottom: 5px;
+      }
+
+      .exp-bullets {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+
+      .exp-bullets li {
+        font-size: 8.8pt;
+        padding-left: 11px;
+        position: relative;
+        color: var(--body);
+        line-height: 1.5;
+      }
+
+      .exp-bullets li::before {
+        content: "▸";
+        position: absolute;
+        left: 0;
+        color: var(--accent-mid);
+        font-size: 7pt;
+        top: 1px;
+      }
+
+      .exp-bullets li strong {
+        color: var(--dark);
+        font-weight: 600;
+      }
+
+      /* ─── Tag chips ─── */
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin-top: 6px;
+      }
+
+      .tag {
+        background: var(--tag-bg);
+        color: var(--accent);
+        border: 1px solid #aed6f1;
+        border-radius: 3px;
+        font-size: 7pt;
+        font-weight: 600;
+        padding: 1px 6px;
+        letter-spacing: 0.2px;
+      }
+
+      /* ─── SIDEBAR SKILLS ─── */
+      .skill-block {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .skill-category {
+        font-size: 7.5pt;
+        font-weight: 600;
+        color: var(--dark);
+        margin-bottom: 4px;
+        letter-spacing: 0.4px;
+      }
+
+      .skill-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+
+      .skill-pill {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 3px;
+        font-size: 7pt;
+        color: var(--body);
+        padding: 2px 7px;
+        font-weight: 500;
+      }
+
+      .skill-pill.hot {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+        font-weight: 600;
+      }
+
+      /* ─── Sidebar info items ─── */
+      .info-item {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .info-label {
+        font-size: 6.8pt;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .info-value {
+        font-size: 8.5pt;
+        font-weight: 500;
+        color: var(--dark);
+      }
+
+      /* ─── Lang / metrics ─── */
+      .lang-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+      }
+
+      .lang-name {
+        font-size: 8pt;
+        font-weight: 600;
+        color: var(--dark);
+      }
+
+      .lang-level {
+        font-size: 7.5pt;
+        color: var(--muted);
+      }
+
+      .lang-bar {
+        height: 4px;
+        background: #e0e8f0;
+        border-radius: 99px;
+        overflow: hidden;
+        margin-top: 3px;
+      }
+
+      .lang-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent-mid), var(--accent));
+        border-radius: 99px;
+      }
+
+      /* ─── Education ─── */
+      .edu-item {
+        margin-bottom: 8px;
+      }
+
+      .edu-school {
+        font-size: 8.5pt;
+        font-weight: 700;
+        color: var(--dark);
+      }
+
+      .edu-program {
+        font-size: 7.8pt;
+        color: var(--muted);
+      }
+
+      .edu-year {
+        font-size: 7.5pt;
+        color: var(--accent-mid);
+        font-weight: 600;
+      }
+
+      /* ─── Metrics bar ─── */
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        background: var(--accent-lite);
+        border-radius: 6px;
+        padding: 10px 12px;
+        border-left: 3px solid var(--accent-mid);
+      }
+
+      .metric-item {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .metric-number {
+        font-size: 14pt;
+        font-weight: 700;
+        color: var(--accent);
+        line-height: 1;
+      }
+
+      .metric-desc {
+        font-size: 7pt;
+        color: var(--muted);
+        line-height: 1.3;
+      }
+
+      /* ─── Divider ─── */
+      .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 2px 0;
+      }
+
+      .exp-item,
+      .tags,
+      .metrics-grid,
+      .edu-item,
+      .info-item,
+      .lang-row,
+      .lang-bar,
+      .skill-list {
+        break-inside: avoid-page;
+        page-break-inside: avoid;
+      }
+
+      .main > section:first-of-type,
+      .main > section:last-of-type {
+        break-inside: avoid-page;
+        page-break-inside: avoid;
+      }
+
+      .section-title,
+      .section-title-sm,
+      .exp-header,
+      .exp-role {
+        break-after: avoid-page;
+        page-break-after: avoid;
+      }
+
+      .summary-text,
+      .exp-bullets li {
+        orphans: 3;
+        widows: 3;
+      }
+
+      @media print {
+        @page {
+          size: A4;
+          margin: 10mm;
+        }
+
+        html {
+          font-size: 9.2pt;
+        }
+
+        body {
+          background: white;
+          margin: 0;
+        }
+
+        .page {
+          margin: 0;
+          width: auto;
+          min-height: auto;
+          grid-template-columns: minmax(0, 248px) minmax(0, 1fr);
+          align-items: start;
+        }
+
+        .header {
+          padding: 18px 22px 16px;
+        }
+
+        .sidebar {
+          padding: 18px 16px 18px;
+        }
+
+        .main {
+          padding: 18px 22px 18px 20px;
+        }
+      }
+
+      @media screen {
+        body {
+          padding: 20px 0 40px;
+          background: #e8eaec;
+        }
+        .page {
+          box-shadow: 0 4px 40px rgba(0, 0, 0, 0.18);
+          background: var(--bg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <div class="header-left">
+          <h1>Александр Булло</h1>
+          <div class="title-role">
+            Middle Frontend Engineer · React / Next.js / TypeScript
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="contact-item">
+            <svg
+              class="icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              />
+              <polyline points="22,6 12,12 2,6" />
+            </svg>
+            <a href="mailto:bulloalexander77@gmail.com"
+              >bulloalexander77@gmail.com</a
+            >
+          </div>
+          <div class="contact-item">
+            <svg
+              class="icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+              />
+            </svg>
+            +84 (359) 237442
+          </div>
+          <div class="contact-item">
+            <svg
+              class="icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-16.5 8.25a2.244 2.244 0 0 0 .193 4.116l4.133 1.376 2.064 6.192a2.245 2.245 0 0 0 3.936.394l2.328-3.878 4.598 1.532a2.246 2.246 0 0 0 2.928-2.076l.375-15a2.244 2.244 0 0 0-3.033-2.121z"
+              />
+            </svg>
+            <a href="https://t.me/AlexanderBullo">@AlexanderBullo</a>
+          </div>
+          <div class="contact-item">
+            <svg
+              class="icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            Ханой, Вьетнам
+          </div>
+          <div class="contact-item">
+            <svg
+              class="icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+              <line x1="8" y1="21" x2="16" y2="21" />
+              <line x1="12" y1="17" x2="12" y2="21" />
+            </svg>
+            Удалённо · Full-time / Контракт
+          </div>
+        </div>
+      </header>
+
+      <aside class="sidebar">
+        <div>
+          <div class="section-title-sm">Целевая позиция</div>
+          <div class="info-item" style="margin-bottom: 6px">
+            <span class="info-label">Роль</span>
+            <span class="info-value"
+              >Middle Frontend Engineer</span
+            >
+          </div>
+          <div class="info-item" style="margin-bottom: 6px">
+            <span class="info-label">Зарплата (US)</span>
+            <span class="info-value">$80,000 – $120,000</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Доступность</span>
+            <span class="info-value">Сразу · Full-time</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div>
+          <div class="section-title-sm">Core Stack</div>
+          <div class="skill-list">
+            <span class="skill-pill hot">React 19</span>
+            <span class="skill-pill hot">Next.js 15/16</span>
+            <span class="skill-pill hot">TypeScript</span>
+            <span class="skill-pill hot">App Router</span>
+            <span class="skill-pill hot">SSR / SSG / ISR</span>
+            <span class="skill-pill hot">WebSockets</span>
+            <span class="skill-pill hot">Framer Motion</span>
+            <span class="skill-pill">JavaScript ES6+</span>
+            <span class="skill-pill">HTML5, CSS3, SCSS</span>
+            <span class="skill-pill">Tailwind CSS</span>
+            <span class="skill-pill">SPA architecture</span>
+            <span class="skill-pill">cross-browser layout</span>
+            <span class="skill-pill">Radix UI</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div>
+          <div class="section-title-sm">State & Data</div>
+          <div class="skill-list">
+            <span class="skill-pill hot">Redux Toolkit / RTK Query</span>
+            <span class="skill-pill hot">TanStack Query</span>
+            <span class="skill-pill">XState v5</span>
+            <span class="skill-pill">Zustand</span>
+            <span class="skill-pill">Supabase</span>
+            <span class="skill-pill">PostgreSQL</span>
+            <span class="skill-pill">Payload CMS</span>
+            <span class="skill-pill">Zod validation</span>
+            <span class="skill-pill">MobX (basics)</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div>
+          <div class="section-title-sm">Tooling & DevOps</div>
+          <div class="skill-list">
+            <span class="skill-pill">Vite</span>
+            <span class="skill-pill">Webpack</span>
+            <span class="skill-pill">Git / GitHub</span>
+            <span class="skill-pill">Vitest / RTL / Jest</span>
+            <span class="skill-pill">Playwright / Cypress</span>
+            <span class="skill-pill">Storybook</span>
+            <span class="skill-pill">ESLint / Prettier</span>
+            <span class="skill-pill">GitHub Actions</span>
+            <span class="skill-pill">Docker</span>
+            <span class="skill-pill">Vercel</span>
+            <span class="skill-pill">CI/CD</span>
+            <span class="skill-pill">Figma</span>
+            <span class="skill-pill">Telegram API</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div>
+          <div class="section-title-sm">Архитектура & Качество</div>
+          <div class="skill-list">
+            <span class="skill-pill hot">Feature-Sliced Design</span>
+            <span class="skill-pill">Sentry / FE monitoring</span>
+            <span class="skill-pill">XSS / CSRF / CSP / Security</span>
+            <span class="skill-pill">Mentoring</span>
+            <span class="skill-pill">RFC / ADR</span>
+            <span class="skill-pill">Design Tokens</span>
+            <span class="skill-pill">Core Web Vitals</span>
+            <span class="skill-pill">Tree-shaking</span>
+            <span class="skill-pill">WCAG 2.1 AA</span>
+            <span class="skill-pill">Responsive Design</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div>
+          <div class="section-title-sm">Языки</div>
+          <div class="lang-row">
+            <span class="lang-name">Английский</span>
+            <span class="lang-level">B2</span>
+          </div>
+          <div class="lang-bar">
+            <div class="lang-fill" style="width: 75%"></div>
+          </div>
+          <div style="margin-top: 7px">
+            <div class="lang-row">
+              <span class="lang-name">Русский</span>
+              <span class="lang-level">Родной</span>
+            </div>
+            <div class="lang-bar">
+              <div class="lang-fill" style="width: 100%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div>
+          <div class="section-title-sm">Образование</div>
+          <div class="edu-item">
+            <div class="edu-school">RS School</div>
+            <div class="edu-program">Advanced JS & TypeScript + React</div>
+            <div class="edu-year">2023</div>
+          </div>
+          <div style="font-size: 7.5pt; color: var(--muted); margin-top: 3px">
+            SkyPro · Frontend-разработчик · 2022
+          </div>
+          <div style="font-size: 7.5pt; color: var(--muted); margin-top: 2px">
+            БГТУ · Инженер-технолог (Высшее) · 2011
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div>
+          <div class="section-title-sm">В цифрах</div>
+          <div class="metrics-grid">
+            <div class="metric-item">
+              <span class="metric-number">3+</span>
+              <span class="metric-desc">Года коммерческой разработки</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-number">2.8→0.8s</span>
+              <span class="metric-desc">LCP после оптимизации</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-number">35+</span>
+              <span class="metric-desc">Reusable-компонентов (FSD)</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-number">-40%</span>
+              <span class="metric-desc">Багов после миграции на TS</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <!-- ═══ SUMMARY ═══ -->
+        <section>
+          <div class="section-title">Профессиональный профиль</div>
+          <p class="summary-text">
+            <strong>Middle Frontend Engineer с 3+ годами коммерческого опыта</strong> разработки SPA-приложений, специализирующийся на <strong>React / Next.js (App Router, SSR/SSG/ISR)</strong> и <strong>TypeScript (strict mode)</strong>. Владею базовыми навыками наставничества (mentoring). Проектирую интерфейсы с пониманием принципов ООП, реактивного программирования и MV* подходов. Владею end-to-end доставкой фич: от формализации архитектурных решений через <strong>Feature-Sliced Design (FSD)</strong>, написания легких RFC/ADR и настройки **real-time WebSocket-коммуникации** до интеграции платежей (**Telegram Stars**), соответствия стандартам доступности **WCAG** и оптимизации **Core Web Vitals** (LCP с 2.8s до 0.8s). Выступаю техническим мостом между дизайнерами (Figma, design tokens), backend-разработчиками и продактом. Активно использую **AI-Tooling** (Cursor, Claude Code) для ускорения разработки.
+          </p>
+        </section>
+
+        <!-- ═══ EXPERIENCE ═══ -->
+        <section>
+          <div class="section-title">Опыт работы</div>
+
+          <!-- Dexsa -->
+          <div class="exp-item">
+            <div class="exp-header">
+              <span class="exp-company">Dexsa</span>
+              <span class="exp-date">Июнь 2025 — настоящее время</span>
+            </div>
+            <div class="exp-role">Frontend разработчик (React / Next.js) · Удалённо</div>
+            <ul class="exp-bullets">
+              <li>
+                <strong>Спроектировал</strong> архитектуру real-time уведомлений (Supabase Realtime → Next.js SSR → Telegram Bot), зафиксировав решения в lightweight RFC/ADR. Внедрил optimistic updates и infinite queries для списков событий с latency <strong>&lt;3 сек</strong> и доставляемостью <strong>98%</strong>.
+              </li>
+              <li>
+                <strong>Владел</strong> полным циклом интеграции платежной системы <strong>Telegram Stars</strong>: от UI checkout-формы через серверный webhook до подтверждения транзакции — снизил drop-off на этапе оплаты на 22%. Обеспечил безопасность платежного checkout-слоя, реализовав защиту от XSS/CSRF, CSP-заголовки и безопасный sanitization пользовательского ввода.
+              </li>
+              <li>
+                <strong>Оптимизировал</strong> показатели Core Web Vitals с использованием Lighthouse и production-метрик: снизил <strong>LCP с 2.8s → 0.8s</strong> за счет edge-кэширования, настроил frontend error tracking (Sentry, source maps) для быстрого отлова ошибок у пользователей, повысив конверсию на <strong>35%</strong>.
+              </li>
+              <li>
+                <strong>Разработал</strong> UI-систему из <strong>35 переиспользуемых компонентов</strong> (FSD, Storybook, design tokens), регулярно участвовал в code review и помогал поддерживать единые стандарты качества кода, сократив дублирование кода на 60%.
+              </li>
+              <li>
+                <strong>Тесно взаимодействовал</strong> с backend developers, дизайнерами и product manager по UX-сценариям, REST API contracts, OpenAPI спецификациям и декомпозиции frontend-задач.
+              </li>
+            </ul>
+            <div class="tags">
+              <span class="tag">Next.js 15 / App Router</span
+              ><span class="tag">TypeScript</span
+              ><span class="tag">Supabase Realtime</span>
+              <span class="tag">Telegram Stars</span
+              ><span class="tag">FSD</span
+              ><span class="tag">Storybook</span>
+              <span class="tag">ISR / Edge Cache</span
+              ><span class="tag">Framer Motion</span>
+            </div>
+          </div>
+
+          <!-- Tower Empire -->
+          <div class="exp-item">
+            <div class="exp-header">
+              <span class="exp-company">Tower Empire</span>
+              <span class="exp-date">Май 2023 — Май 2025</span>
+            </div>
+            <div class="exp-role">Frontend React разработчик · Удалённо</div>
+            <ul class="exp-bullets">
+              <li>
+                <strong>Возглавил</strong> полную миграцию SPA-приложения с чистого JavaScript на <strong>TypeScript (strict mode, generics, utility types)</strong>. Участвовал в наставничестве (mentoring) junior-разработчиков (code review, onboarding в проект), снизив bug rate на <strong>40%</strong>.
+              </li>
+              <li>
+                <strong>Спроектировал</strong> WebSocket-архитектуру для бесшовной синхронизации игрового состояния с задержкой <strong>&lt;100ms</strong>. Обеспечил стабильную работу и адаптивную кроссбраузерную верстку (HTML5, CSS3, SCSS) в WebView мобильных и десктопных браузеров.
+              </li>
+              <li>
+                <strong>Внедрил</strong> агрессивное кеширование через <strong>RTK Query</strong> с нормализованным кэшем и optimistic updates — устранил дублирование запросов и сократил сетевой трафик на <strong>35%</strong>.
+              </li>
+              <li>
+                <strong>Руководил</strong> архитектурой фронтенда, организовал совместную работу в Git, настроил CI/CD pipelines (GitHub Actions, GitLab CI) с lint/test gates и preview environments для ускорения релиза с <strong>5 часов до 15 минут</strong>.
+              </li>
+              <li>
+                <strong>Оптимизировал</strong> бандл (Webpack, Vite) через code-splitting, dynamic imports и tree-shaking на <strong>30–40%</strong>. Внедрил unit и e2e тесты на базе Vitest, RTL, Jest и Cypress.
+              </li>
+            </ul>
+            <div class="tags">
+              <span class="tag">React</span
+              ><span class="tag">TypeScript</span
+              ><span class="tag">WebSockets</span>
+              <span class="tag">Redux Toolkit / RTK Query</span
+              ><span class="tag">GitHub Actions</span
+              ><span class="tag">Vercel</span>
+              <span class="tag">Tree-shaking</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══ KEY PROJECTS ═══ -->
+        <section>
+          <div class="section-title">Ключевой проект (Self-made)</div>
+
+          <div class="exp-item">
+            <div class="exp-header">
+              <span class="exp-company">DKMLine · E-commerce платформа</span>
+              <span class="exp-date">2025 – 2026</span>
+            </div>
+            <ul class="exp-bullets">
+              <li>
+                <strong>Разработал</strong> full-stack интернет-магазин с нуля на стеке <strong>Next.js 16 + Node.js + Payload CMS + PostgreSQL</strong>, используя Server Actions, Route Handlers и streaming рендеринг для каталога.
+              </li>
+              <li>
+                <strong>Интегрировал</strong> Payload CMS как headless-движок: гибкие content-схемы с вложенными связями сущностей, media pipeline с автоматической оптимизацией изображений.
+              </li>
+              <li>
+                <strong>Настроил</strong> SEO-оптимизацию проекта (metadata, sitemap.xml, robots.txt, structured data) и edge-кэширование (LCP < 2.0s), повысив видимость страниц в поисковой выдаче на 18%.
+              </li>
+            </ul>
+            <div class="tags">
+              <span class="tag">Next.js 16</span
+              ><span class="tag">Payload CMS</span
+              ><span class="tag">PostgreSQL</span>
+              <span class="tag">Core Web Vitals</span
+              ><span class="tag">Edge Caching</span
+              ><span class="tag">Tailwind CSS</span>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

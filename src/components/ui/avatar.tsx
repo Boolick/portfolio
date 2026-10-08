@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 interface AvatarProps {
@@ -59,10 +60,12 @@ export function Avatar({
         }
       >
         {imageSrc ? (
-          <img
+          <Image
             src={imageSrc}
             alt={initials}
-            className="w-full h-full object-cover rounded-full"
+            fill
+            sizes="(max-width: 768px) 176px, (max-width: 1024px) 224px, 256px"
+            className="object-cover rounded-full"
           />
         ) : (
           <div

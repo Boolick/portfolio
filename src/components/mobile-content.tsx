@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MapPin, Mail, ArrowUpRight } from "lucide-react";
+import { MapPin, Mail, ArrowUpRight, Briefcase, Rocket } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 import { resumeData, uiStrings } from "@/data/resume-data";
 import { CONTACT } from "@/shared/constants/social-links";
@@ -23,7 +23,7 @@ export function MobileContent() {
         </span>
       </div>
 
-      {/* About Section */}
+      {/* ═══ HERO SECTION — Sales Funnel ═══ */}
       <section id="about" className="mb-8 scroll-mt-6">
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -40,16 +40,34 @@ export function MobileContent() {
           </p>
         </motion.div>
 
+        {/* ── Status Badges — instant HR answers ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.3 }}
+          className="flex flex-wrap items-center gap-1.5 mt-3"
+        >
+          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold bg-[#fca311]/10 text-[#0a192f] border border-[#fca311]/20">
+            <MapPin size={10} className="shrink-0 text-[#fca311]" />
+            {data.statusBadge.location}
+          </span>
+          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold bg-gray-50 text-gray-700 border border-gray-200">
+            <Briefcase size={10} className="shrink-0 text-[#fca311]" />
+            {data.statusBadge.format}
+          </span>
+          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <Rocket size={10} className="shrink-0" />
+            {data.statusBadge.availability}
+          </span>
+        </motion.div>
+
+        {/* Summary — short hook */}
         <div className="mt-3 text-gray-600 text-sm leading-relaxed border-l-2 border-[#fca311] pl-3">
-          <p>{data.summary.split("\n\n")[0]}</p>
+          <p>{data.summary}</p>
         </div>
 
         {/* Contact Info */}
         <div className="mt-3 flex flex-wrap gap-3 text-xs text-gray-600">
-          <div className="flex items-center gap-1">
-            <MapPin size={12} className="text-[#fca311]" />
-            <span>{data.contacts.location}</span>
-          </div>
           <a
             href={CONTACT.MAILTO[locale]}
             className="flex items-center gap-1 hover:text-[#fca311] transition-colors"
@@ -60,8 +78,8 @@ export function MobileContent() {
         </div>
       </section>
 
-      {/* Why Me Section - Competitive Advantage */}
-      {data.whyMe && (
+      {/* ═══ WHY ME — Structured Bullet Cards ═══ */}
+      {data.whyMePoints && data.whyMePoints.length > 0 && (
         <section id="whyme" className="mb-8 scroll-mt-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -72,6 +90,47 @@ export function MobileContent() {
               {ui.whyMe}
             </div>
 
+            {/* Scannable bullet cards */}
+            <div className="space-y-2">
+              {data.whyMePoints.map((point, idx) => (
+                <motion.div
+                  key={point.title}
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.12 + idx * 0.06, duration: 0.3 }}
+                  className="p-3 rounded-xl bg-gradient-to-br from-[#fca311]/10 to-[#fca311]/5 border border-[#fca311]/20"
+                >
+                  <div className="flex items-start gap-2.5">
+                    <span className="text-xl leading-none mt-0.5 shrink-0" role="img" aria-hidden="true">
+                      {point.icon}
+                    </span>
+                    <div>
+                      <h4 className="text-xs font-bold text-[#0a192f] mb-0.5">
+                        {point.title}
+                      </h4>
+                      <p className="text-[10px] text-slate-800 leading-relaxed">
+                        {point.text}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </section>
+      )}
+
+      {/* Fallback: legacy whyMe paragraph */}
+      {data.whyMe && (!data.whyMePoints || data.whyMePoints.length === 0) && (
+        <section id="whyme" className="mb-8 scroll-mt-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.08, duration: 0.4 }}
+          >
+            <div className="inline-block bg-[#fca311] text-[#0a192f] px-3 py-1 rounded-r-full font-bold text-xs mb-4 -ml-4">
+              {ui.whyMe}
+            </div>
             <div className="p-3 rounded-xl bg-gradient-to-br from-[#fca311]/10 to-[#fca311]/5 border border-[#fca311]/20">
               <p className="text-gray-600 text-sm leading-relaxed">
                 {data.whyMe}
@@ -146,10 +205,10 @@ export function MobileContent() {
                   {exp.period}
                 </p>
                 <h3 className="font-bold text-gray-900 text-sm">{exp.title}</h3>
-                <p className="text-xs text-gray-500 italic mb-2">
+                <p className="text-xs text-gray-500 italic mb-3">
                   {exp.company}
                 </p>
-                <ul className="space-y-1 text-xs text-gray-600">
+                <ul className="space-y-2 text-xs text-gray-600">
                   {exp.description.slice(0, 2).map((desc, i) => (
                     <li key={i} className="flex gap-1.5">
                       <span className="text-[#fca311] mt-0.5">•</span>
@@ -253,7 +312,7 @@ export function MobileContent() {
         </motion.div>
       </section>
 
-      {/* Education */}
+      {/* ═══ EDUCATION — No course dates ═══ */}
       <section id="education" className="mb-8 scroll-mt-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -264,6 +323,10 @@ export function MobileContent() {
             {ui.education.toUpperCase()}
           </div>
 
+          {/* Higher Education */}
+          <h4 className="text-[10px] font-bold text-[#fca311] uppercase tracking-wider mb-2">
+            {ui.educationHigher}
+          </h4>
           <div className="relative pl-4">
             <div className="absolute left-0 top-1.5 w-1.5 h-1.5 rounded-full bg-[#fca311]" />
             <h3 className="font-bold text-gray-900 text-sm">
@@ -274,7 +337,7 @@ export function MobileContent() {
             </p>
           </div>
 
-          {/* Professional Development / Courses */}
+          {/* Professional Development / Courses — NO DATES */}
           {data.education.additional &&
             data.education.additional.length > 0 && (
               <div className="mt-4">

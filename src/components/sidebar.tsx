@@ -3,9 +3,7 @@ import { animate } from "framer-motion";
 
 import { motion } from "framer-motion";
 import {
-  MapPin,
   Mail,
-  Globe,
   Briefcase,
   GraduationCap,
   User,
@@ -17,7 +15,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
-import { resumeData, uiStrings } from "@/data/resume-data";
+import { uiStrings } from "@/data/resume-data";
 import {
   SOCIAL_LINKS,
   EXTERNAL_LINK_ATTRS,
@@ -27,7 +25,6 @@ import { PrintContacts } from "./print-contacts";
 
 export function Sidebar() {
   const { locale, toggleLocale } = useLanguage();
-  const data = resumeData[locale];
   const ui = uiStrings[locale];
 
   const navItems = [
@@ -86,13 +83,13 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="w-full md:w-[280px] md:fixed md:left-0 md:top-0 md:h-screen flex-shrink-0 bg-[var(--color-sidebar)] text-white p-6 md:py-6 md:px-6 flex flex-col gap-4 overflow-y-auto scrollbar-hide">
+    <aside className="w-full md:w-[280px] md:fixed md:left-0 md:top-0 md:h-screen flex-shrink-0 bg-[var(--color-sidebar)] text-white p-6 md:py-6 md:px-4 lg:px-6 flex flex-col gap-4 overflow-y-auto scrollbar-hide">
       {/* Language Toggle - AT TOP RIGHT */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.1 }}
-        className="flex justify-end items-center gap-2 print:hidden"
+        className="flex flex-col lg:flex-row items-end lg:items-center justify-end gap-2 print:hidden"
       >
         {/* Social Links */}
         <div className="flex items-center gap-2">
@@ -140,11 +137,6 @@ export function Sidebar() {
           </a>
           <a
             href={CONTACT.MAILTO[locale]}
-            onClick={(e) => {
-              // Fallback for some browsers where native mailto might fail
-              // but standard behavior is usually sufficient if href is correct.
-              // We'll keep it as a standard link for accessibility.
-            }}
             className="
               w-8 h-8 rounded-lg bg-[var(--color-accent)]/10 
               flex items-center justify-center text-[var(--color-accent)] 
@@ -158,7 +150,7 @@ export function Sidebar() {
           </a>
         </div>
 
-        <div className="w-px h-6 bg-white/10 mx-1" />
+        <div className="hidden lg:block w-px h-6 bg-white/10 mx-1" />
 
         <button
           onClick={toggleLocale}

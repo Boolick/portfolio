@@ -44,7 +44,7 @@ export function TimelineItem({
       </div>
 
       {/* Company */}
-      <h4 className="text-md italic text-[var(--color-muted)] mb-3">{company}</h4>
+      <h4 className="text-md italic text-[var(--color-muted)] mb-4">{company}</h4>
 
       {/* Description */}
       {description.length > 0 && (
@@ -52,7 +52,7 @@ export function TimelineItem({
           {isEducation ? (
             <p>{description[0]}</p>
           ) : (
-            <ul className="list-disc list-outside ml-4 space-y-1">
+            <ul className="list-disc list-outside ml-4 space-y-2">
               {description.slice(0, 3).map((item, idx) => (
                 <li key={idx}>{item}</li>
               ))}

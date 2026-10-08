@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, type MotionProps } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface SectionBadgeProps {
   children: React.ReactNode;

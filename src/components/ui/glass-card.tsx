@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { motion, type MotionProps } from 'framer-motion';
-import { cn } from '@/shared/styles';
+import { motion } from "framer-motion";
+import { cn } from "@/shared/styles";
 
-type GlassVariant = 'light' | 'dark' | 'accent';
+type GlassVariant = "light" | "dark" | "accent";
 
 interface GlassCardProps {
   children: React.ReactNode;
@@ -13,7 +13,6 @@ interface GlassCardProps {
   /** Animation delay in seconds */
   delay?: number;
   className?: string;
-  as?: 'div' | 'article' | 'section';
 }
 
 const variantStyles: Record<GlassVariant, string> = {
@@ -40,11 +39,10 @@ const variantStyles: Record<GlassVariant, string> = {
  */
 export function GlassCard({
   children,
-  variant = 'light',
+  variant = "light",
   hover = true,
   delay = 0,
-  className = '',
-  as: Component = 'div',
+  className = "",
 }: GlassCardProps) {
   return (
     <motion.div
@@ -52,10 +50,10 @@ export function GlassCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.3 }}
       className={cn(
-        'group p-4 rounded-xl transition-all duration-300',
+        "group p-4 rounded-xl transition-all duration-300 min-w-0 overflow-hidden",
         variantStyles[variant],
-        hover && 'hover:shadow-lg hover:scale-[1.02] cursor-pointer',
-        className
+        hover && "hover:shadow-lg hover:scale-[1.02] cursor-pointer",
+        className,
       )}
     >
       {children}

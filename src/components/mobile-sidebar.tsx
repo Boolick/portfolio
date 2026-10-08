@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, animate } from "framer-motion";
+import { animate } from "framer-motion";
 import {
   User,
   Briefcase,
@@ -14,7 +14,6 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
-import { resumeData } from "@/data/resume-data";
 import { Button } from "./ui/button";
 import { cn } from "@/shared/styles/utils";
 import {
@@ -29,24 +28,23 @@ interface NavItem {
   sectionId: string;
 }
 
+const NAV_ITEMS: NavItem[] = [
+  { icon: User, label: "About", sectionId: "about" },
+  { icon: Sparkles, label: "Why Me", sectionId: "whyme" },
+  { icon: Code, label: "Skills", sectionId: "skills" },
+  { icon: Briefcase, label: "Experience", sectionId: "experience" },
+  { icon: FolderKanban, label: "Projects", sectionId: "projects" },
+  { icon: GraduationCap, label: "Education", sectionId: "education" },
+];
+
 export function MobileSidebar() {
   const { locale, toggleLocale } = useLanguage();
-  const data = resumeData[locale];
   const [activeSection, setActiveSection] = useState<string>("about");
-
-  const navItems: NavItem[] = [
-    { icon: User, label: "About", sectionId: "about" },
-    { icon: Sparkles, label: "Why Me", sectionId: "whyme" },
-    { icon: Code, label: "Skills", sectionId: "skills" },
-    { icon: Briefcase, label: "Experience", sectionId: "experience" },
-    { icon: FolderKanban, label: "Projects", sectionId: "projects" },
-    { icon: GraduationCap, label: "Education", sectionId: "education" },
-  ];
 
   // Track active section on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const sections = navItems.map((item) => ({
+      const sections = NAV_ITEMS.map((item) => ({
         id: item.sectionId,
         element: document.getElementById(item.sectionId),
       }));
@@ -112,7 +110,7 @@ export function MobileSidebar() {
         <div className="w-8 h-px bg-white/10 my-1" />
         {/* Navigation Icons */}
         <nav className="flex-1 flex flex-col items-center gap-2 overflow-y-auto w-full px-1 scrollbar-hide">
-          {navItems.map((item, idx) => {
+          {NAV_ITEMS.map((item) => {
             const Icon = item.icon;
             const isActive = activeSection === item.sectionId;
             return (

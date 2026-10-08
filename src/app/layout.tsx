@@ -1,44 +1,35 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { LanguageProvider } from "@/context/language-context";
-import { resumeData } from "@/data/resume-data";
-import { ConsoleEasterEgg } from "@/components/console-easter-egg";
-import { RefTracker } from "@/components/analytics/ref-tracker";
-
-const geistSans = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-geist-mono",
-  display: "swap",
-});
-
-// Use English data as the default for metadata
-const defaultData = resumeData.en;
+import { LanguageProvider } from "@/features/language-switcher";
+import { ThemeProvider } from "@/features/theme-toggle";
+import { AuthProvider } from "@/features/auth";
+import { Toaster } from "@/shared/ui";
+import { ConsoleEasterEgg } from "@/features/easter-egg";
+import { RefTracker } from "@/features/analytics";
 
 export const metadata: Metadata = {
-  title: `${defaultData.name} | ${defaultData.title}`,
-  description: defaultData.summary,
+  title: "Aliaksandr Bullo | Fullstack Developer (Node.js, NestJS, React, TypeScript)",
+  description:
+    "Fullstack Software Engineer focused on React, Next.js, TypeScript and Node.js with an 11-year technical engineering background. Scalable FSD architecture, strict type safety, and real-time systems.",
   keywords: [
-    "Frontend Developer",
+    "Fullstack Developer",
+    "Node.js Developer",
+    "NestJS Developer",
     "React Developer",
     "Next.js Developer",
     "TypeScript",
+    "PostgreSQL",
+    "Redis",
+    "Docker",
     "WebSocket",
+    "Supabase",
     "Telegram Mini Apps",
-    "React Ecosystem",
-    "SPA",
-    "SSR",
   ],
-  authors: [{ name: defaultData.name }],
+  authors: [{ name: "Aliaksandr Bullo" }],
   openGraph: {
-    title: `${defaultData.name} | ${defaultData.title.split("·")[0].trim()}`,
-    description: defaultData.summary,
+    title: "Aliaksandr Bullo | Fullstack Developer",
+    description:
+      "Fullstack Software Engineer (React, Next.js, Node.js, NestJS, TypeScript). Scalable client-side architecture and robust server-side logic.",
     type: "profile",
   },
   robots: {
@@ -46,7 +37,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   icons: {
-    icon: "/favicon.svg",
+    icon: "/favicon.ico",
   },
 };
 
@@ -56,16 +47,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} scroll-smooth`}
-    >
-      <body className="antialiased m-0 p-0 font-sans">
-        <LanguageProvider>
-          <ConsoleEasterEgg />
-          <RefTracker />
-          {children}
-        </LanguageProvider>
+    <html lang="en" suppressHydrationWarning className="scroll-smooth">
+      <body className="antialiased m-0 p-0 font-sans bg-background text-foreground min-h-screen">
+        <AuthProvider>
+          <ThemeProvider>
+            <LanguageProvider>
+              <ConsoleEasterEgg />
+              <RefTracker />
+              {children}
+              <Toaster />
+            </LanguageProvider>
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

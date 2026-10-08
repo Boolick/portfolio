@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Download } from "lucide-react";
+import { Download, MapPin, Briefcase, Rocket } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 import { resumeData, uiStrings } from "@/data/resume-data";
 import { TimelineItem } from "./ui/timeline-item";
@@ -27,7 +27,7 @@ export function MainContent() {
 
   return (
     <main className="flex-grow bg-[var(--color-surface)] p-6 md:p-10 lg:p-12">
-      {/* Header with Avatar on RIGHT */}
+      {/* ═══ HERO HEADER — Sales Funnel First Screen ═══ */}
       <motion.header
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -35,7 +35,7 @@ export function MainContent() {
         className="mb-10"
         id="desktop-about"
       >
-        <div className="flex justify-between items-start gap-6">
+        <div className="flex flex-col md:flex-row justify-between items-start gap-6">
           {/* Left: Name & Title */}
           <div className="flex-1">
             <h1 className="text-4xl md:text-5xl font-bold text-[var(--color-primary)] tracking-tight leading-tight">
@@ -49,7 +49,31 @@ export function MainContent() {
               {data.title}
             </p>
 
-            {/* Download Button - BELOW title */}
+            {/* ── Status Badges — instant HR answers ── */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.4 }}
+              className="flex flex-wrap items-center gap-2.5 mt-4 print:hidden"
+            >
+              {/* Location + Timezone */}
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-[var(--color-accent)]/10 text-[var(--color-accent)] border border-[var(--color-accent)]/20">
+                <MapPin size={13} className="shrink-0" />
+                {data.statusBadge.location}
+              </span>
+              {/* Work Format */}
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-[var(--color-primary)]/5 text-[var(--color-primary)] border border-[var(--color-primary)]/10">
+                <Briefcase size={13} className="shrink-0" />
+                {data.statusBadge.format}
+              </span>
+              {/* Availability */}
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                <Rocket size={13} className="shrink-0" />
+                {data.statusBadge.availability}
+              </span>
+            </motion.div>
+
+            {/* Download Button */}
             <motion.button
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -66,12 +90,12 @@ export function MainContent() {
               aria-label={ui.downloadPdf}
             >
               <Download size={16} />
-              <span>Download PDF</span>
+              <span>{ui.downloadPdf}</span>
             </motion.button>
           </div>
 
           {/* Right: Avatar - with glow effect */}
-          <div className="avatar-wrapper mr-12 lg:mr-16">
+          <div className="avatar-wrapper mr-0 md:mr-12 lg:mr-16 flex-shrink-0">
             <Avatar
               initials={initials}
               size="xl"
@@ -81,7 +105,7 @@ export function MainContent() {
           </div>
         </div>
 
-        {/* Summary - with gradient border */}
+        {/* Summary - short hook */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -93,12 +117,12 @@ export function MainContent() {
             py-3 rounded-r-lg
           "
         >
-          <p>{data.summary.split("\n\n")[0]}</p>
+          <p>{data.summary}</p>
         </motion.div>
       </motion.header>
 
-      {/* Why Me Section - Competitive Advantage */}
-      {data.whyMe && (
+      {/* ═══ WHY ME — Structured Bullet Cards ═══ */}
+      {data.whyMePoints && data.whyMePoints.length > 0 && (
         <motion.section
           id="desktop-whyme"
           initial={{ opacity: 0, y: 30 }}
@@ -108,6 +132,48 @@ export function MainContent() {
         >
           <SectionBadge delay={0.08}>{ui.whyMe}</SectionBadge>
 
+          {/* Scannable bullet cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {data.whyMePoints.map((point, idx) => (
+              <GlassCard
+                key={point.title}
+                variant="accent"
+                delay={0.12 + idx * 0.06}
+                hover={false}
+              >
+                <div className="flex items-start gap-3">
+                  <span
+                    className="text-2xl leading-none mt-0.5 shrink-0"
+                    role="img"
+                    aria-hidden="true"
+                  >
+                    {point.icon}
+                  </span>
+                  <div>
+                    <h4 className="text-sm font-bold text-[var(--color-primary)] mb-1">
+                      {point.title}
+                    </h4>
+                    <p className="text-xs text-slate-800 leading-relaxed">
+                      {point.text}
+                    </p>
+                  </div>
+                </div>
+              </GlassCard>
+            ))}
+          </div>
+        </motion.section>
+      )}
+
+      {/* Fallback: legacy whyMe paragraph (print, or if no points defined) */}
+      {data.whyMe && (!data.whyMePoints || data.whyMePoints.length === 0) && (
+        <motion.section
+          id="desktop-whyme"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.12, duration: 0.5 }}
+          className="mb-10 scroll-mt-6"
+        >
+          <SectionBadge delay={0.08}>{ui.whyMe}</SectionBadge>
           <GlassCard variant="accent" delay={0.1}>
             <p className="text-[var(--color-foreground)]/80 leading-relaxed">
               {data.whyMe}
@@ -194,7 +260,7 @@ export function MainContent() {
       {/* Projects */}
       <ProjectsSection />
 
-      {/* Education */}
+      {/* ═══ EDUCATION — No course dates, no switcher trigger ═══ */}
       <motion.section
         id="desktop-education"
         initial={{ opacity: 0, y: 30 }}
@@ -203,6 +269,11 @@ export function MainContent() {
         className="mb-10 scroll-mt-6"
       >
         <SectionBadge delay={0.45}>{ui.education}</SectionBadge>
+
+        {/* Higher Education */}
+        <h4 className="text-sm font-bold text-[var(--color-primary)] mb-3">
+          {ui.educationHigher}
+        </h4>
         <div className="relative timeline-line pl-2 space-y-6">
           <motion.div
             initial={{ opacity: 0, x: 20 }}
@@ -219,7 +290,7 @@ export function MainContent() {
           </motion.div>
         </div>
 
-        {/* Professional Development / Courses */}
+        {/* Professional Development / Courses — NO DATES */}
         {data.education.additional && data.education.additional.length > 0 && (
           <div className="mt-6">
             <h4 className="text-sm font-bold text-[var(--color-primary)] mb-3">
@@ -295,3 +366,4 @@ export function MainContent() {
     </main>
   );
 }
+

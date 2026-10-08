@@ -26,6 +26,18 @@ export interface ProjectItem {
   tags: string[];
 }
 
+export interface StatusBadge {
+  location: string;
+  format: string;
+  availability: string;
+}
+
+export interface WhyMePoint {
+  icon: string;
+  title: string;
+  text: string;
+}
+
 export interface ResumeData {
   name: string;
   title: string;
@@ -35,8 +47,11 @@ export interface ResumeData {
     telegram: string;
     location: string;
   };
+  statusBadge: StatusBadge;
   summary: string;
-  whyMe?: string; // "Why am I the best?" - competitive advantage section
+  whyMe?: string;
+  whyMeIntro?: string;
+  whyMePoints?: WhyMePoint[];
   experience: ExperienceItem[];
   skills: SkillCategory[];
   projects: ProjectItem[];
@@ -53,342 +68,436 @@ export interface ResumeData {
 }
 
 const resumeDataEN: ResumeData = {
-  name: "Alexander Bullo",
-  title: "Frontend Developer · React · Next.js · TypeScript",
+  name: "Aliaksandr Bullo",
+  title: "Fullstack Developer (Node.js, NestJS, React, TypeScript)",
   contacts: {
     email: CONTACT.EMAIL.en,
     linkedin: SOCIAL_LINKS.LINKEDIN,
     telegram: SOCIAL_LINKS.TELEGRAM,
     location: CONTACT.LOCATION,
   },
-  summary: `Frontend Developer with 3+ years of experience in the React ecosystem. Specializing in SPA/SSR applications, real-time functionality, and Telegram Mini Apps. Currently developing two commercial projects with proven production results.`,
-  whyMe: `My approach to frontend development extends far beyond building visual interfaces. With an 11-year background in engineering, I view web applications as complex, interconnected systems. I bring engineering discipline to the codebase: designing scalable client-side architecture, enforcing strict type safety, and managing complex business logic. For me, code is a tool for building reliable, predictable, and fault-tolerant products.`,
+  statusBadge: {
+    location: "Hanoi, Vietnam (UTC+7)",
+    format: "Remote · Full-time / B2B Contract",
+    availability: "Open to offers",
+  },
+  summary: `Fullstack engineer focused on React, Next.js and TypeScript, with hands-on Node.js/NestJS/PostgreSQL backend experience. 11-year industrial engineering leadership background bringing systems discipline, scalable FSD architecture, and fault-tolerant real-time UX.`,
+  whyMe: `My approach extends far beyond building visual components. With an 11-year industrial engineering background, I architect web applications as mission-critical systems: designing scalable FSD architecture, strict type contracts, reliable server-side data models, and automated CI/CD pipelines.`,
+  whyMeIntro: `Fullstack Developer with an 11-year technical background. I don't just build interfaces — I approach web applications as complex engineering systems.`,
+  whyMePoints: [
+    {
+      icon: "🛠",
+      title: "Architectural Approach",
+      text: "Design scalable client-side architecture (FSD), enforce strict typing, and build transparent CI/CD processes.",
+    },
+    {
+      icon: "⚡",
+      title: "Performance Focus",
+      text: "Accelerate interface loading (LCP < 1.8s) and design real-time communications (WebSockets / Supabase Realtime) with near-zero latency.",
+    },
+    {
+      icon: "📈",
+      title: "Business-Oriented",
+      text: "Transform business workflows into digital products, integrating Telegram Stars payments and headless CMS platforms.",
+    },
+    {
+      icon: "🤖",
+      title: "AI-Assisted Delivery",
+      text: "Utilize AI workflows (Claude Code, Cursor, Codex) to accelerate feature implementation, write comprehensive tests, and debug edge cases.",
+    },
+  ],
   experience: [
     {
-      title: "Frontend Developer",
-      company: "DEXSA / IPU (Telegram Mini App)",
+      title: "Fullstack & Product Engineer (Contract)",
+      company: "DKMline — B2B E-commerce Platform",
       location: "Remote",
-      period: "2025 – Present",
+      period: "Apr 2026 — Present",
       description: [
-        "Built frontend architecture for Telegram Mini App with native-like performance",
-        "Developed 30+ UI components following Feature-Sliced Design",
-        "Created notification pipeline: Supabase → Next.js API → Telegram Bot (98% delivery, <3s latency)",
-        "Resolved iOS WebView-specific issues (video upload, navigation, safe area)",
-        "Integrating Telegram Stars payment system for monetization",
+        "Built the platform on Next.js App Router (SSR, Server Actions) with Payload CMS and PostgreSQL; data validation with Zod.",
+        "Cut LCP from 2.8s to 1.8s via image optimization, lazy loading and server rendering; shipped SEO infrastructure (sitemap, robots, Schema.org).",
+        "Configured Redis caching for catalog data to reduce database load; containerized the stack with Docker Compose and deployed to a VPS.",
+        "Replaced offline order intake with a digital funnel and Telegram Bot API notifications.",
       ],
       stack: [
         "Next.js",
+        "React",
         "TypeScript",
-        "TailwindCSS",
-        "TanStack Query",
-        "Supabase",
+        "Tailwind CSS",
+        "Payload CMS",
+        "PostgreSQL",
+        "Redis",
+        "Docker",
+        "Zod",
       ],
       isCommercial: true,
     },
     {
-      title: "Frontend Developer",
-      company: "Tower Empire (WebSocket Multiplayer)",
+      title: "Fullstack / Frontend Developer (React / Next.js)",
+      company: "DEXSA — Telegram Mini App & Social Platform",
       location: "Remote",
-      period: "2023 – Present",
+      period: "Jun 2025 — Apr 2026",
       description: [
-        "Migrated entire codebase from JavaScript to TypeScript — reduced production bugs by 40%",
-        "Designed WebSocket architecture: state sync, reconnect logic, disconnect handling",
-        "Developed second game 'Hire for Fun' — full cycle from architecture to deployment",
-        "Optimized API calls via RTK Query: eliminated duplication, improved caching",
-        "Participated in code reviews and onboarding new developers",
+        "Built the client architecture on React and FSD: isolated modules, server cache (TanStack Query) separated from UI state (Zustand); list and table virtualization.",
+        "Implemented the Telegram Stars checkout flow: transaction states, external API confirmations, retries, strict Zod payload validation.",
+        "Integrated Supabase Realtime (optimistic updates, infinite queries, retry logic) so the UI updates without reloads.",
+        "Co-designed API contracts with the backend team; wrote backend endpoints and a timezone-aware notification service (SQL, pg_cron, Telegram Bot API).",
+        "Adapted the UI to Telegram WebViews on iOS and Android (safe areas, on-screen keyboard, streaming video); unit-tested critical business logic.",
+      ],
+      stack: [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "TanStack Query",
+        "Zustand",
+        "FSD",
+        "Zod",
+        "NestJS / FastAPI",
+        "PostgreSQL (Supabase)",
+        "Telegram Bot API",
+      ],
+      isCommercial: true,
+    },
+    {
+      title: "Core Frontend Engineer / Architecture Owner",
+      company: "Tower Empire — Real-Time Multiplayer Web Platform",
+      location: "Remote",
+      period: "May 2023 — Jun 2025",
+      description: [
+        "Led legacy migration from JavaScript to TypeScript with unified types for API and WebSocket payloads; production regression bugs dropped by 40%.",
+        "Designed the WebSocket layer from scratch: event protocol, automatic reconnect with exponential backoff, heartbeats, session recovery; latency under 100ms at peak load.",
+        "Set up the data layer with Redux Toolkit, RTK Query and Zustand: normalized cache, optimistic updates, no duplicate requests.",
+        "Built CI/CD (GitHub Actions, GitLab CI): linting, builds, Vitest and Playwright E2E on critical flows; faster Vite builds via code splitting and dynamic imports.",
       ],
       stack: [
         "React",
         "TypeScript",
+        "WebSockets",
         "Redux Toolkit",
         "RTK Query",
-        "WebSocket",
-        "Bootstrap 5",
+        "Zustand",
+        "Vite",
+        "Vitest",
+        "Playwright",
+        "GitHub Actions",
+        "GitLab CI",
+        "Nginx",
       ],
       isCommercial: true,
-    },
-    {
-      title: "Frontend Developer",
-      company: "Freelance & Contract Software Engineering",
-      location: "Remote",
-      period: "2022 – 2023",
-      description: [
-        "Delivered 10+ web solutions for small businesses and private clients",
-        "Specialized in landing pages, SPAs with authentication, and API integration",
-        "Implemented modern practices: Feature-Sliced Design, Git-flow workflows, CI/CD pipelines",
-      ],
-      stack: ["JavaScript", "React", "Redux", "HTML5", "CSS3/SCSS"],
-      isCommercial: false,
     },
   ],
   skills: [
     {
-      name: "Core",
-      skills: ["React 18+", "Next.js 15/16", "TypeScript", "TailwindCSS"],
+      name: "Frontend Core",
+      skills: ["React 18/19", "Next.js 14-16", "TypeScript", "JavaScript ES6+", "Vite", "Server Actions", "SSR/SSG/ISR"],
     },
     {
-      name: "State & Real-time",
-      skills: ["Redux Toolkit", "TanStack Query", "WebSocket", "Zustand"],
+      name: "UI & Styling",
+      skills: ["Tailwind CSS v4", "Radix UI", "Framer Motion", "SCSS", "Design Systems", "Responsive Layouts"],
     },
     {
-      name: "Backend & Telegram",
-      skills: ["REST API", "Supabase", "TG Mini Apps", "aiogram"],
+      name: "State & Data",
+      skills: ["TanStack Query", "Redux Toolkit / RTK Query", "Zustand", "WebSockets", "Supabase Realtime", "Zod"],
     },
     {
-      name: "Tools",
-      skills: ["Git", "Docker", "Vercel", "Figma"],
+      name: "Node.js & Backend",
+      skills: ["Node.js", "NestJS", "FastAPI (Python)", "PostgreSQL", "Redis", "REST APIs", "SQL"],
+    },
+    {
+      name: "Architecture & Quality",
+      skills: ["Feature-Sliced Design (FSD)", "SOLID", "Code Review", "Git Flow", "Core Web Vitals (LCP)"],
+    },
+    {
+      name: "DevOps & Tooling",
+      skills: ["Docker", "Docker Compose", "GitHub Actions", "GitLab CI", "Nginx", "VPS", "Vercel"],
+    },
+    {
+      name: "Testing",
+      skills: ["Playwright (E2E)", "Vitest", "Jest", "React Testing Library"],
+    },
+    {
+      name: "AI & Productivity",
+      skills: ["Claude Code", "Cursor", "MCP Tools", "Task Decomposition", "Test Generation"],
     },
   ],
   projects: [
     {
-      id: "tower-empire",
-      title: "Tower Empire",
-      description:
-        "Online multiplayer board-game platform with real-time WebSocket sync, reconnect logic, and RTK Query caching. Role: Front Lead",
-      image: "/projects/tower-empire.png",
-      link: "https://tower-empire.ru/",
-      tags: ["React", "TypeScript", "WebSocket", "RTK Query"],
-    },
-    {
-      id: "ipu-app",
-      title: "IPU · Telegram Mini App",
-      description:
-        "Social promises platform with gamification and Telegram Stars payments. 30+ components, real-time notifications, native-like UX",
-      image: "/projects/ipu.png",
-      link: "https://t.me/ipu_promise_bot",
-      tags: ["Next.js", "TypeScript", "TailwindCSS", "Supabase"],
-    },
-    {
       id: "dkmline",
       title: "DKMline",
       description:
-        "Corporate website for an industrial packaging company. Turnkey development: catalog, delivery calculator, and SEO optimization",
+        "B2B E-commerce & industrial packaging platform: Next.js 16 App Router, Payload CMS 3, PostgreSQL, Redis, LCP reduced from 2.8s to 1.8s.",
       image: "/projects/dkmline.png",
       link: "https://dkmline.netlify.app/",
-      tags: ["Next.js", "TypeScript", "TailwindCSS", "SEO"],
+      tags: ["Next.js 16", "React", "TypeScript", "PostgreSQL", "Redis", "Payload CMS 3", "Docker"],
+    },
+    {
+      id: "dexsa",
+      title: "DEXSA · Telegram Mini App",
+      description:
+        "Fast-growing Telegram Mini App startup: payment workflows with Telegram Stars, Supabase Realtime data sync, and resilient mobile UI.",
+      image: "/projects/dexsa.png",
+      link: "https://t.me/ipu_promise_bot",
+      tags: ["Next.js", "React", "TypeScript", "TanStack Query", "Zustand", "Supabase Realtime"],
+    },
+    {
+      id: "tower-empire",
+      title: "Tower Empire",
+      description:
+        "Real-time multiplayer gaming platform: sub-100ms WebSocket synchronization, complete migration to strict TypeScript, automated CI/CD.",
+      image: "/projects/tower-empire.png",
+      link: "https://tower-empire.ru/",
+      tags: ["React", "TypeScript", "WebSocket", "Redux Toolkit", "RTK Query", "Zustand"],
     },
     {
       id: "portfolio",
-      title: "Portfolio & CV",
+      title: "Bento Portfolio & CV",
       description:
-        "This interactive resume site with Bento Grid layout, bilingual support, dark theme, and PDF export",
+        "Bilingual portfolio and CMS dashboard built on Next.js 16 App Router, React 19, Tailwind CSS v4, Supabase RLS, and Framer Motion.",
       image: "/projects/portfolio.png",
       link: "https://resumeportfoliocv.netlify.app/",
-      tags: ["Next.js", "TypeScript", "Framer Motion", "TailwindCSS"],
+      tags: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS v4", "Supabase"],
     },
   ],
   education: {
-    degree: "Higher Technical Education",
-    institution: "Belarusian State Technological University (BSTU)",
-    year: "2011",
+    degree: "Higher Technical / Engineering Degree (Process Engineer)",
+    institution: "Belarusian State Technological University (BSTU), Minsk",
+    year: "2006 — 2011",
     additional: [
-      "RS School — JavaScript/Frontend (Stage 1-2-3) · 2023–2024",
-      "SkyPro — Frontend Developer · 2022–2023",
+      "RS School — JavaScript/Frontend (Stage 1-2-3): strict merit-based ecosystem, TypeScript, React, complex Git workflows",
+      "SkyPro — Frontend Developer: comprehensive training in modern core frontend, component architecture",
     ],
   },
   languages: [
-    { name: "English", level: "B2 (documentation, correspondence, calls)" },
-    { name: "Russian", level: "Native" },
-    { name: "Belarusian", level: "Native" },
+    {
+      name: "Russian",
+      level: "Native / C2",
+    },
+    {
+      name: "English",
+      level: "B2 (Working proficiency, documentation, code review)",
+    },
+    {
+      name: "Belarusian",
+      level: "Native",
+    },
   ],
 };
 
 const resumeDataRU: ResumeData = {
   name: "Александр Булло",
-  title: "Frontend Developer · React · Next.js · TypeScript",
+  title: "Fullstack Developer · React / Next.js / Node.js / AI",
   contacts: {
     email: CONTACT.EMAIL.ru,
     linkedin: SOCIAL_LINKS.LINKEDIN,
     telegram: SOCIAL_LINKS.TELEGRAM,
     location: CONTACT.LOCATION_RU,
   },
-  summary: `Frontend-разработчик с 3+ годами опыта в React-экосистеме. Специализируюсь на SPA/SSR-приложениях, real-time функционале и Telegram Mini Apps. Сейчас развиваю два коммерческих проекта с подтверждёнными результатами.`,
-  whyMe: `Мой подход к фронтенду выходит далеко за рамки создания визуальных интерфейсов. Благодаря 11-летнему бэкграунду в инженерии, я смотрю на веб-приложения как на сложные взаимосвязанные механизмы. Я привношу системный подход в разработку: проектирую масштабируемую архитектуру на клиенте, выстраиваю строгую типизацию и сложную бизнес-логику. Для меня код — это инструмент создания надежных, предсказуемых и отказоустойчивых продуктов.`,
+  statusBadge: {
+    location: "Ханой, Вьетнам (UTC+7)",
+    format: "Удалённо · Full-time / Контракт",
+    availability: "Открыт к предложениям",
+  },
+  summary: `Fullstack-разработчик (React, Next.js, Node.js, TypeScript) с продуктовым подходом: проектирую и довожу веб-приложения и Telegram Mini Apps от архитектуры до деплоя в прод. FSD, SSR/SSG, real-time WebSockets/Supabase, Docker, Redis, CI/CD. 11 лет руководил инженерными процессами на производстве.`,
+  whyMe: `Мой подход выходит далеко за рамки вёрстки компонентов. Опираясь на 11-летний опыт руководства инженерными процессами, я подхожу к веб-приложениям как к надёжным системам: масштабируемая архитектура FSD, строгая типизация, предсказуемый бэкенд и автоматизация релизов.`,
+  whyMeIntro: `Fullstack-разработчик с 11-летним инженерным бэкграундом. Я подхожу к разработке веб-приложений как к созданию надёжных инженерных систем.`,
+  whyMePoints: [
+    {
+      icon: "🛠",
+      title: "Архитектурный подход",
+      text: "Проектирование масштабируемой клиентской архитектуры (FSD), строгая типизация и прозрачный CI/CD.",
+    },
+    {
+      icon: "⚡",
+      title: "Фокус на производительности",
+      text: "Ускорение загрузки (LCP < 1.8s) и проектирование real-time коммуникаций (WebSockets / Supabase) с минимальной задержкой.",
+    },
+    {
+      icon: "📈",
+      title: "Продуктовый фокус",
+      text: "Перевод офлайн-процессов в цифровые воронки, интеграция Telegram Stars и работа с Headless CMS.",
+    },
+    {
+      icon: "🤖",
+      title: "AI-ускорение разработки",
+      text: "Ежедневное применение Claude Code, Cursor и MCP для быстрой декомпозиции, написания тестов и отладки.",
+    },
+  ],
   experience: [
     {
-      title: "Frontend Developer",
-      company: "DEXSA / IPU (Telegram Mini App)",
+      title: "Fullstack & Product Engineer (проектная работа)",
+      company: "DKMline — B2B E-commerce Platform",
       location: "Удалённо",
-      period: "2025 — по настоящее время",
+      period: "Апрель 2026 — настоящее время",
       description: [
-        "Разработал архитектуру фронтенда для Telegram Mini App с нативной производительностью",
-        "Реализовал 30+ UI-компонентов по Feature-Sliced Design",
-        "Создал систему уведомлений: Supabase → Next.js API → Telegram Bot (доставка 98%, latency <3 сек)",
-        "Решаю специфичные баги iOS WebView (video upload, navigation, safe area)",
-        "Интегрирую платёжную систему Telegram Stars для монетизации",
+        "Разработал платформу на Next.js App Router (SSR, Server Actions) с Payload CMS и PostgreSQL; валидация данных через Zod.",
+        "Снизил LCP с 2.8s до 1.8s: оптимизация изображений, lazy loading, серверный рендеринг; SEO-инфраструктура (sitemap, robots, Schema.org).",
+        "Настроил Redis-кэширование каталога, снизив нагрузку на БД; контейнеризировал окружение (Docker Compose) и развернул на VPS.",
+        "Перевёл офлайн-приём заказов в цифровую воронку с уведомлениями через Telegram Bot API.",
       ],
       stack: [
         "Next.js",
+        "React",
         "TypeScript",
-        "TailwindCSS",
-        "TanStack Query",
-        "Supabase",
+        "Tailwind CSS",
+        "Payload CMS",
+        "PostgreSQL",
+        "Redis",
+        "Docker",
+        "Zod",
       ],
       isCommercial: true,
     },
     {
-      title: "Frontend Developer",
-      company: "Tower Empire (WebSocket Multiplayer)",
+      title: "Fullstack / Frontend Developer (React / Next.js)",
+      company: "DEXSA — Telegram Mini App & Social Platform",
       location: "Удалённо",
-      period: "2023 — по настоящее время",
+      period: "Июнь 2025 — Апрель 2026",
       description: [
-        "Провёл полную миграцию codebase с JavaScript на TypeScript — снизил количество багов на 40%",
-        "Спроектировал WebSocket-архитектуру: синхронизация состояния, reconnect-логика, обработка disconnect",
-        "Разработал вторую игру «Найм по фану» — полный цикл от архитектуры до деплоя",
-        "Оптимизировал запросы через RTK Query: устранил дублирование, улучшил кеширование",
-        "Участвовал в код-ревью и онбординге новых разработчиков",
+        "Построил клиентскую архитектуру на React и FSD: изолированные модули, серверный кэш (TanStack Query) отдельно от UI-стейта (Zustand); виртуализация больших списков и таблиц.",
+        "Реализовал checkout-flow для Telegram Stars: состояния транзакций, подтверждения от внешнего API, ретраи, строгая валидация через Zod.",
+        "Подключил Supabase Realtime (optimistic updates, infinite queries, retry-логика) — интерфейс обновляется без перезагрузок.",
+        "Совместно с бэкенд-командой согласовывал контракты API и писал backend-эндпоинты и сервис уведомлений с учётом часовых поясов (SQL, pg_cron, Telegram Bot API).",
+        "Адаптировал интерфейс под WebView Telegram на iOS и Android: safe-area, экранная клавиатура, потоковое видео; покрыл unit-тестами критичную бизнес-логику.",
+      ],
+      stack: [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "TanStack Query",
+        "Zustand",
+        "FSD",
+        "Zod",
+        "NestJS / FastAPI",
+        "PostgreSQL (Supabase)",
+        "Telegram Bot API",
+      ],
+      isCommercial: true,
+    },
+    {
+      title: "Core Frontend Engineer / Architecture Owner",
+      company: "Tower Empire — Real-Time Multiplayer Web Platform",
+      location: "Удалённо",
+      period: "Май 2023 — Июнь 2025",
+      description: [
+        "Провёл миграцию легаси-кодовой базы с JavaScript на TypeScript: единые типы для API и WebSocket-сообщений; число регрессионных багов в продакшене снизилось на 40%.",
+        "Разработал WebSocket-слой с нуля: протокол событий, автоматический реконнект с backoff, heartbeats, восстановление сессий; задержка <100ms при пиковой нагрузке.",
+        "Настроил слой данных с Redux Toolkit, RTK Query и Zustand: нормализованный кэш, оптимистичные обновления, отсутствие дублирующих запросов.",
+        "Построил CI/CD (GitHub Actions, GitLab CI): линтинг, сборка, Vitest и Playwright E2E на критичных сценариях; оптимизация сборки Vite через code splitting.",
       ],
       stack: [
         "React",
         "TypeScript",
+        "WebSockets",
         "Redux Toolkit",
         "RTK Query",
-        "WebSocket",
-        "Bootstrap 5",
+        "Zustand",
+        "Vite",
+        "Vitest",
+        "Playwright",
+        "GitHub Actions",
+        "GitLab CI",
+        "Nginx",
       ],
       isCommercial: true,
-    },
-    {
-      title: "Frontend Developer",
-      company: "Фриланс и контрактная разработка",
-      location: "Удалённо",
-      period: "2022 — 2024",
-      description: [
-        "Реализовал 10+ веб-решений для малого бизнеса и частных клиентов",
-        "Специализация: лендинги, SPA с авторизацией и интеграцией с API",
-        "Внедрил современные практики: Feature-Sliced Design, Git-flow, CI/CD",
-      ],
-      stack: ["JavaScript", "React", "Redux", "HTML5", "CSS3/SCSS"],
-      isCommercial: false,
     },
   ],
   skills: [
     {
-      name: "Core",
-      skills: [
-        "JavaScript",
-        "React",
-        "Next.js 15/16",
-        "TypeScript",
-        "TailwindCSS",
-      ],
+      name: "Frontend",
+      skills: ["React 18/19", "Next.js 14-16", "TypeScript", "JavaScript ES6+", "Vite", "Server Actions", "SSR/SSG/ISR"],
     },
     {
-      name: "State & Real-time",
-      skills: ["Redux Toolkit", "TanStack Query", "WebSocket", "Zustand"],
+      name: "UI и стили",
+      skills: ["Tailwind CSS v4", "Radix UI", "Framer Motion", "SCSS", "Дизайн-системы", "Адаптивная вёрстка"],
     },
     {
-      name: "Backend & Telegram",
-      skills: ["REST API", "Supabase", "TG Mini Apps", "aiogram"],
+      name: "Состояние и данные",
+      skills: ["TanStack Query", "Redux Toolkit / RTK Query", "Zustand", "WebSockets", "Supabase Realtime", "Zod"],
     },
     {
-      name: "Инструменты",
-      skills: ["Git", "Docker", "Figma"],
+      name: "Node.js и бэкенд",
+      skills: ["Node.js", "NestJS", "FastAPI (Python)", "PostgreSQL", "Redis", "REST APIs", "SQL"],
+    },
+    {
+      name: "Архитектура",
+      skills: ["Feature-Sliced Design (FSD)", "SOLID", "Code Review", "Git Flow", "Core Web Vitals (LCP)"],
+    },
+    {
+      name: "CI/CD и инфраструктура",
+      skills: ["Docker", "Docker Compose", "GitHub Actions", "GitLab CI", "Nginx", "VPS", "Vercel"],
+    },
+    {
+      name: "Тестирование",
+      skills: ["Playwright (E2E)", "Vitest", "Jest", "React Testing Library"],
+    },
+    {
+      name: "AI-инструменты",
+      skills: ["Claude Code", "Cursor", "MCP", "Декомпозиция задач", "Генерация тестов"],
     },
   ],
   projects: [
     {
+      id: "dkmline",
+      title: "DKMline",
+      description:
+        "B2B-платформа и каталог для производителя промышленной упаковки: Next.js 16, Payload CMS 3, PostgreSQL, Redis, снижение LCP с 2.8s до 1.8s.",
+      image: "/projects/dkmline.png",
+      link: "https://dkmline.netlify.app/",
+      tags: ["Next.js 16", "React", "TypeScript", "PostgreSQL", "Redis", "Payload CMS 3", "Docker"],
+    },
+    {
+      id: "dexsa",
+      title: "DEXSA · Telegram Mini App",
+      description:
+        "Telegram Mini App и социальная платформа: интеграция платежей Telegram Stars, Supabase Realtime синхронизация и оптимизированный мобильный UI.",
+      image: "/projects/dexsa.png",
+      link: "https://t.me/ipu_promise_bot",
+      tags: ["Next.js", "React", "TypeScript", "TanStack Query", "Zustand", "Supabase Realtime"],
+    },
+    {
       id: "tower-empire",
       title: "Tower Empire",
       description:
-        "Онлайн-платформа настольных игр с мультиплеером, WebSocket-синхронизацией, reconnect-логикой и кешированием через RTK Query. Роль: Front Lead",
+        "Игровая мультиплеерная веб-платформа реального времени: WebSocket-синхронизация <100ms, полная миграция на TypeScript, CI/CD.",
       image: "/projects/tower-empire.png",
       link: "https://tower-empire.ru/",
-      tags: ["React", "TypeScript", "WebSocket", "RTK Query"],
-    },
-    {
-      id: "ipu-app",
-      title: "IPU · Telegram Mini App",
-      description:
-        "Социальная платформа обещаний с геймификацией и оплатой через Telegram Stars. 30+ компонентов, real-time уведомления, нативный UX",
-      image: "/projects/ipu.png",
-      link: "https://t.me/ipu_promise_bot",
-      tags: ["Next.js", "TypeScript", "TailwindCSS", "Supabase"],
-    },
-    {
-      id: "dkmline",
-      title: "ДКМлайн",
-      description:
-        "Корпоративный сайт для компании промышленной упаковки. Разработка «под ключ»: каталог, калькулятор доставки и SEO-оптимизация",
-      image: "/projects/dkmline.png",
-      link: "https://dkmline.netlify.app/",
-      tags: ["Next.js", "TypeScript", "TailwindCSS", "SEO"],
+      tags: ["React", "TypeScript", "WebSocket", "Redux Toolkit", "RTK Query", "Zustand"],
     },
     {
       id: "portfolio",
-      title: "Портфолио и CV",
+      title: "Bento Портфолио & Резюме",
       description:
-        "Интерактивный сайт-резюме с Bento Grid, двуязычностью, тёмной темой и экспортом в PDF",
+        "Двуязычное портфолио с CMS-админкой на базе Next.js 16 App Router, React 19, Tailwind CSS v4, Supabase RLS и Framer Motion.",
       image: "/projects/portfolio.png",
       link: "https://resumeportfoliocv.netlify.app/",
-      tags: ["Next.js", "TypeScript", "Framer Motion", "TailwindCSS"],
+      tags: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS v4", "Supabase"],
     },
   ],
   education: {
-    degree: "Высшее техническое образование",
-    institution:
-      "Белорусский государственный технологический университет (БГТУ)",
-    year: "2011",
+    degree: "Высшее техническое образование (Инженер-технолог)",
+    institution: "Белорусский государственный технологический университет (БГТУ), Минск",
+    year: "2006 — 2011",
     additional: [
-      "RS School — JavaScript/Frontend (Stage 1-2-3) · 2023–2024",
-      "SkyPro — Frontend-разработчик · 2022–2023",
+      "RS School — JavaScript/Frontend (Stage 1-2-3): интенсивная программа, TypeScript, React, Git workflows, peer reviews",
+      "SkyPro — Frontend Developer: углублённая подготовка по современному стеку frontend, архитектуре компонентов",
     ],
   },
   languages: [
-    { name: "Английский", level: "B2 (документация, переписка, созвоны)" },
-    { name: "Русский", level: "Родной" },
-    { name: "Беларуская", level: "Родной" },
+    {
+      name: "Русский",
+      level: "Родной / C2",
+    },
+    {
+      name: "Английский",
+      level: "B2 (Рабочий уровень: документация, переписка, code review)",
+    },
+    {
+      name: "Белорусский",
+      level: "Родной",
+    },
   ],
 };
 
-export const resumeData: Record<Locale, ResumeData> = {
+export const resumeData = {
   en: resumeDataEN,
   ru: resumeDataRU,
-};
-
-export const uiStrings: Record<
-  Locale,
-  {
-    downloadPdf: string;
-    experience: string;
-    commercialExperience: string;
-    projectExperience: string;
-    skills: string;
-    education: string;
-    languages: string;
-    contact: string;
-    projects: string;
-    additionalEducation: string;
-    aboutMe: string;
-    whyMe: string;
-  }
-> = {
-  en: {
-    downloadPdf: "Download PDF",
-    experience: "Experience",
-    commercialExperience: "Commercial Experience",
-    projectExperience: "Project Experience",
-    skills: "Skills",
-    education: "Education",
-    languages: "Languages",
-    contact: "Contact",
-    projects: "Projects",
-    additionalEducation: "Professional Development",
-    aboutMe: "About Me",
-    whyMe: "Why Me?",
-  },
-  ru: {
-    downloadPdf: "Скачать PDF",
-    experience: "Опыт работы",
-    commercialExperience: "Коммерческий опыт",
-    projectExperience: "Проектный опыт",
-    skills: "Навыки",
-    education: "Образование",
-    languages: "Языки",
-    contact: "Контакты",
-    projects: "Проекты",
-    additionalEducation: "Профессиональное развитие",
-    aboutMe: "О себе",
-    whyMe: "Почему я?",
-  },
 };
