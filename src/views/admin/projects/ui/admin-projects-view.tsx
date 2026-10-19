@@ -3,8 +3,13 @@
 import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { Plus, Trash2, Upload, Image as ImageIcon } from "lucide-react";
-import { getSupabaseBrowserClient } from "@/shared/api/supabase";
 import { type Project, fallbackProjects } from "@/entities/project";
+import {
+  getAdminProjects,
+  saveAdminProject,
+  deleteAdminProject,
+  uploadAdminProjectImage,
+} from "@/features/admin";
 import {
   Button,
   Input,
@@ -16,29 +21,21 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/shared/ui";
-import { revalidatePortfolio } from "@/shared/api/revalidate";
 
 export function AdminProjectsView() {
   const [items, setItems] = useState<Project[]>([]);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [langTabs, setLangTabs] = useState<Record<string, "en" | "ru">>({});
 
-  const supabase = getSupabaseBrowserClient();
-
   const reload = useCallback(async () => {
-    const { data, error } = await supabase
-      .from("projects")
-      .select("*")
-      .order("sort_order", { ascending: true });
-
-    if (error) {
-      toast.error("Error loading projects: " + error.message);
-    } else if (data && data.length > 0) {
-      setItems(data as Project[]);
-    } else {
+    const res = await getAdminProjects();
+    if (!res.success) {
+      toast.error(res.error.message);
       setItems([]);
+    } else {
+      setItems(res.data);
     }
-  }, [supabase]);
+  }, []);
 
   useEffect(() => {
     void reload();
@@ -56,16 +53,15 @@ export function AdminProjectsView() {
   const save = async (project: Project) => {
     setBusyId(project.id);
     try {
-      const { id, ...payload } = project;
-      const { error } = await supabase.from("projects").update(payload).eq("id", id);
-      if (error) {
-        toast.error("Failed to save: " + error.message);
+      const res = await saveAdminProject(project);
+      if (!res.success) {
+        toast.error(res.error.message);
       } else {
         toast.success(`Project "${project.title_en}" saved!`);
-        void revalidatePortfolio();
+        void reload();
       }
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Error saving project");
+    } catch {
+      toast.error("Error saving project");
     } finally {
       setBusyId(null);
     }
@@ -74,12 +70,11 @@ export function AdminProjectsView() {
   const remove = async (id: string, title: string) => {
     if (!confirm(`Are you sure you want to delete "${title}"?`)) return;
     try {
-      const { error } = await supabase.from("projects").delete().eq("id", id);
-      if (error) {
-        toast.error("Delete failed: " + error.message);
+      const res = await deleteAdminProject(id);
+      if (!res.success) {
+        toast.error(res.error.message);
       } else {
         toast.success("Project deleted");
-        void revalidatePortfolio();
         void reload();
       }
     } catch {
@@ -89,7 +84,7 @@ export function AdminProjectsView() {
 
   const create = async () => {
     const slug = `project-${Date.now()}`;
-    const newProj = {
+    const newProj: Partial<Project> = {
       slug,
       title_en: "New Project",
       title_ru: "Новый проект",
@@ -104,9 +99,9 @@ export function AdminProjectsView() {
       published: false,
     };
 
-    const { error } = await supabase.from("projects").insert(newProj);
-    if (error) {
-      toast.error("Create failed: " + error.message);
+    const res = await saveAdminProject(newProj);
+    if (!res.success) {
+      toast.error(res.error.message);
     } else {
       toast.success("New project draft created");
       void reload();
@@ -117,15 +112,14 @@ export function AdminProjectsView() {
     if (!confirm("Populate Supabase with standard initial projects from portfolio?")) return;
     setBusyId("seed");
     try {
-      const inserts = fallbackProjects.map(({ id: _id, ...rest }) => rest);
-      const { error } = await supabase.from("projects").insert(inserts);
-      if (error) {
-        toast.error("Seed error: " + error.message);
-      } else {
-        toast.success("Projects populated successfully!");
-        void revalidatePortfolio();
-        void reload();
+      for (const p of fallbackProjects) {
+        const { id: _id, ...rest } = p;
+        await saveAdminProject(rest);
       }
+      toast.success("Projects populated successfully!");
+      void reload();
+    } catch {
+      toast.error("Seed error");
     } finally {
       setBusyId(null);
     }
@@ -134,29 +128,19 @@ export function AdminProjectsView() {
   const uploadImage = async (project: Project, file: File) => {
     setBusyId(project.id);
     try {
-      const ext = file.name.split(".").pop();
-      const filename = `${project.slug}-${Date.now()}.${ext}`;
+      const formData = new FormData();
+      formData.append("file", file);
 
-      const { error: uploadError } = await supabase.storage
-        .from("project-images")
-        .upload(filename, file, { upsert: true });
-
-      if (uploadError) {
-        toast.error("Upload error: " + uploadError.message);
+      const uploadRes = await uploadAdminProjectImage(formData);
+      if (!uploadRes.success) {
+        toast.error(uploadRes.error.message);
         return;
       }
 
-      const { data: publicData } = supabase.storage
-        .from("project-images")
-        .getPublicUrl(filename);
-
-      await supabase
-        .from("projects")
-        .update({ image_url: publicData.publicUrl })
-        .eq("id", project.id);
-
-      update(project.id, { image_url: publicData.publicUrl });
-      toast.success("Image uploaded to project-images bucket!");
+      const publicUrl = uploadRes.data;
+      await saveAdminProject({ ...project, image_url: publicUrl });
+      update(project.id, { image_url: publicUrl });
+      toast.success("Image uploaded to project-images storage!");
     } catch {
       toast.error("Image upload failed");
     } finally {

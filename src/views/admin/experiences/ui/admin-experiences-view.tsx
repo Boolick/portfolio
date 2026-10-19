@@ -2,8 +2,12 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { Plus, Trash2, Briefcase, MoveUp, MoveDown } from "lucide-react";
-import { getSupabaseBrowserClient } from "@/shared/api/supabase";
 import { type Experience, fallbackExperiences } from "@/entities/experience";
+import {
+  getAdminExperiences,
+  saveAdminExperience,
+  deleteAdminExperience,
+} from "@/features/admin";
 import {
   Button,
   Input,
@@ -15,29 +19,21 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/shared/ui";
-import { revalidatePortfolio } from "@/shared/api/revalidate";
 
 export function AdminExperiencesView() {
   const [items, setItems] = useState<Experience[]>([]);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [langTabs, setLangTabs] = useState<Record<string, "en" | "ru">>({});
 
-  const supabase = getSupabaseBrowserClient();
-
   const reload = useCallback(async () => {
-    const { data, error } = await supabase
-      .from("experiences")
-      .select("*")
-      .order("sort_order", { ascending: true });
-
-    if (error) {
-      toast.error("Error loading experiences: " + error.message);
-    } else if (data && data.length > 0) {
-      setItems(data as Experience[]);
-    } else {
+    const res = await getAdminExperiences();
+    if (!res.success) {
+      toast.error(res.error.message);
       setItems([]);
+    } else {
+      setItems(res.data);
     }
-  }, [supabase]);
+  }, []);
 
   useEffect(() => {
     void reload();
@@ -55,16 +51,15 @@ export function AdminExperiencesView() {
   const save = async (exp: Experience) => {
     setBusyId(exp.id);
     try {
-      const { id, created_at: _c, updated_at: _u, ...payload } = exp;
-      const { error } = await supabase.from("experiences").update(payload).eq("id", id);
-      if (error) {
-        toast.error("Failed to save: " + error.message);
+      const res = await saveAdminExperience(exp);
+      if (!res.success) {
+        toast.error(res.error.message);
       } else {
         toast.success(`Experience at "${exp.company}" saved!`);
-        void revalidatePortfolio("/");
+        void reload();
       }
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Error saving experience");
+    } catch {
+      toast.error("Error saving experience");
     } finally {
       setBusyId(null);
     }
@@ -73,12 +68,11 @@ export function AdminExperiencesView() {
   const remove = async (id: string, company: string) => {
     if (!confirm(`Are you sure you want to delete experience at "${company}"?`)) return;
     try {
-      const { error } = await supabase.from("experiences").delete().eq("id", id);
-      if (error) {
-        toast.error("Delete failed: " + error.message);
+      const res = await deleteAdminExperience(id);
+      if (!res.success) {
+        toast.error(res.error.message);
       } else {
         toast.success("Experience deleted");
-        void revalidatePortfolio("/");
         void reload();
       }
     } catch {
@@ -87,7 +81,7 @@ export function AdminExperiencesView() {
   };
 
   const create = async () => {
-    const newExp = {
+    const newExp: Partial<Experience> = {
       company: "Company Name",
       title_en: "Senior Frontend Engineer",
       title_ru: "Ведущий фронтенд-разработчик",
@@ -102,39 +96,26 @@ export function AdminExperiencesView() {
       sort_order: items.length + 1,
     };
 
-    const { data, error } = await supabase
-      .from("experiences")
-      .insert(newExp)
-      .select()
-      .single();
-
-    if (error) {
-      toast.error("Failed to create experience: " + error.message);
-    } else if (data) {
+    const res = await saveAdminExperience(newExp);
+    if (!res.success) {
+      toast.error(res.error.message);
+    } else {
       toast.success("New experience added!");
-      setItems((prev) => [...prev, data as Experience]);
-      void revalidatePortfolio("/");
+      void reload();
     }
   };
 
   const seed = async () => {
-    if (!confirm("This will populate the database with default experience records from your CV. Continue?")) return;
+    if (!confirm("Populate database with default experience records from CV?")) return;
     try {
-      const payloads = fallbackExperiences.map(({ id: _id, ...rest }, idx) => ({
-        ...rest,
-        sort_order: idx + 1,
-      }));
-
-      const { error } = await supabase.from("experiences").insert(payloads);
-      if (error) {
-        toast.error("Seed error: " + error.message);
-      } else {
-        toast.success("Default experiences seeded!");
-        void revalidatePortfolio("/");
-        void reload();
+      for (const exp of fallbackExperiences) {
+        const { id: _id, ...rest } = exp;
+        await saveAdminExperience(rest);
       }
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Seed failed");
+      toast.success("Default experiences seeded!");
+      void reload();
+    } catch {
+      toast.error("Seed failed");
     }
   };
 
@@ -147,13 +128,11 @@ export function AdminExperiencesView() {
     newItems[index] = newItems[targetIndex];
     newItems[targetIndex] = temp;
 
-    // Re-assign sort_orders
     const updated = newItems.map((item, idx) => ({ ...item, sort_order: idx + 1 }));
     setItems(updated);
 
-    // Save sort orders to database
     for (const it of updated) {
-      await supabase.from("experiences").update({ sort_order: it.sort_order }).eq("id", it.id);
+      await saveAdminExperience({ id: it.id, sort_order: it.sort_order });
     }
     toast.success("Order updated");
   };
@@ -174,7 +153,7 @@ export function AdminExperiencesView() {
               Seed default data
             </Button>
           )}
-          <Button onClick={create} className="gap-2">
+          <Button onClick={create} className="gap-2 cursor-pointer">
             <Plus className="w-4 h-4" /> Add Experience
           </Button>
         </div>
@@ -199,98 +178,80 @@ export function AdminExperiencesView() {
 
       {/* Experience list */}
       <div className="space-y-6">
-        {items.map((exp, index) => {
-          const activeTab = getLangTab(exp.id);
+        {items.map((exp, idx) => {
+          const tab = getLangTab(exp.id);
           const isBusy = busyId === exp.id;
 
           return (
             <div
               key={exp.id}
-              className="p-6 rounded-2xl border border-border bg-card/60 backdrop-blur-sm space-y-6 transition-all hover:border-primary/30"
+              className="p-6 rounded-2xl border border-border bg-card/60 backdrop-blur-sm space-y-6 shadow-sm"
             >
-              {/* Card top bar */}
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-1 bg-muted/50 rounded-lg p-1">
-                    <button
-                      type="button"
-                      disabled={index === 0}
-                      onClick={() => void moveOrder(index, "up")}
-                      className="p-1 text-muted-foreground hover:text-foreground disabled:opacity-30 rounded hover:bg-card transition-colors"
-                      title="Move Up"
+              {/* Top Row: Meta Controls & Sorting */}
+              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border/50 pb-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono px-2 py-0.5 rounded bg-muted text-muted-foreground font-semibold">
+                    #{exp.sort_order}
+                  </span>
+                  <div className="flex items-center gap-1">
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="h-7 w-7"
+                      disabled={idx === 0}
+                      onClick={() => void moveOrder(idx, "up")}
                     >
-                      <MoveUp className="w-4 h-4" />
-                    </button>
-                    <button
-                      type="button"
-                      disabled={index === items.length - 1}
-                      onClick={() => void moveOrder(index, "down")}
-                      className="p-1 text-muted-foreground hover:text-foreground disabled:opacity-30 rounded hover:bg-card transition-colors"
-                      title="Move Down"
+                      <MoveUp className="w-3.5 h-3.5" />
+                    </Button>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="h-7 w-7"
+                      disabled={idx === items.length - 1}
+                      onClick={() => void moveOrder(idx, "down")}
                     >
-                      <MoveDown className="w-4 h-4" />
-                    </button>
-                  </div>
-                  <div>
-                    <span className="text-base font-semibold text-foreground">
-                      {exp.company || "Untitled Company"}
-                    </span>
-                    <span className="text-xs text-muted-foreground ml-2">
-                      ({exp.title_en || exp.title_ru})
-                    </span>
+                      <MoveDown className="w-3.5 h-3.5" />
+                    </Button>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2 pr-2 border-r border-border">
+                <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-2">
                     <Switch
                       id={`comm-${exp.id}`}
                       checked={exp.is_commercial}
                       onCheckedChange={(checked) => update(exp.id, { is_commercial: checked })}
                     />
-                    <Label htmlFor={`comm-${exp.id}`} className="text-xs cursor-pointer">
-                      Commercial
+                    <Label htmlFor={`comm-${exp.id}`} className="text-xs text-muted-foreground">
+                      Commercial project
                     </Label>
                   </div>
 
                   <Tabs
-                    value={activeTab}
+                    value={tab}
                     onValueChange={(val) => setLangTab(exp.id, val as "en" | "ru")}
-                    className="w-auto"
+                    className="w-[200px]"
                   >
-                    <TabsList className="h-8">
-                      <TabsTrigger value="en" className="text-xs px-2.5 py-1">
-                        🇬🇧 English
-                      </TabsTrigger>
-                      <TabsTrigger value="ru" className="text-xs px-2.5 py-1">
-                        🇷🇺 Russian
-                      </TabsTrigger>
+                    <TabsList className="grid w-full grid-cols-2">
+                      <TabsTrigger value="en">English</TabsTrigger>
+                      <TabsTrigger value="ru">Русский</TabsTrigger>
                     </TabsList>
                   </Tabs>
-
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-destructive hover:bg-destructive/10 h-8 w-8 p-0"
-                    onClick={() => void remove(exp.id, exp.company)}
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
                 </div>
               </div>
 
-              {/* Shared fields: Company & Tech Stack */}
+              {/* Company & Stack (Language agnostic) */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <Label className="text-xs">Company Name</Label>
+                  <Label className="text-xs font-medium">Company Name</Label>
                   <Input
                     value={exp.company}
                     onChange={(e) => update(exp.id, { company: e.target.value })}
-                    placeholder="e.g. Acme Corp"
+                    placeholder="e.g. DKMline or Tower Empire"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-xs">Tech Stack (comma separated)</Label>
+                  <Label className="text-xs font-medium">Tech Stack (comma separated)</Label>
                   <Input
                     value={exp.stack.join(", ")}
                     onChange={(e) =>
@@ -301,118 +262,123 @@ export function AdminExperiencesView() {
                           .filter(Boolean),
                       })
                     }
-                    placeholder="React, TypeScript, Next.js, Tailwind"
+                    placeholder="React, TypeScript, Redux, WebSocket"
                   />
                 </div>
               </div>
 
-              {/* Bilingual Fields */}
-              {activeTab === "en" ? (
-                <div className="space-y-4 p-4 rounded-xl bg-muted/20 border border-border/50">
-                  <div className="flex items-center gap-2 text-xs font-semibold text-primary uppercase tracking-wider">
-                    🇬🇧 English Content
-                  </div>
+              {/* Localized Content Area */}
+              {tab === "en" ? (
+                <div className="space-y-4 pt-2">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="space-y-1.5">
-                      <Label className="text-xs">Job Title (EN)</Label>
+                      <Label className="text-xs font-medium">Job Title (EN)</Label>
                       <Input
                         value={exp.title_en}
                         onChange={(e) => update(exp.id, { title_en: e.target.value })}
-                        placeholder="e.g. Senior Frontend Engineer"
+                        placeholder="e.g. Core Frontend Engineer"
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <Label className="text-xs">Period (EN)</Label>
+                      <Label className="text-xs font-medium">Period (EN)</Label>
                       <Input
                         value={exp.period_en}
                         onChange={(e) => update(exp.id, { period_en: e.target.value })}
-                        placeholder="e.g. 2022 — Present"
+                        placeholder="e.g. 2023 — 2025"
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <Label className="text-xs">Location (EN)</Label>
+                      <Label className="text-xs font-medium">Location (EN)</Label>
                       <Input
                         value={exp.location_en}
                         onChange={(e) => update(exp.id, { location_en: e.target.value })}
-                        placeholder="e.g. Remote / Berlin"
+                        placeholder="e.g. Remote"
                       />
                     </div>
                   </div>
+
                   <div className="space-y-1.5">
-                    <Label className="text-xs">
-                      Key Responsibilities & Achievements (EN) — one bullet point per line
+                    <Label className="text-xs font-medium">
+                      Key Highlights & Accomplishments (EN) — one bullet per line
                     </Label>
                     <Textarea
-                      rows={4}
+                      rows={5}
                       value={exp.description_en.join("\n")}
                       onChange={(e) =>
                         update(exp.id, {
-                          description_en: e.target.value
-                            .split("\n")
-                            .map((s) => s.trim())
-                            .filter(Boolean),
+                          description_en: e.target.value.split("\n").filter(Boolean),
                         })
                       }
-                      placeholder="Spearheaded the redesign...&#10;Mentored 4 junior engineers...&#10;Boosted Lighthouse performance score to 98"
+                      className="font-sans text-sm leading-relaxed"
+                      placeholder="Bullet 1&#10;Bullet 2&#10;Bullet 3"
                     />
                   </div>
                 </div>
               ) : (
-                <div className="space-y-4 p-4 rounded-xl bg-muted/20 border border-border/50">
-                  <div className="flex items-center gap-2 text-xs font-semibold text-primary uppercase tracking-wider">
-                    🇷🇺 Русская версия
-                  </div>
+                <div className="space-y-4 pt-2">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="space-y-1.5">
-                      <Label className="text-xs">Должность (RU)</Label>
+                      <Label className="text-xs font-medium">Должность (RU)</Label>
                       <Input
                         value={exp.title_ru}
                         onChange={(e) => update(exp.id, { title_ru: e.target.value })}
-                        placeholder="например, Ведущий фронтенд-разработчик"
+                        placeholder="напр. Ведущий разработчик интерфейсов"
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <Label className="text-xs">Период (RU)</Label>
+                      <Label className="text-xs font-medium">Период работы (RU)</Label>
                       <Input
                         value={exp.period_ru}
                         onChange={(e) => update(exp.id, { period_ru: e.target.value })}
-                        placeholder="например, 2022 — Наст. время"
+                        placeholder="напр. 2023 — 2025"
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <Label className="text-xs">Локация (RU)</Label>
+                      <Label className="text-xs font-medium">Локация (RU)</Label>
                       <Input
                         value={exp.location_ru}
                         onChange={(e) => update(exp.id, { location_ru: e.target.value })}
-                        placeholder="например, Удаленно"
+                        placeholder="напр. Удалённо"
                       />
                     </div>
                   </div>
+
                   <div className="space-y-1.5">
-                    <Label className="text-xs">
-                      Обязанности и достижения (RU) — по одному пункту на строке
+                    <Label className="text-xs font-medium">
+                      Обязанности и достижения (RU) — по одному пункту на строку
                     </Label>
                     <Textarea
-                      rows={4}
+                      rows={5}
                       value={exp.description_ru.join("\n")}
                       onChange={(e) =>
                         update(exp.id, {
-                          description_ru: e.target.value
-                            .split("\n")
-                            .map((s) => s.trim())
-                            .filter(Boolean),
+                          description_ru: e.target.value.split("\n").filter(Boolean),
                         })
                       }
-                      placeholder="Руководил проектированием архитектуры...&#10;Оптимизировал скорость загрузки до 98 баллов Lighthouse"
+                      className="font-sans text-sm leading-relaxed"
+                      placeholder="Пункт 1&#10;Пункт 2&#10;Пункт 3"
                     />
                   </div>
                 </div>
               )}
 
-              {/* Action Save button */}
-              <div className="flex justify-end gap-3 pt-2">
-                <Button onClick={() => void save(exp)} disabled={isBusy}>
-                  {isBusy ? "Saving..." : "Save changes"}
+              {/* Actions Footer */}
+              <div className="flex items-center justify-between border-t border-border/50 pt-4">
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => void remove(exp.id, exp.company)}
+                  className="gap-1.5 cursor-pointer"
+                >
+                  <Trash2 className="w-4 h-4" /> Delete Experience
+                </Button>
+                <Button
+                  size="sm"
+                  disabled={isBusy}
+                  onClick={() => void save(exp)}
+                  className="bg-gradient-to-r from-primary to-accent text-primary-foreground border-0 cursor-pointer shadow-md"
+                >
+                  {isBusy ? "Saving…" : "Save Experience"}
                 </Button>
               </div>
             </div>

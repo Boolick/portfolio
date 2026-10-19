@@ -1,36 +1,27 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
-import { getSupabaseBrowserClient } from "@/shared/api/supabase";
 import { type Profile, fallbackProfile } from "@/entities/profile";
+import { getAdminProfile, saveAdminProfile } from "@/features/admin";
 import { Button, Input, Label, Textarea, toast, Tabs, TabsList, TabsTrigger } from "@/shared/ui";
-import { revalidatePortfolio } from "@/shared/api/revalidate";
 
 export function AdminProfileView() {
   const [data, setData] = useState<Profile | null>(null);
   const [busy, setBusy] = useState(false);
   const [activeLangTab, setActiveLangTab] = useState<"en" | "ru">("en");
 
-  const supabase = getSupabaseBrowserClient();
-
   useEffect(() => {
-    supabase
-      .from("profile")
-      .select("*")
-      .limit(1)
-      .maybeSingle()
-      .then(({ data: row, error }) => {
-        if (error) {
-          toast.error("Failed to load profile: " + error.message);
-          setData(fallbackProfile);
-        } else if (row) {
-          setData(row as Profile);
-        } else {
-          // Empty DB, use fallback as initial template
-          setData(fallbackProfile);
+    void getAdminProfile().then((res) => {
+      if (res.success && res.data) {
+        setData(res.data);
+      } else {
+        if (!res.success) {
+          toast.error(res.error.message);
         }
-      });
-  }, [supabase]);
+        setData(fallbackProfile);
+      }
+    });
+  }, []);
 
   const update = (patch: Partial<Profile>) => {
     setData((prev) => (prev ? { ...prev, ...patch } : prev));
@@ -42,28 +33,15 @@ export function AdminProfileView() {
     setBusy(true);
 
     try {
-      const { id: _id, ...payload } = data;
-
-      // Check if profile row exists
-      const { data: existing } = await supabase.from("profile").select("id").limit(1).maybeSingle();
-
-      let error;
-      if (existing) {
-        const res = await supabase.from("profile").update(payload).eq("id", existing.id);
-        error = res.error;
+      const res = await saveAdminProfile(data);
+      if (!res.success) {
+        toast.error(res.error.message);
       } else {
-        const res = await supabase.from("profile").insert(payload);
-        error = res.error;
-      }
-
-      if (error) {
-        toast.error("Save error: " + error.message);
-      } else {
+        setData(res.data);
         toast.success("Profile saved successfully");
-        void revalidatePortfolio("/");
       }
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Error saving profile");
+    } catch {
+      toast.error("Error saving profile");
     } finally {
       setBusy(false);
     }
@@ -101,7 +79,7 @@ export function AdminProfileView() {
                   value={data.name_en}
                   onChange={(e) => update({ name_en: e.target.value })}
                   className="mt-1.5"
-                  placeholder="Alexander Bullo"
+                  placeholder="Aliaksandr Bullo"
                 />
               </div>
               <div>
@@ -110,7 +88,7 @@ export function AdminProfileView() {
                   value={data.title_en}
                   onChange={(e) => update({ title_en: e.target.value })}
                   className="mt-1.5"
-                  placeholder="Frontend Developer · React · Next.js · TypeScript"
+                  placeholder="Fullstack Developer (Node.js, NestJS, React, TypeScript)"
                 />
               </div>
             </div>
@@ -121,7 +99,7 @@ export function AdminProfileView() {
                 value={data.location_en}
                 onChange={(e) => update({ location_en: e.target.value })}
                 className="mt-1.5"
-                placeholder="Hanoi, Vietnam (GMT+7)"
+                placeholder="Hanoi, Vietnam (UTC+7) · Remote"
               />
             </div>
 
@@ -166,7 +144,7 @@ export function AdminProfileView() {
                   value={data.title_ru}
                   onChange={(e) => update({ title_ru: e.target.value })}
                   className="mt-1.5"
-                  placeholder="Frontend-разработчик · React · Next.js · TypeScript"
+                  placeholder="Fullstack Developer · React / Next.js / Node.js / AI"
                 />
               </div>
             </div>
@@ -177,7 +155,7 @@ export function AdminProfileView() {
                 value={data.location_ru}
                 onChange={(e) => update({ location_ru: e.target.value })}
                 className="mt-1.5"
-                placeholder="Ханой, Вьетнам (GMT+7)"
+                placeholder="Ханой, Вьетнам (UTC+7) · Удалённо"
               />
             </div>
 

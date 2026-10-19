@@ -501,3 +501,37 @@ export const resumeData = {
   en: resumeDataEN,
   ru: resumeDataRU,
 };
+
+export const uiStrings = {
+  en: {
+    downloadPdf: "Download CV (PDF)",
+    whyMe: "Why Me?",
+    skills: "Skills",
+    techStack: "Tech Stack",
+    experience: "Work Experience",
+    projects: "Featured Projects",
+    education: "Education",
+    educationHigher: "Higher Education",
+    additionalEducation: "Professional Development & Courses",
+    languages: "Languages",
+    aboutMe: "About Me",
+    summary: "Summary",
+    contacts: "Contacts",
+  },
+  ru: {
+    downloadPdf: "Скачать резюме (PDF)",
+    whyMe: "Почему именно я?",
+    skills: "Навыки",
+    techStack: "Технологии",
+    experience: "Опыт работы",
+    projects: "Проекты",
+    education: "Образование",
+    educationHigher: "Высшее образование",
+    additionalEducation: "Курсы и повышение квалификации",
+    languages: "Языки",
+    aboutMe: "Обо мне",
+    summary: "О себе",
+    contacts: "Контакты",
+  },
+};
+

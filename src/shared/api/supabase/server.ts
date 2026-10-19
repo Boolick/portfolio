@@ -22,7 +22,13 @@ export async function getSupabaseServerClient() {
       setAll(cookiesToSet) {
         try {
           cookiesToSet.forEach(({ name, value, options }) => {
-            cookieStore.set(name, value, options);
+            cookieStore.set(name, value, {
+              ...options,
+              httpOnly: true,
+              secure: process.env.NODE_ENV === "production",
+              sameSite: "lax",
+              path: "/",
+            });
           });
         } catch {
           // Can be safely ignored if invoked from Server Component

@@ -8,107 +8,120 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
-import type { Session, User } from "@supabase/supabase-js";
-import { getSupabaseBrowserClient } from "@/shared/api/supabase";
+
+export interface SanitizedUser {
+  id: string;
+  email?: string;
+  role?: string;
+}
 
 interface AuthContextType {
-  session: Session | null;
-  user: User | null;
+  session: { user: SanitizedUser } | null;
+  user: SanitizedUser | null;
   isAdmin: boolean;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
+  refreshSession: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
+function wipeLegacyClientCookies() {
+  if (typeof document === "undefined") return;
+  // Clean up any legacy non-HttpOnly client cookies to prevent collision or DevTools leak
+  const cookies = document.cookie.split(";");
+  for (const cookie of cookies) {
+    const eqPos = cookie.indexOf("=");
+    const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();
+    if (name.startsWith("sb-") && name.includes("-auth-token")) {
+      document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;`;
+    }
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [session, setSession] = useState<Session | null>(null);
+  const [user, setUser] = useState<SanitizedUser | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const supabase = getSupabaseBrowserClient();
-
-  const checkAdmin = useCallback(
-    async (userId: string) => {
-      try {
-        const { data, error } = await supabase
-          .from("user_roles")
-          .select("role")
-          .eq("user_id", userId)
-          .eq("role", "admin")
-          .maybeSingle();
-
-        if (error) {
-          console.warn("Role check error:", error.message);
+  const refreshSession = useCallback(async () => {
+    try {
+      const res = await fetch("/api/auth/session", { cache: "no-store" });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.user) {
+          setUser(data.user);
+          setIsAdmin(!!data.isAdmin);
+        } else {
+          setUser(null);
           setIsAdmin(false);
-          return;
         }
-
-        setIsAdmin(!!data);
-      } catch (err) {
-        console.error("Failed to check admin status:", err);
+      } else {
+        setUser(null);
         setIsAdmin(false);
       }
-    },
-    [supabase]
-  );
+    } catch {
+      setUser(null);
+      setIsAdmin(false);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    // 1. Initial session load
-    supabase.auth
-      .getSession()
-      .then(({ data }) => {
-        setSession(data.session);
-        if (data.session?.user) {
-          void checkAdmin(data.session.user.id);
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-
-    // 2. Auth state subscription
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, currentSession) => {
-      setSession(currentSession);
-      if (currentSession?.user) {
-        void checkAdmin(currentSession.user.id);
-      } else {
-        setIsAdmin(false);
-      }
-      setLoading(false);
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [supabase, checkAdmin]);
+    // Initial verification via BFF session endpoint
+    void refreshSession();
+    wipeLegacyClientCookies();
+  }, [refreshSession]);
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    return { error: error?.message ?? null };
+    try {
+      wipeLegacyClientCookies();
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || data.error) {
+        return { error: data.error?.message || "Authentication failed" };
+      }
+
+      setUser(data.user);
+      setIsAdmin(data.user?.role === "admin");
+      wipeLegacyClientCookies();
+
+      return { error: null };
+    } catch (err) {
+      return { error: err instanceof Error ? err.message : "Network error" };
+    }
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
-    setSession(null);
-    setIsAdmin(false);
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } finally {
+      setUser(null);
+      setIsAdmin(false);
+      wipeLegacyClientCookies();
+    }
   };
+
+  const session = user ? { user } : null;
 
   return (
     <AuthContext.Provider
       value={{
         session,
-        user: session?.user ?? null,
+        user,
         isAdmin,
         loading,
         signIn,
         signOut,
+        refreshSession,
       }}
     >
       {children}
@@ -116,7 +129,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export function useAuth() {
+export function useAuth(): AuthContextType {
   const ctx = useContext(AuthContext);
   if (!ctx) {
     throw new Error("useAuth must be used within an AuthProvider");
