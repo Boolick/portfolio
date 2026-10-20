@@ -147,18 +147,18 @@ export function AdminSkillsView() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">Skill Categories</h2>
-          <p className="text-sm text-muted-foreground mt-1">
+          <h2 className="text-xl font-bold font-mono uppercase tracking-tight text-foreground">Skill Categories</h2>
+          <p className="text-xs font-mono text-muted-foreground mt-1">
             Organize tech stack and skill competencies with bilingual category headers.
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 font-mono">
           {items.length === 0 && (
-            <Button variant="outline" onClick={seed}>
+            <Button variant="outline" onClick={seed} size="sm" className="text-xs uppercase tracking-wider rounded-none">
               Seed default data
             </Button>
           )}
-          <Button onClick={create} className="gap-2 cursor-pointer">
+          <Button onClick={create} size="sm" className="gap-2 cursor-pointer tactile-btn text-xs uppercase tracking-wider">
             <Plus className="w-4 h-4" /> Add Category
           </Button>
         </div>
@@ -166,17 +166,19 @@ export function AdminSkillsView() {
 
       {/* Empty State */}
       {items.length === 0 && (
-        <div className="text-center py-16 border border-dashed border-border rounded-2xl bg-card/40">
-          <Cpu className="w-12 h-12 mx-auto text-muted-foreground/60 mb-3" />
-          <h3 className="text-lg font-medium text-foreground">No skill categories</h3>
-          <p className="text-sm text-muted-foreground max-w-sm mx-auto mt-1 mb-4">
+        <div className="text-center py-16 chassis-module font-mono space-y-3">
+          <Cpu className="w-10 h-10 mx-auto text-muted-foreground/60 mb-2" />
+          <h3 className="text-base font-bold uppercase text-foreground">No skill categories</h3>
+          <p className="text-xs text-muted-foreground max-w-sm mx-auto mb-4">
             Create categories for your Frontend, Backend, Tools, etc., or seed from existing CV data.
           </p>
           <div className="flex justify-center gap-3">
-            <Button onClick={seed} variant="outline">
+            <Button onClick={seed} variant="outline" size="sm" className="text-xs uppercase tracking-wider rounded-none">
               Seed from CV
             </Button>
-            <Button onClick={create}>Add Category</Button>
+            <Button onClick={create} size="sm" className="tactile-btn text-xs uppercase tracking-wider">
+              Add Category
+            </Button>
           </div>
         </div>
       )}
@@ -189,11 +191,19 @@ export function AdminSkillsView() {
           return (
             <div
               key={cat.id}
-              className="p-6 rounded-2xl border border-border bg-card/60 backdrop-blur-sm space-y-5 shadow-sm flex flex-col justify-between"
+              className="chassis-module p-6 space-y-5 flex flex-col justify-between"
             >
               <div className="space-y-4">
+                <div className="chassis-header -mx-6 -mt-6 mb-2 px-4 py-2 flex items-center justify-between border-b border-border bg-muted/40 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                  <span className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 bg-primary inline-block" />
+                    REG_BANK // {cat.name_en || "CATEGORY"}
+                  </span>
+                  <span>[ #{cat.sort_order} ]</span>
+                </div>
+
                 {/* Order and Delete top bar */}
-                <div className="flex items-center justify-between border-b border-border/50 pb-3">
+                <div className="flex items-center justify-between border-b border-border pb-3">
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-mono px-2 py-0.5 rounded bg-muted text-muted-foreground font-semibold">
                       #{cat.sort_order}
@@ -252,19 +262,19 @@ export function AdminSkillsView() {
 
                 {/* Badges / Chips list */}
                 <div className="space-y-2">
-                  <Label className="text-xs font-medium">Skills List ({cat.skills.length})</Label>
-                  <div className="flex flex-wrap gap-1.5 min-h-[40px] p-2 rounded-lg border border-input bg-background/50">
+                  <Label className="text-xs font-mono uppercase text-muted-foreground">Skills List ({cat.skills.length})</Label>
+                  <div className="flex flex-wrap gap-1.5 min-h-[40px] p-2 border border-border bg-muted/20 font-mono text-xs">
                     {cat.skills.map((skill) => (
                       <Badge
                         key={skill}
                         variant="secondary"
-                        className="gap-1 pl-2.5 pr-1 py-1 text-xs font-normal"
+                        className="gap-1 pl-2 pr-1 py-0.5 text-xs font-mono rounded-none"
                       >
                         <span>{skill}</span>
                         <button
                           type="button"
                           onClick={() => removeSkillTag(cat.id, skill)}
-                          className="hover:bg-muted-foreground/20 rounded-full p-0.5 text-muted-foreground hover:text-foreground cursor-pointer"
+                          className="hover:bg-muted-foreground/20 p-0.5 text-muted-foreground hover:text-foreground cursor-pointer"
                         >
                           <X className="w-3 h-3" />
                         </button>
@@ -277,7 +287,7 @@ export function AdminSkillsView() {
                 </div>
 
                 {/* Add new skill inline */}
-                <div className="flex gap-2">
+                <div className="flex gap-2 font-mono">
                   <Input
                     placeholder="Add skill (e.g. Next.js, Redux)..."
                     value={newSkillInput[cat.id] ?? ""}
@@ -290,14 +300,14 @@ export function AdminSkillsView() {
                         addSkillTag(cat.id);
                       }
                     }}
-                    className="text-xs"
+                    className="text-xs font-mono rounded-none"
                   />
                   <Button
                     type="button"
                     variant="secondary"
                     size="sm"
                     onClick={() => addSkillTag(cat.id)}
-                    className="shrink-0 text-xs"
+                    className="shrink-0 text-xs font-mono uppercase tracking-wider rounded-none"
                   >
                     Add
                   </Button>
@@ -305,14 +315,14 @@ export function AdminSkillsView() {
               </div>
 
               {/* Save Footer */}
-              <div className="pt-3 border-t border-border/50 flex justify-end">
+              <div className="pt-3 border-t border-border flex justify-end font-mono">
                 <Button
                   size="sm"
                   disabled={isBusy}
                   onClick={() => void save(cat)}
-                  className="bg-gradient-to-r from-primary to-accent text-primary-foreground border-0 cursor-pointer shadow-md"
+                  className="tactile-btn text-xs uppercase tracking-wider cursor-pointer"
                 >
-                  {isBusy ? "Saving…" : "Save Category"}
+                  {isBusy ? "SAVING..." : "SAVE CATEGORY"}
                 </Button>
               </div>
             </div>

@@ -53,12 +53,17 @@ export function AdminProfileView() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-6">
-      <div className="bento-card p-6 sm:p-8 space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-border/40">
+      <div className="chassis-module p-6 sm:p-8 space-y-6">
+        <div className="chassis-header -mx-6 -mt-6 sm:-mx-8 sm:-mt-8 mb-4 px-4 py-2 flex items-center justify-between border-b border-border bg-muted/40 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+          <span>DATA_STORE // REG_01_PROFILE</span>
+          <span>[ RW_ACCESS ]</span>
+        </div>
+
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-border">
           <div>
-            <h2 className="text-2xl font-bold tracking-tight">Profile Information</h2>
-            <p className="text-sm text-muted-foreground mt-1">
-              Manage your personal info, job title, summary, and links.
+            <h2 className="text-xl font-bold font-mono uppercase tracking-tight">Profile Information</h2>
+            <p className="text-xs font-mono text-muted-foreground mt-1">
+              Manage personal info, job title, summary, and links.
             </p>
           </div>
           <Tabs value={activeLangTab} onValueChange={(v) => setActiveLangTab(v as "en" | "ru")}>
@@ -220,9 +225,9 @@ export function AdminProfileView() {
         type="submit"
         disabled={busy}
         size="lg"
-        className="bg-gradient-to-r from-primary to-accent text-primary-foreground border-0 cursor-pointer shadow-md"
+        className="tactile-btn font-mono uppercase tracking-wider cursor-pointer"
       >
-        {busy ? "Saving Profile…" : "Save Profile"}
+        {busy ? "SAVING_PROFILE..." : "SAVE PROFILE"}
       </Button>
     </form>
   );

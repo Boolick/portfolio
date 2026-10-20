@@ -152,32 +152,33 @@ export function AdminProjectsView() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Projects Management</h2>
-          <p className="text-sm text-muted-foreground mt-0.5">
-            Create, edit, localize, and publish portfolio projects.
+          <h2 className="text-xl font-bold font-mono uppercase tracking-tight">Projects Management</h2>
+          <p className="text-xs font-mono text-muted-foreground mt-0.5">
+            Create, edit, localize, and publish portfolio modules.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 font-mono">
           {items.length === 0 && (
             <Button
               variant="outline"
               size="sm"
               onClick={seedFromDefaults}
               disabled={busyId === "seed"}
+              className="text-xs uppercase tracking-wider rounded-none"
             >
               Seed Initial Projects
             </Button>
           )}
-          <Button onClick={create} size="sm" className="gap-1.5 cursor-pointer">
+          <Button onClick={create} size="sm" className="gap-1.5 cursor-pointer tactile-btn text-xs uppercase tracking-wider">
             <Plus className="h-4 w-4" /> Add Project
           </Button>
         </div>
       </div>
 
       {items.length === 0 && (
-        <div className="bento-card p-12 text-center space-y-3">
-          <p className="text-muted-foreground text-sm">No projects found in Supabase.</p>
-          <Button onClick={create} size="sm">
+        <div className="chassis-module p-12 text-center space-y-3 font-mono">
+          <p className="text-muted-foreground text-xs uppercase">No projects found in Supabase.</p>
+          <Button onClick={create} size="sm" className="tactile-btn text-xs uppercase tracking-wider">
             Create First Project
           </Button>
         </div>
@@ -188,9 +189,17 @@ export function AdminProjectsView() {
         const isBusy = busyId === project.id;
 
         return (
-          <div key={project.id} className="bento-card p-6 sm:p-8 space-y-5">
+          <div key={project.id} className="chassis-module p-6 sm:p-8 space-y-5">
+            <div className="chassis-header -mx-6 -mt-6 sm:-mx-8 sm:-mt-8 mb-2 px-4 py-2 flex items-center justify-between border-b border-border bg-muted/40 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+              <span className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-primary inline-block" />
+                MOD_PRJ // {project.slug || "DRAFT"}
+              </span>
+              <span>[ ORD: #{project.sort_order} ]</span>
+            </div>
+
             {/* Top row: Slug, Order, Published switch */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border/40">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border">
               <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <Label className="text-xs font-mono uppercase text-muted-foreground">
@@ -364,7 +373,7 @@ export function AdminProjectsView() {
               </Label>
               <div className="mt-2 flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 {project.image_url ? (
-                  <div className="relative w-32 h-20 rounded-lg overflow-hidden border border-border bg-muted shrink-0">
+                  <div className="relative w-32 h-20 rounded-none overflow-hidden border border-border bg-muted shrink-0">
                     <Image
                       src={project.image_url}
                       alt={project.title_en}
@@ -374,14 +383,14 @@ export function AdminProjectsView() {
                     />
                   </div>
                 ) : (
-                  <div className="w-32 h-20 rounded-lg border border-dashed border-border bg-secondary/30 flex items-center justify-center text-muted-foreground shrink-0">
+                  <div className="w-32 h-20 rounded-none border border-dashed border-border bg-muted/40 flex items-center justify-center text-muted-foreground shrink-0">
                     <ImageIcon className="h-6 w-6 opacity-40" />
                   </div>
                 )}
                 <div className="flex-1 w-full space-y-2">
-                  <div className="flex gap-2">
-                    <label className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md border border-input bg-background hover:bg-secondary cursor-pointer text-xs font-medium transition-colors">
-                      <Upload className="h-3.5 w-3.5" /> Upload to Storage
+                  <div className="flex gap-2 font-mono">
+                    <label className="inline-flex items-center gap-1.5 px-3 py-2 rounded-none border border-input bg-card hover:bg-muted cursor-pointer text-xs uppercase tracking-wider font-mono transition-colors">
+                      <Upload className="h-3.5 w-3.5" /> Upload Image
                       <input
                         type="file"
                         accept="image/*"
@@ -396,7 +405,7 @@ export function AdminProjectsView() {
                       value={project.image_url}
                       onChange={(e) => update(project.id, { image_url: e.target.value })}
                       placeholder="Or enter image URL directly"
-                      className="flex-1 text-xs"
+                      className="flex-1 text-xs font-mono"
                     />
                   </div>
                 </div>
@@ -404,12 +413,12 @@ export function AdminProjectsView() {
             </div>
 
             {/* Action buttons: Delete & Save */}
-            <div className="flex items-center justify-between pt-4 border-t border-border/40">
+            <div className="flex items-center justify-between pt-4 border-t border-border font-mono">
               <Button
                 variant="destructive"
                 size="sm"
                 onClick={() => void remove(project.id, project.title_en)}
-                className="gap-1.5 cursor-pointer"
+                className="gap-1.5 cursor-pointer text-xs uppercase tracking-wider rounded-none"
               >
                 <Trash2 className="h-4 w-4" /> Delete Project
               </Button>
@@ -417,9 +426,9 @@ export function AdminProjectsView() {
                 size="sm"
                 disabled={isBusy}
                 onClick={() => void save(project)}
-                className="bg-gradient-to-r from-primary to-accent text-primary-foreground border-0 cursor-pointer shadow-md"
+                className="tactile-btn text-xs uppercase tracking-wider cursor-pointer"
               >
-                {isBusy ? "Saving…" : "Save Project"}
+                {isBusy ? "SAVING..." : "SAVE PROJECT"}
               </Button>
             </div>
           </div>

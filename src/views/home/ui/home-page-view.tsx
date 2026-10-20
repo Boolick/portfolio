@@ -1,6 +1,6 @@
 import { SiteHeader } from "@/widgets/site-header";
 import { SiteFooter } from "@/widgets/site-footer";
-import { BentoGrid } from "@/widgets/bento-grid";
+import { HardwareConsole } from "@/widgets/hardware-console";
 import { getProfile } from "@/entities/profile/server";
 import { getProjects } from "@/entities/project/server";
 import { getExperiences } from "@/entities/experience/server";
@@ -29,8 +29,8 @@ export async function HomePageView() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <SiteHeader />
-      <main className="container mx-auto max-w-6xl px-4 flex-1">
-        <BentoGrid
+      <main className="max-w-7xl mx-auto px-4 flex-1 w-full">
+        <HardwareConsole
           profile={profile}
           projects={projects}
           experiences={experiences}

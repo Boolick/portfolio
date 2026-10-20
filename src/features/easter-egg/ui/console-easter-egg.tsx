@@ -24,28 +24,29 @@ export function ConsoleEasterEgg() {
 `;
 
     const styles = {
-      logo: "color: #fca311; font-weight: bold; font-size: 14px; font-family: monospace;",
+      logo: "color: #FF5C00; font-weight: bold; font-size: 14px; font-family: monospace;",
       greeting:
-        "color: #0a192f; background: #fca311; padding: 8px 16px; border-radius: 4px; font-size: 16px; font-weight: bold;",
-      message: "color: #64748b; font-size: 13px; line-height: 1.6;",
-      highlight: "color: #fca311; font-weight: bold; font-size: 13px;",
-      link: "color: #3b82f6; font-size: 13px; text-decoration: underline;",
+        "color: #0E0F12; background: #FF5C00; padding: 6px 14px; font-family: monospace; font-size: 14px; font-weight: bold;",
+      message: "color: #8A909A; font-family: monospace; font-size: 12px; line-height: 1.6;",
+      highlight: "color: #FF5C00; font-family: monospace; font-weight: bold; font-size: 12px;",
+      link: "color: #10B981; font-family: monospace; font-size: 12px; text-decoration: underline;",
     };
 
     console.log(asciiArt, styles.logo);
-    console.log("%c👋 Hey there, curious developer!", styles.greeting);
+    console.log("%c[ SYS_BOOT ] ALEXANDER BULLO // HARDWARE CONSOLE SPEC_01", styles.greeting);
     console.log(
-      `%cI see you like to peek under the hood — I respect that! 🔧
+      `%cI/O DIAGNOSTICS: Operator inspecting DevTools terminal. 🔧
 
-%cThis portfolio was built with:
-%c• Next.js 16 + TypeScript
-• TailwindCSS v4 + Framer Motion  
+%cARCHITECTURE SPECIFICATIONS:
+%c• Next.js 16 + React 19 + TypeScript
+• TailwindCSS v4 @theme inline + Custom Hardware Modules  
 • Feature-Sliced Design (FSD v2.1)
-• Supabase PostgreSQL + RLS + Storage
+• Supabase Storage (S3 S-bucket) + Dynamic Fallback
+• Teenage Engineering EP-133 & Eurorack 19" Design System
 • Bilingual EN/RU with real-time toggle
-• Print-optimized PDF export
+• Print-optimized CV Datasheet export
 
-%cInterested in working together?
+%cCOMMUNICATION CHANNELS:
 %c📧 bulloalexander77@gmail.com
 💬 @AlexanderBullo (Telegram)
 🐙 github.com/boolick
@@ -63,8 +64,8 @@ Good programmers write code that humans can understand."
 
     console.log(
       "%c%s",
-      "color: #22c55e; font-size: 12px; font-style: italic;",
-      "\n✨ P.S. If you're a recruiter who found this — bonus points for thoroughness!"
+      "color: #10B981; font-family: monospace; font-size: 12px;",
+      "\n● CALIBRATION MATRIX STABLE: All test pins nominal."
     );
   }, []);
 

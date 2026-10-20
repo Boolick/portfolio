@@ -43,24 +43,32 @@ export function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-md bento-card bento-card-glow p-8">
+    <div className="w-full max-w-md chassis-module p-6 sm:p-8">
+      <div className="chassis-header -mx-6 -mt-6 sm:-mx-8 sm:-mt-8 mb-6 px-4 py-2 flex items-center justify-between border-b border-border bg-muted/40">
+        <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+          <span className="w-1.5 h-1.5 bg-primary inline-block" />
+          SEC_AUTH_TERMINAL // AUTH-01
+        </span>
+        <span className="font-mono text-[10px] text-muted-foreground">[ RESTRICTED ]</span>
+      </div>
+
       <Link
         href="/"
-        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors"
+        className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-muted-foreground hover:text-foreground mb-6 transition-colors"
       >
-        <ArrowLeft className="h-4 w-4" /> {t("Back to site", "На сайт")}
+        <ArrowLeft className="h-3.5 w-3.5" /> {t("Back to site", "На сайт")}
       </Link>
 
       <div className="flex items-center gap-3 mb-2">
-        <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-          <Lock className="h-5 w-5" />
+        <div className="h-9 w-9 border border-primary/40 bg-primary/10 flex items-center justify-center text-primary">
+          <Lock className="h-4 w-4" />
         </div>
-        <h1 className="text-2xl font-bold tracking-tight">
+        <h1 className="text-xl font-bold font-mono tracking-tight uppercase">
           {t("Admin sign in", "Вход в админку")}
         </h1>
       </div>
 
-      <p className="text-sm text-muted-foreground mb-6">
+      <p className="text-xs font-mono text-muted-foreground mb-6">
         {t("Owner-only authenticated access.", "Доступ только для владельца.")}
       </p>
 
@@ -75,7 +83,7 @@ export function LoginForm() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-1.5"
+            className="mt-1.5 font-mono text-xs"
             placeholder="admin@example.com"
             disabled={busy}
           />
@@ -90,14 +98,14 @@ export function LoginForm() {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mt-1.5"
+            className="mt-1.5 font-mono text-xs"
             disabled={busy}
           />
         </div>
         <Button
           type="submit"
           disabled={busy}
-          className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground border-0 mt-2 cursor-pointer shadow-md"
+          className="w-full mt-4 tactile-btn font-mono uppercase tracking-wider cursor-pointer"
         >
           {busy ? t("Signing in…", "Вход…") : t("Sign in", "Войти")}
         </Button>

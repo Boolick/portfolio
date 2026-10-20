@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/features/language-switcher";
 import { ThemeProvider } from "@/features/theme-toggle";
@@ -6,6 +7,20 @@ import { AuthProvider } from "@/features/auth";
 import { Toaster } from "@/shared/ui";
 import { ConsoleEasterEgg } from "@/features/easter-egg";
 import { RefTracker } from "@/features/analytics";
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Aliaksandr Bullo | Fullstack Developer (Node.js, NestJS, React, TypeScript)",
@@ -47,8 +62,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="scroll-smooth">
-      <body className="antialiased m-0 p-0 font-sans bg-background text-foreground min-h-screen">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} scroll-smooth`}
+    >
+      <body className="antialiased m-0 p-0 font-sans bg-background text-foreground min-h-screen selection:bg-primary selection:text-primary-foreground">
         <AuthProvider>
           <ThemeProvider>
             <LanguageProvider>

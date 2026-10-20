@@ -41,23 +41,32 @@ export function AdminLayoutShell({ children }: { children: ReactNode }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-muted-foreground font-mono text-sm">
-        Verifying admin session…
+      <div className="min-h-screen flex items-center justify-center text-muted-foreground font-mono text-xs uppercase tracking-widest bg-background">
+        <span className="flex items-center gap-2">
+          <span className="w-2 h-2 bg-primary animate-pulse inline-block" />
+          VERIFYING_ADMIN_SESSION...
+        </span>
       </div>
     );
   }
 
   if (!session || !isAdmin) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
-        <ShieldAlert className="h-12 w-12 text-destructive mb-3" />
-        <h1 className="text-xl font-bold mb-2">Access Denied</h1>
-        <p className="text-muted-foreground text-sm max-w-sm mb-6">
-          This area is restricted to administrators. Please sign in with an admin account.
-        </p>
-        <Button asChild>
-          <Link href="/login">Go to Login</Link>
-        </Button>
+      <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center bg-background">
+        <div className="chassis-module p-8 max-w-md w-full border border-destructive/50">
+          <div className="chassis-header -mx-8 -mt-8 mb-6 px-4 py-2 flex items-center justify-between border-b border-destructive/30 bg-destructive/10 text-destructive font-mono text-[10px] uppercase tracking-widest">
+            <span>SEC_ALERT // ERR_403</span>
+            <span>[ RESTRICTED ]</span>
+          </div>
+          <ShieldAlert className="h-10 w-10 text-destructive mx-auto mb-3" />
+          <h1 className="text-lg font-bold font-mono uppercase tracking-tight mb-2">ACCESS_DENIED</h1>
+          <p className="text-muted-foreground font-mono text-xs mb-6">
+            THIS AREA IS RESTRICTED TO CERTIFIED OPERATORS ONLY. PLEASE AUTHENTICATE.
+          </p>
+          <Button asChild className="tactile-btn font-mono text-xs uppercase tracking-wider w-full">
+            <Link href="/login">RETURN TO LOGIN</Link>
+          </Button>
+        </div>
       </div>
     );
   }
@@ -66,34 +75,38 @@ export function AdminLayoutShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
-      <header className="border-b border-border/60 bg-background/80 backdrop-blur sticky top-0 z-30">
+      <header className="border-b border-border bg-card/90 backdrop-blur sticky top-0 z-30 font-mono">
         <div className="container mx-auto max-w-6xl px-4 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="font-bold tracking-tight">Admin</span>
-            <span className="text-muted-foreground font-mono text-xs">
-              / {currentTab?.label.toLowerCase() ?? "dashboard"}
+          <div className="flex items-center gap-3">
+            <div className="w-2 h-2 bg-primary" />
+            <span className="font-bold text-sm tracking-wider uppercase">SYS_CONSOLE // ADMIN</span>
+            <span className="text-muted-foreground text-xs hidden sm:inline">
+              / [{currentTab?.label.toUpperCase() ?? "DASHBOARD"}]
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <Button asChild variant="ghost" size="sm" className="gap-1.5 cursor-pointer">
+            <Button asChild variant="outline" size="sm" className="gap-1.5 cursor-pointer font-mono text-xs uppercase tracking-wider rounded-none">
               <Link href="/">
-                <Home className="h-4 w-4" /> Site
+                <Home className="h-3.5 w-3.5" /> SITE
               </Link>
             </Button>
             <Button
               onClick={() => void signOut().then(() => router.push("/"))}
               variant="outline"
               size="sm"
-              className="gap-1.5 cursor-pointer text-destructive hover:text-destructive"
+              className="gap-1.5 cursor-pointer text-destructive hover:text-destructive hover:bg-destructive/10 font-mono text-xs uppercase tracking-wider rounded-none border-destructive/40"
             >
-              <LogOut className="h-4 w-4" /> Sign out
+              <LogOut className="h-3.5 w-3.5" /> DISCONNECT
             </Button>
           </div>
         </div>
       </header>
 
       <div className="container mx-auto max-w-6xl px-4 py-8 flex-1 grid grid-cols-1 md:grid-cols-[220px_1fr] gap-8">
-        <aside className="space-y-1">
+        <aside className="space-y-1 font-mono">
+          <div className="px-3 py-1.5 text-[10px] font-mono uppercase tracking-widest text-muted-foreground border-b border-border/50 mb-2">
+            CONTROL_BUS // NAV
+          </div>
           {tabs.map((tab) => {
             const active = pathname === tab.href;
             const Icon = tab.icon;
@@ -102,13 +115,13 @@ export function AdminLayoutShell({ children }: { children: ReactNode }) {
                 key={tab.href}
                 href={tab.href}
                 className={cn(
-                  "flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors font-medium",
+                  "flex items-center gap-2.5 px-3 py-2 text-xs uppercase tracking-wider transition-colors rounded-none border-l-2",
                   active
-                    ? "bg-secondary text-foreground font-semibold"
-                    : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
+                    ? "border-primary bg-muted text-foreground font-bold"
+                    : "border-transparent text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                 )}
               >
-                <Icon className={cn("h-4 w-4", active ? "text-primary" : "")} />
+                <Icon className={cn("h-3.5 w-3.5", active ? "text-primary" : "")} />
                 {tab.label}
               </Link>
             );

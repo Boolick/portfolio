@@ -4,19 +4,24 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Design system definition (Bento Grid + oklch palette).
+ * Design System: Technical Manual & Hardware Console
+ * (Teenage Engineering EP-133 / Braun / 19" Eurorack / Anatomy of a Glitch)
  *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
+ * The @theme inline block maps semantic CSS variables to Tailwind v4 utility
+ * classes with zero hardcoded colors in components.
  */
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, monospace;
+
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-4xl: 0px;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -33,94 +38,82 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-status-ok: var(--status-ok);
+  --color-terminal: var(--terminal);
+  --color-terminal-foreground: var(--terminal-foreground);
+  --color-terminal-border: var(--terminal-border);
+  --color-terminal-muted: var(--terminal-muted);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+
+  --shadow-tactile: var(--shadow-tactile);
 }
 
+/* ==========================================
+   LIGHT THEME: "PAPER MANUAL / EP-133"
+   ========================================== */
 :root {
-  --radius: 1rem;
-  --background: oklch(0.985 0.005 250);
-  --foreground: oklch(0.18 0.03 260);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.03 260);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.03 260);
-  --primary: oklch(0.62 0.22 255);
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.95 0.01 250);
-  --secondary-foreground: oklch(0.2 0.03 260);
-  --muted: oklch(0.95 0.01 250);
-  --muted-foreground: oklch(0.5 0.03 260);
-  --accent: oklch(0.65 0.25 305);
-  --accent-foreground: oklch(0.99 0 0);
-  --destructive: oklch(0.62 0.24 27);
-  --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.9 0.01 255);
-  --input: oklch(0.9 0.01 255);
-  --ring: oklch(0.62 0.22 255);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --radius: 0px;
+  --background: #f4f0e8;
+  --foreground: #121212;
+  --card: #ffffff;
+  --card-foreground: #121212;
+  --popover: #ffffff;
+  --popover-foreground: #121212;
+  --primary: #ff5c00;
+  --primary-foreground: #ffffff;
+  --secondary: #ebe5d8;
+  --secondary-foreground: #121212;
+  --muted: #f4f0e8;
+  --muted-foreground: #666660;
+  --accent: #ff5c00;
+  --accent-foreground: #ffffff;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --status-ok: #059669;
+  --terminal: #0e0f12;
+  --terminal-foreground: #e6e6e6;
+  --terminal-border: #2d3139;
+  --terminal-muted: #8b909a;
+  --border: #1a1a1a;
+  --input: #1a1a1a;
+  --ring: #ff5c00;
+  --line-subtle: rgba(26, 26, 26, 0.15);
+  --shadow-tactile: 2px 2px 0px #1a1a1a;
 }
 
+/* ==========================================
+   DARK THEME: "MATTE HARDWARE RACK"
+   ========================================== */
 .dark {
-  --background: oklch(0.14 0.02 265);
-  --foreground: oklch(0.97 0.01 250);
-  --card: oklch(0.18 0.025 265);
-  --card-foreground: oklch(0.97 0.01 250);
-  --popover: oklch(0.18 0.025 265);
-  --popover-foreground: oklch(0.97 0.01 250);
-  --primary: oklch(0.7 0.22 255);
-  --primary-foreground: oklch(0.12 0.02 265);
-  --secondary: oklch(0.24 0.03 265);
-  --secondary-foreground: oklch(0.97 0.01 250);
-  --muted: oklch(0.22 0.025 265);
-  --muted-foreground: oklch(0.66 0.03 255);
-  --accent: oklch(0.7 0.25 305);
-  --accent-foreground: oklch(0.12 0.02 265);
-  --destructive: oklch(0.66 0.22 22);
-  --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(1 0 0 / 8%);
-  --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.7 0.22 255);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  --background: #0e0f12;
+  --foreground: #e6e6e6;
+  --card: #15171c;
+  --card-foreground: #e6e6e6;
+  --popover: #15171c;
+  --popover-foreground: #e6e6e6;
+  --primary: #ff5c00;
+  --primary-foreground: #0e0f12;
+  --secondary: #1f232b;
+  --secondary-foreground: #e6e6e6;
+  --muted: #0e0f12;
+  --muted-foreground: #8b909a;
+  --accent: #ff5c00;
+  --accent-foreground: #0e0f12;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --status-ok: #10b981;
+  --terminal: #0e0f12;
+  --terminal-foreground: #e6e6e6;
+  --terminal-border: #2d3139;
+  --terminal-muted: #8b909a;
+  --border: #2d3139;
+  --input: #2d3139;
+  --ring: #ff5c00;
+  --line-subtle: rgba(230, 230, 230, 0.12);
+  --shadow-tactile: 2px 2px 0px #000000;
 }
 
 @layer base {
@@ -131,83 +124,183 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: ui-sans-serif, system-ui, "Inter", "Segoe UI", Roboto, sans-serif;
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     margin: 0 auto;
     padding: 0;
+    transition: background-color 120ms ease, color 120ms ease;
+    background-image: radial-gradient(var(--line-subtle) 0.75px, transparent 0.75px);
+    background-size: 24px 24px;
   }
 
   .font-mono {
-    font-family: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace;
+    font-family: var(--font-mono);
   }
 }
 
+/* ==========================================
+   ATOMIC HARDWARE CONSOLE UTILITIES
+   ========================================== */
 @layer utilities {
-  .bento-card {
+  /* Enclosed 1px hardware chassis module */
+  .chassis-module {
     position: relative;
-    border-radius: var(--radius-2xl);
+    border-radius: 0px;
     background: var(--card);
+    color: var(--card-foreground);
     border: 1px solid var(--border);
-    overflow: hidden;
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   }
-  .bento-card:hover {
-    transform: translateY(-2px);
-    border-color: color-mix(in oklab, var(--primary) 60%, transparent);
-    box-shadow: 0 24px 60px -30px color-mix(in oklab, var(--primary) 50%, transparent);
+
+  /* Heavy 2px rack mount module */
+  .chassis-module-double {
+    position: relative;
+    border-radius: 0px;
+    background: var(--card);
+    color: var(--card-foreground);
+    border: 2px solid var(--border);
   }
-  .bento-card-glow::before {
+
+  /* Top module telemetry strip */
+  .chassis-header {
+    border-bottom: 1px solid var(--border);
+    background: var(--muted);
+    padding: 0.625rem 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  /* Bottom module rail */
+  .chassis-footer {
+    border-top: 1px solid var(--border);
+    background: var(--muted);
+    padding: 0.375rem 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    color: var(--muted-foreground);
+  }
+
+  /* Recessed inset well */
+  .recessed-well {
+    background: var(--muted);
+    border: 1px solid var(--border);
+    padding: 0.75rem;
+    font-family: var(--font-mono);
+  }
+
+  /* Mechanical tactile actuator response */
+  .tactile-btn {
+    transition: transform 60ms ease, background-color 60ms ease, color 60ms ease, border-color 60ms ease, box-shadow 60ms ease;
+  }
+  .tactile-btn:active {
+    transform: translate(1px, 1px);
+  }
+
+  /* Millimeter ruler ticks */
+  .ruler-x {
+    background-image: repeating-linear-gradient(
+      to right,
+      var(--border) 0,
+      var(--border) 1px,
+      transparent 1px,
+      transparent 8px
+    );
+    height: 6px;
+  }
+
+  .ruler-ticks {
+    background-image: repeating-linear-gradient(
+      to right,
+      var(--border) 0,
+      var(--border) 1px,
+      transparent 1px,
+      transparent 12px
+    );
+  }
+
+  /* 19-inch Rack mounting screw */
+  .rack-bolt {
+    width: 10px;
+    height: 10px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    position: relative;
+    background: var(--card);
+    flex-shrink: 0;
+  }
+  .rack-bolt::after {
     content: "";
     position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(135deg,
-      color-mix(in oklab, var(--primary) 70%, transparent),
-      color-mix(in oklab, var(--accent) 70%, transparent));
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
+    top: 50%;
+    left: 1px;
+    right: 1px;
+    height: 1px;
+    background: var(--border);
+    transform: translateY(-50%) rotate(35deg);
+  }
+
+  /* Coordinate registration crosshairs (+) */
+  .crosshair-corner {
+    position: relative;
+  }
+  .crosshair-corner::before,
+  .crosshair-corner::after {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1;
+    color: var(--muted-foreground);
+    opacity: 0.85;
     pointer-events: none;
-    opacity: 0.6;
+    position: absolute;
   }
-  .text-gradient {
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    -webkit-background-clip: text;
-            background-clip: text;
-    color: transparent;
+  .crosshair-tl::before {
+    content: "+";
+    top: -6px;
+    left: -5px;
   }
-  .grain {
-    background-image: radial-gradient(color-mix(in oklab, var(--primary) 10%, transparent) 1px, transparent 1px);
-    background-size: 24px 24px;
+  .crosshair-tr::after {
+    content: "+";
+    top: -6px;
+    right: -5px;
   }
 }
 
-/* ===== Smooth Scrolling & Custom Scrollbar ===== */
+/* ===== Smooth Scrolling & Mechanical Scrollbar ===== */
 html {
   scroll-behavior: smooth;
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--muted);
+  background: var(--background);
 }
 ::-webkit-scrollbar-thumb {
   background: var(--border);
-  border-radius: 4px;
+  border-radius: 0px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--muted-foreground);
+  background: var(--primary);
 }
 
-/* ===== Focus Styles ===== */
+/* ===== Sharp Focus Styles ===== */
 button:focus-visible,
-a:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 2px;
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 1px solid var(--ring);
+  outline-offset: 1px;
 }
 
 /* ===== Text Wrapping & Overflow Prevention ===== */
@@ -243,6 +336,7 @@ h1, h2, h3, h4, h5, h6, p, span, li {
   html, body {
     background: white !important;
     color: black !important;
+    background-image: none !important;
     margin: 0 !important;
     padding: 0 !important;
     width: 210mm !important;

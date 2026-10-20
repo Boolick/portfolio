@@ -180,19 +180,19 @@ export function AdminEducationView() {
     <div className="space-y-12">
       {/* SECTION 1: EDUCATION */}
       <section className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4 font-mono">
           <div className="flex items-center gap-3">
-            <GraduationCap className="w-6 h-6 text-primary" />
+            <GraduationCap className="w-5 h-5 text-primary" />
             <div>
-              <h2 className="text-2xl font-bold tracking-tight text-foreground">Formal Education</h2>
-              <p className="text-sm text-muted-foreground mt-0.5">
+              <h2 className="text-xl font-bold uppercase tracking-tight text-foreground">Formal Education</h2>
+              <p className="text-xs text-muted-foreground mt-0.5">
                 University degree and additional specialized professional training courses.
               </p>
             </div>
           </div>
           <div className="flex items-center gap-3">
             {!edu && (
-              <Button variant="outline" size="sm" onClick={seedEducation}>
+              <Button variant="outline" size="sm" onClick={seedEducation} className="text-xs uppercase tracking-wider rounded-none">
                 Seed default education
               </Button>
             )}
@@ -210,7 +210,11 @@ export function AdminEducationView() {
         </div>
 
         {edu && (
-          <form onSubmit={handleSaveEducation} className="space-y-6 p-6 rounded-2xl border border-border bg-card/60 backdrop-blur-sm shadow-sm">
+          <form onSubmit={handleSaveEducation} className="chassis-module p-6 sm:p-8 space-y-6">
+            <div className="chassis-header -mx-6 -mt-6 sm:-mx-8 sm:-mt-8 mb-2 px-4 py-2 flex items-center justify-between border-b border-border bg-muted/40 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+              <span>ACADEMIC_RECORD // REG_04_EDU</span>
+              <span>[ VERIFIED ]</span>
+            </div>
             {/* Year */}
             <div className="space-y-1.5 max-w-xs">
               <Label className="text-xs font-medium">Study Period / Year</Label>
@@ -302,13 +306,13 @@ export function AdminEducationView() {
               </div>
             )}
 
-            <div className="flex justify-end pt-4 border-t border-border/50">
+            <div className="flex justify-end pt-4 border-t border-border font-mono">
               <Button
                 type="submit"
                 disabled={eduBusy}
-                className="bg-gradient-to-r from-primary to-accent text-primary-foreground border-0 cursor-pointer shadow-md"
+                className="tactile-btn text-xs uppercase tracking-wider cursor-pointer"
               >
-                {eduBusy ? "Saving…" : "Save Education"}
+                {eduBusy ? "SAVING..." : "SAVE EDUCATION"}
               </Button>
             </div>
           </form>
@@ -317,23 +321,23 @@ export function AdminEducationView() {
 
       {/* SECTION 2: LANGUAGES */}
       <section className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4 font-mono">
           <div className="flex items-center gap-3">
-            <Globe className="w-6 h-6 text-primary" />
+            <Globe className="w-5 h-5 text-primary" />
             <div>
-              <h2 className="text-2xl font-bold tracking-tight text-foreground">Languages</h2>
-              <p className="text-sm text-muted-foreground mt-0.5">
+              <h2 className="text-xl font-bold uppercase tracking-tight text-foreground">Languages</h2>
+              <p className="text-xs text-muted-foreground mt-0.5">
                 Spoken and written language competencies with proficiency levels.
               </p>
             </div>
           </div>
           <div className="flex items-center gap-3">
             {languages.length === 0 && (
-              <Button variant="outline" size="sm" onClick={seedLanguages}>
+              <Button variant="outline" size="sm" onClick={seedLanguages} className="text-xs uppercase tracking-wider rounded-none">
                 Seed default languages
               </Button>
             )}
-            <Button onClick={createLanguage} size="sm" className="gap-1.5 cursor-pointer">
+            <Button onClick={createLanguage} size="sm" className="gap-1.5 cursor-pointer tactile-btn text-xs uppercase tracking-wider">
               <Plus className="w-4 h-4" /> Add Language
             </Button>
           </div>
@@ -346,12 +350,17 @@ export function AdminEducationView() {
             return (
               <div
                 key={lang.id}
-                className="p-5 rounded-2xl border border-border bg-card/60 backdrop-blur-sm space-y-4 shadow-sm"
+                className="chassis-module p-5 space-y-4"
               >
+                <div className="chassis-header -mx-5 -mt-5 mb-2 px-3 py-1.5 flex items-center justify-between border-b border-border bg-muted/40 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                  <span>LANG_MODULE // {lang.name_en || "LANG"}</span>
+                  <span>[ #{lang.sort_order} ]</span>
+                </div>
+
                 {/* Header bar */}
-                <div className="flex items-center justify-between border-b border-border/50 pb-3">
+                <div className="flex items-center justify-between border-b border-border pb-3">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-mono px-2 py-0.5 rounded bg-muted text-muted-foreground font-semibold">
+                    <span className="text-xs font-mono px-2 py-0.5 bg-muted text-muted-foreground font-semibold">
                       #{lang.sort_order}
                     </span>
                     <div className="flex items-center gap-1">
@@ -389,7 +398,7 @@ export function AdminEducationView() {
                 {/* Inputs: EN vs RU */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="space-y-1.5">
-                    <Label className="text-xs font-medium">Name (EN)</Label>
+                    <Label className="text-xs font-mono uppercase text-muted-foreground">Name (EN)</Label>
                     <Input
                       value={lang.name_en}
                       onChange={(e) => updateLanguage(lang.id, { name_en: e.target.value })}
@@ -397,7 +406,7 @@ export function AdminEducationView() {
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label className="text-xs font-medium">Proficiency Level (EN)</Label>
+                    <Label className="text-xs font-mono uppercase text-muted-foreground">Proficiency Level (EN)</Label>
                     <Input
                       value={lang.level_en}
                       onChange={(e) => updateLanguage(lang.id, { level_en: e.target.value })}
@@ -408,7 +417,7 @@ export function AdminEducationView() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="space-y-1.5">
-                    <Label className="text-xs font-medium">Название (RU)</Label>
+                    <Label className="text-xs font-mono uppercase text-muted-foreground">Название (RU)</Label>
                     <Input
                       value={lang.name_ru}
                       onChange={(e) => updateLanguage(lang.id, { name_ru: e.target.value })}
@@ -416,7 +425,7 @@ export function AdminEducationView() {
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label className="text-xs font-medium">Уровень владения (RU)</Label>
+                    <Label className="text-xs font-mono uppercase text-muted-foreground">Уровень владения (RU)</Label>
                     <Input
                       value={lang.level_ru}
                       onChange={(e) => updateLanguage(lang.id, { level_ru: e.target.value })}
@@ -425,14 +434,14 @@ export function AdminEducationView() {
                   </div>
                 </div>
 
-                <div className="flex justify-end pt-3 border-t border-border/50">
+                <div className="flex justify-end pt-3 border-t border-border font-mono">
                   <Button
                     size="sm"
                     disabled={isBusy}
                     onClick={() => void handleSaveLanguage(lang)}
-                    className="bg-gradient-to-r from-primary to-accent text-primary-foreground border-0 cursor-pointer shadow-md"
+                    className="tactile-btn text-xs uppercase tracking-wider cursor-pointer"
                   >
-                    {isBusy ? "Saving…" : "Save Language"}
+                    {isBusy ? "SAVING..." : "SAVE LANGUAGE"}
                   </Button>
                 </div>
               </div>

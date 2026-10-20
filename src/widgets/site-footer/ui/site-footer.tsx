@@ -6,15 +6,19 @@ export function SiteFooter() {
   const { t } = useLanguage();
 
   return (
-    <footer className="mt-24 border-t border-border/60">
-      <div className="container mx-auto max-w-6xl px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-muted-foreground">
-        <p>© {new Date().getFullYear()} Alexander Bullo</p>
-        <p className="font-mono text-xs">
+    <footer className="border-t border-border bg-card py-4 px-4 font-mono text-[10px] text-muted-foreground uppercase mt-20">
+      <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+        <div>
+          AB_SYSTEMS © {new Date().getFullYear()} {"// "}{" "}
           {t(
-            "Built with Next.js 16 · React 19 · Supabase · Tailwind v4",
-            "Next.js 16 · React 19 · Supabase · Tailwind v4"
+            "ALL MEASUREMENTS ARE HARDWARE-CALIBRATED",
+            "ВСЕ ИЗМЕРЕНИЯ АППАРАТНО КАЛИБРОВАНЫ",
           )}
-        </p>
+        </div>
+        <div className="flex items-center gap-4">
+          <span className="hidden sm:inline">TEENAGE ENGINEERING / BRAUN ETHOS</span>
+          <span className="text-status-ok font-bold">● STABLE MATRIX</span>
+        </div>
       </div>
     </footer>
   );

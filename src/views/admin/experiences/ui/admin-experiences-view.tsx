@@ -142,18 +142,18 @@ export function AdminExperiencesView() {
       {/* Header controls */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">Work Experience</h2>
-          <p className="text-sm text-muted-foreground mt-1">
+          <h2 className="text-xl font-bold font-mono uppercase tracking-tight text-foreground">Work Experience</h2>
+          <p className="text-xs font-mono text-muted-foreground mt-1">
             Manage your career history with dedicated English and Russian translations.
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 font-mono">
           {items.length === 0 && (
-            <Button variant="outline" onClick={seed}>
+            <Button variant="outline" onClick={seed} size="sm" className="text-xs uppercase tracking-wider rounded-none">
               Seed default data
             </Button>
           )}
-          <Button onClick={create} className="gap-2 cursor-pointer">
+          <Button onClick={create} size="sm" className="gap-2 cursor-pointer tactile-btn text-xs uppercase tracking-wider">
             <Plus className="w-4 h-4" /> Add Experience
           </Button>
         </div>
@@ -161,17 +161,19 @@ export function AdminExperiencesView() {
 
       {/* Empty State */}
       {items.length === 0 && (
-        <div className="text-center py-16 border border-dashed border-border rounded-2xl bg-card/40">
-          <Briefcase className="w-12 h-12 mx-auto text-muted-foreground/60 mb-3" />
-          <h3 className="text-lg font-medium text-foreground">No experiences found</h3>
-          <p className="text-sm text-muted-foreground max-w-sm mx-auto mt-1 mb-4">
-            Your database table is currently empty. You can add a new job or seed it with existing CV entries.
+        <div className="text-center py-16 chassis-module font-mono space-y-3">
+          <Briefcase className="w-10 h-10 mx-auto text-muted-foreground/60 mb-2" />
+          <h3 className="text-base font-bold uppercase text-foreground">No experiences found</h3>
+          <p className="text-xs text-muted-foreground max-w-sm mx-auto mb-4">
+            Database table is empty. Add a new record or seed default entries.
           </p>
           <div className="flex justify-center gap-3">
-            <Button onClick={seed} variant="outline">
+            <Button onClick={seed} variant="outline" size="sm" className="text-xs uppercase tracking-wider rounded-none">
               Seed from CV
             </Button>
-            <Button onClick={create}>Add first experience</Button>
+            <Button onClick={create} size="sm" className="tactile-btn text-xs uppercase tracking-wider">
+              Add first experience
+            </Button>
           </div>
         </div>
       )}
@@ -185,10 +187,18 @@ export function AdminExperiencesView() {
           return (
             <div
               key={exp.id}
-              className="p-6 rounded-2xl border border-border bg-card/60 backdrop-blur-sm space-y-6 shadow-sm"
+              className="chassis-module p-6 sm:p-8 space-y-6"
             >
+              <div className="chassis-header -mx-6 -mt-6 sm:-mx-8 sm:-mt-8 mb-2 px-4 py-2 flex items-center justify-between border-b border-border bg-muted/40 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                <span className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-primary inline-block" />
+                  REV_LOG // {exp.company || "EXPERIENCE"}
+                </span>
+                <span>[ #{exp.sort_order} ]</span>
+              </div>
+
               {/* Top Row: Meta Controls & Sorting */}
-              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border/50 pb-4">
+              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border pb-4">
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-mono px-2 py-0.5 rounded bg-muted text-muted-foreground font-semibold">
                     #{exp.sort_order}
@@ -363,12 +373,12 @@ export function AdminExperiencesView() {
               )}
 
               {/* Actions Footer */}
-              <div className="flex items-center justify-between border-t border-border/50 pt-4">
+              <div className="flex items-center justify-between border-t border-border pt-4 font-mono">
                 <Button
                   variant="destructive"
                   size="sm"
                   onClick={() => void remove(exp.id, exp.company)}
-                  className="gap-1.5 cursor-pointer"
+                  className="gap-1.5 cursor-pointer text-xs uppercase tracking-wider rounded-none"
                 >
                   <Trash2 className="w-4 h-4" /> Delete Experience
                 </Button>
@@ -376,9 +386,9 @@ export function AdminExperiencesView() {
                   size="sm"
                   disabled={isBusy}
                   onClick={() => void save(exp)}
-                  className="bg-gradient-to-r from-primary to-accent text-primary-foreground border-0 cursor-pointer shadow-md"
+                  className="tactile-btn text-xs uppercase tracking-wider cursor-pointer"
                 >
-                  {isBusy ? "Saving…" : "Save Experience"}
+                  {isBusy ? "SAVING..." : "SAVE EXPERIENCE"}
                 </Button>
               </div>
             </div>
