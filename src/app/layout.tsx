@@ -67,6 +67,13 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} scroll-smooth`}
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var s=localStorage.getItem("theme");var d=s?s==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;var r=document.documentElement;if(d){r.classList.add("dark");r.style.setProperty("--theme-mix","100%");r.style.setProperty("--wheel-pos","1");r.style.setProperty("--wheel-offset","88px");r.style.colorScheme="dark";}else{r.classList.remove("dark");r.style.setProperty("--theme-mix","0%");r.style.setProperty("--wheel-pos","0");r.style.setProperty("--wheel-offset","0px");r.style.colorScheme="light";}}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body className="antialiased m-0 p-0 font-sans bg-background text-foreground min-h-screen selection:bg-primary selection:text-primary-foreground">
         <AuthProvider>
           <ThemeProvider>

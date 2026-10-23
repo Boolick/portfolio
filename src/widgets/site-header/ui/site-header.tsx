@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { LogIn, LayoutDashboard, FileDown } from "lucide-react";
-import { ThemeToggle } from "@/features/theme-toggle";
+import { ThemeThumbwheel } from "@/features/theme-toggle";
 import { LanguageSwitcher, useLanguage } from "@/features/language-switcher";
 import { useAuth } from "@/features/auth";
 
@@ -90,7 +90,7 @@ export function SiteHeader({ isAdmin: propsIsAdmin }: SiteHeaderProps) {
 
           {/* Switchers */}
           <LanguageSwitcher />
-          <ThemeToggle />
+          <ThemeThumbwheel />
 
           {/* Admin / Login */}
           {isAdmin ? (

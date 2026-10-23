@@ -31,8 +31,19 @@ function subscribeTheme(callback: () => void) {
 }
 
 function getThemeSnapshot(): Theme {
-  const stored = localStorage.getItem("theme");
-  return stored === "light" ? "light" : "dark";
+  if (typeof window === "undefined") return "dark";
+  try {
+    const stored = localStorage.getItem("theme");
+    if (stored === "light" || stored === "dark") {
+      return stored;
+    }
+    if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      return "dark";
+    }
+    return "light";
+  } catch {
+    return "dark";
+  }
 }
 
 function getThemeServerSnapshot(): Theme {
@@ -47,11 +58,23 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   );
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
+    const isDark = theme === "dark";
+    const root = document.documentElement;
+    // Only initialize root properties if wheel engine hasn't already taken ownership
+    if (!root.style.getPropertyValue("--wheel-pos")) {
+      root.classList.toggle("dark", isDark);
+      root.style.setProperty("--theme-mix", isDark ? "100%" : "0%");
+      root.style.setProperty("--wheel-pos", isDark ? "1" : "0");
+      root.style.setProperty("--wheel-offset", isDark ? "88px" : "0px");
+      root.style.colorScheme = isDark ? "dark" : "light";
+    }
   }, [theme]);
 
   const setTheme = useCallback((next: Theme) => {
-    localStorage.setItem("theme", next);
+    try {
+      localStorage.setItem("theme", next);
+    } catch {}
+    window.dispatchEvent(new CustomEvent("theme-wheel-set", { detail: next }));
     window.dispatchEvent(new Event(THEME_EVENT));
   }, []);
 

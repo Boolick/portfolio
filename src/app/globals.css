@@ -52,68 +52,135 @@
 }
 
 /* ==========================================
-   LIGHT THEME: "PAPER MANUAL / EP-133"
+   DUAL-STATE HARDWARE COLOR PIPELINE
+   Light: "PAPER MANUAL / EP-133" (0%)
+   Dark:  "MATTE HARDWARE RACK"   (100%)
+   Interpolated dynamically via color-mix(in oklab)
    ========================================== */
 :root {
   --radius: 0px;
-  --background: #f4f0e8;
-  --foreground: #121212;
-  --card: #ffffff;
-  --card-foreground: #121212;
-  --popover: #ffffff;
-  --popover-foreground: #121212;
+  --theme-mix: 0%;
+  --wheel-pos: 0;
+  --wheel-offset: 0px;
+  color-scheme: light;
+
+  /* Calibration Palettes */
+  --bg-light: #f4f0e8;
+  --fg-light: #121212;
+  --card-light: #ffffff;
+  --card-fg-light: #121212;
+  --popover-light: #ffffff;
+  --popover-fg-light: #121212;
+  --secondary-light: #ebe5d8;
+  --secondary-fg-light: #121212;
+  --muted-light: #f4f0e8;
+  --muted-fg-light: #666660;
+  --border-light: #1a1a1a;
+  --input-light: #1a1a1a;
+  --line-subtle-light: rgba(26, 26, 26, 0.15);
+  --shadow-tactile-light: 2px 2px 0px #1a1a1a;
+
+  --bg-dark: #0e0f12;
+  --fg-dark: #e6e6e6;
+  --card-dark: #15171c;
+  --card-fg-dark: #e6e6e6;
+  --popover-dark: #15171c;
+  --popover-fg-dark: #e6e6e6;
+  --secondary-dark: #1f232b;
+  --secondary-fg-dark: #e6e6e6;
+  --muted-dark: #0e0f12;
+  --muted-fg-dark: #8b909a;
+  --border-dark: #2d3139;
+  --input-dark: #2d3139;
+  --line-subtle-dark: rgba(230, 230, 230, 0.12);
+  --shadow-tactile-dark: 2px 2px 0px #000000;
+
+  /* Continuous Optical Mixing in OKLab (Prevents chromatic hue spinning) */
+  --background: color-mix(in oklab, var(--bg-light), var(--bg-dark) var(--theme-mix));
+  --foreground: color-mix(in oklab, var(--fg-light), var(--fg-dark) var(--theme-mix));
+  --card: color-mix(in oklab, var(--card-light), var(--card-dark) var(--theme-mix));
+  --card-foreground: color-mix(in oklab, var(--card-fg-light), var(--card-fg-dark) var(--theme-mix));
+  --popover: color-mix(in oklab, var(--popover-light), var(--popover-dark) var(--theme-mix));
+  --popover-foreground: color-mix(in oklab, var(--popover-fg-light), var(--popover-fg-dark) var(--theme-mix));
+  --secondary: color-mix(in oklab, var(--secondary-light), var(--secondary-dark) var(--theme-mix));
+  --secondary-foreground: color-mix(in oklab, var(--secondary-fg-light), var(--secondary-fg-dark) var(--theme-mix));
+  --muted: color-mix(in oklab, var(--muted-light), var(--muted-dark) var(--theme-mix));
+  --muted-foreground: color-mix(in oklab, var(--muted-fg-light), var(--muted-fg-dark) var(--theme-mix));
+  --border: color-mix(in oklab, var(--border-light), var(--border-dark) var(--theme-mix));
+  --input: color-mix(in oklab, var(--input-light), var(--input-dark) var(--theme-mix));
+  --line-subtle: color-mix(in oklab, var(--line-subtle-light), var(--line-subtle-dark) var(--theme-mix));
+  --shadow-tactile: 2px 2px 0px color-mix(in oklab, #1a1a1a, #000000 var(--theme-mix));
+
+  /* Operational Hardware Accents (Fixed Signal Spectrum) */
   --primary: #ff5c00;
   --primary-foreground: #ffffff;
-  --secondary: #ebe5d8;
-  --secondary-foreground: #121212;
-  --muted: #f4f0e8;
-  --muted-foreground: #666660;
   --accent: #ff5c00;
   --accent-foreground: #ffffff;
-  --destructive: #dc2626;
+  --ring: #ff5c00;
+
+  /* Functional Status Colors */
+  --destructive: color-mix(in oklab, #dc2626, #ef4444 var(--theme-mix));
   --destructive-foreground: #ffffff;
-  --status-ok: #059669;
+  --status-ok: color-mix(in oklab, #059669, #10b981 var(--theme-mix));
+
+  /* Terminal Console (Always Fixed Matte Chassis) */
   --terminal: #0e0f12;
   --terminal-foreground: #e6e6e6;
   --terminal-border: #2d3139;
   --terminal-muted: #8b909a;
-  --border: #1a1a1a;
-  --input: #1a1a1a;
-  --ring: #ff5c00;
-  --line-subtle: rgba(26, 26, 26, 0.15);
-  --shadow-tactile: 2px 2px 0px #1a1a1a;
 }
 
-/* ==========================================
-   DARK THEME: "MATTE HARDWARE RACK"
-   ========================================== */
+/* Polarized state overrides for dark class */
 .dark {
-  --background: #0e0f12;
-  --foreground: #e6e6e6;
-  --card: #15171c;
-  --card-foreground: #e6e6e6;
-  --popover: #15171c;
-  --popover-foreground: #e6e6e6;
-  --primary: #ff5c00;
+  color-scheme: dark;
+  --theme-mix: 100%;
+  --wheel-pos: 1;
+  --wheel-offset: 88px;
   --primary-foreground: #0e0f12;
-  --secondary: #1f232b;
-  --secondary-foreground: #e6e6e6;
-  --muted: #0e0f12;
-  --muted-foreground: #8b909a;
-  --accent: #ff5c00;
   --accent-foreground: #0e0f12;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --status-ok: #10b981;
-  --terminal: #0e0f12;
-  --terminal-foreground: #e6e6e6;
-  --terminal-border: #2d3139;
-  --terminal-muted: #8b909a;
-  --border: #2d3139;
-  --input: #2d3139;
-  --ring: #ff5c00;
-  --line-subtle: rgba(230, 230, 230, 0.12);
-  --shadow-tactile: 2px 2px 0px #000000;
+}
+
+/* Fallback for engines lacking CSS color-mix */
+@supports not (color: color-mix(in oklab, #fff, #000 50%)) {
+  :root {
+    --background: #f4f0e8;
+    --foreground: #121212;
+    --card: #ffffff;
+    --card-foreground: #121212;
+    --popover: #ffffff;
+    --popover-foreground: #121212;
+    --secondary: #ebe5d8;
+    --secondary-foreground: #121212;
+    --muted: #f4f0e8;
+    --muted-foreground: #666660;
+    --border: #1a1a1a;
+    --input: #1a1a1a;
+    --line-subtle: rgba(26, 26, 26, 0.15);
+    --shadow-tactile: 2px 2px 0px #1a1a1a;
+  }
+  .dark {
+    --background: #0e0f12;
+    --foreground: #e6e6e6;
+    --card: #15171c;
+    --card-foreground: #e6e6e6;
+    --popover: #15171c;
+    --popover-foreground: #e6e6e6;
+    --secondary: #1f232b;
+    --secondary-foreground: #e6e6e6;
+    --muted: #0e0f12;
+    --muted-foreground: #8b909a;
+    --border: #2d3139;
+    --input: #2d3139;
+    --line-subtle: rgba(230, 230, 230, 0.12);
+    --shadow-tactile: 2px 2px 0px #000000;
+  }
+}
+
+/* Real-time manipulation override: kill transitions during active thumbwheel drag */
+html.is-theme-dragging,
+html.is-theme-dragging * {
+  transition: none !important;
+  user-select: none !important;
 }
 
 @layer base {
@@ -128,7 +195,6 @@
     -webkit-font-smoothing: antialiased;
     margin: 0 auto;
     padding: 0;
-    transition: background-color 120ms ease, color 120ms ease;
     background-image: radial-gradient(var(--line-subtle) 0.75px, transparent 0.75px);
     background-size: 24px 24px;
   }

@@ -1,40 +1,29 @@
 /**
  * Technical Manual & Hardware Console Theme Reference
- * Main variables are registered in src/app/globals.css
+ * Main variables are dynamically calculated via color-mix(in oklab) in src/app/globals.css
  */
 
 :root {
-  --background: #f4f0e8;
-  --foreground: #121212;
-  --card: #ffffff;
-  --card-foreground: #121212;
+  --theme-mix: 0%;
+  color-scheme: light;
+  --background: color-mix(in oklab, #f4f0e8, #0e0f12 var(--theme-mix));
+  --foreground: color-mix(in oklab, #121212, #e6e6e6 var(--theme-mix));
+  --card: color-mix(in oklab, #ffffff, #15171c var(--theme-mix));
+  --card-foreground: color-mix(in oklab, #121212, #e6e6e6 var(--theme-mix));
   --primary: #ff5c00;
   --primary-foreground: #ffffff;
-  --secondary: #ebe5d8;
-  --secondary-foreground: #121212;
-  --muted: #f4f0e8;
-  --muted-foreground: #666660;
-  --status-ok: #059669;
-  --destructive: #dc2626;
-  --border: #1a1a1a;
+  --secondary: color-mix(in oklab, #ebe5d8, #1f232b var(--theme-mix));
+  --secondary-foreground: color-mix(in oklab, #121212, #e6e6e6 var(--theme-mix));
+  --muted: color-mix(in oklab, #f4f0e8, #0e0f12 var(--theme-mix));
+  --muted-foreground: color-mix(in oklab, #666660, #8b909a var(--theme-mix));
+  --status-ok: color-mix(in oklab, #059669, #10b981 var(--theme-mix));
+  --destructive: color-mix(in oklab, #dc2626, #ef4444 var(--theme-mix));
+  --border: color-mix(in oklab, #1a1a1a, #2d3139 var(--theme-mix));
   --ring: #ff5c00;
-  --shadow-tactile: 2px 2px 0px #1a1a1a;
+  --shadow-tactile: 2px 2px 0px color-mix(in oklab, #1a1a1a, #000000 var(--theme-mix));
 }
 
 .dark {
-  --background: #0e0f12;
-  --foreground: #e6e6e6;
-  --card: #15171c;
-  --card-foreground: #e6e6e6;
-  --primary: #ff5c00;
+  color-scheme: dark;
   --primary-foreground: #0e0f12;
-  --secondary: #1f232b;
-  --secondary-foreground: #e6e6e6;
-  --muted: #0e0f12;
-  --muted-foreground: #8b909a;
-  --status-ok: #10b981;
-  --destructive: #ef4444;
-  --border: #2d3139;
-  --ring: #ff5c00;
-  --shadow-tactile: 2px 2px 0px #000000;
 }
