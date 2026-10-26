@@ -1,16 +1,16 @@
 /**
- * Shadow Design Tokens — Mechanical Framing & Tactile Offset Shadows
+ * Shadow Design Tokens — Zero Shadows (Depth via 1px Borders & Surface Contrast)
  */
 
 export const shadows = {
   none: "none",
-  tactile: "var(--shadow-tactile)",
-  xs: "var(--shadow-tactile)",
-  sm: "var(--shadow-tactile)",
-  md: "var(--shadow-tactile)",
-  lg: "var(--shadow-tactile)",
-  xl: "var(--shadow-tactile)",
-  "2xl": "var(--shadow-tactile)",
+  tactile: "none",
+  xs: "none",
+  sm: "none",
+  md: "none",
+  lg: "none",
+  xl: "none",
+  "2xl": "none",
   inner: "none",
   innerMd: "none",
 } as const;
@@ -25,11 +25,11 @@ export const glows = {
 } as const;
 
 export const themeShadows = {
-  shadow: "var(--shadow-tactile)",
-  shadowSm: "var(--shadow-tactile)",
-  shadowMd: "var(--shadow-tactile)",
-  shadowLg: "var(--shadow-tactile)",
-  shadowAccent: "var(--shadow-tactile)",
+  shadow: "none",
+  shadowSm: "none",
+  shadowMd: "none",
+  shadowLg: "none",
+  shadowAccent: "none",
 } as const;
 
 export type Shadow = keyof typeof shadows;

@@ -1,5 +1,5 @@
 /**
- * Technical Manual & Hardware Console Theme Reference
+ * Constructivist Engineering Blueprint Theme Reference
  * Main variables are dynamically calculated via color-mix(in oklab) in src/app/globals.css
  */
 
@@ -20,7 +20,6 @@
   --destructive: color-mix(in oklab, #dc2626, #ef4444 var(--theme-mix));
   --border: color-mix(in oklab, #1a1a1a, #2d3139 var(--theme-mix));
   --ring: #ff5c00;
-  --shadow-tactile: 2px 2px 0px color-mix(in oklab, #1a1a1a, #000000 var(--theme-mix));
 }
 
 .dark {

@@ -8,6 +8,30 @@ interface ProjectPageProps {
   params: Promise<{ slug: string }>;
 }
 
+const PROJECT_SEO_KEYWORDS: Record<string, string[]> = {
+  dexsa: [
+    "Telegram Mini App development",
+    "React Telegram Mini App",
+    "Telegram Stars payments",
+    "Разработка Telegram Mini App на React",
+  ],
+  dkmline: [
+    "B2B catalog on Next.js",
+    "B2B e-commerce development",
+    "B2B каталог на Next.js",
+  ],
+  "tower-empire": [
+    "WebSocket realtime game",
+    "Node.js realtime backend",
+    "Fullstack инженер",
+  ],
+  portfolio: [
+    "Next.js portfolio",
+    "Fullstack engineer",
+    "Fullstack инженер",
+  ],
+};
+
 export async function generateStaticParams() {
   const projects = await getProjects();
   return projects.map((p) => ({
@@ -27,9 +51,13 @@ export async function generateMetadata({
     };
   }
 
+  const customKeywords = PROJECT_SEO_KEYWORDS[slug] ?? [];
+  const keywords = Array.from(new Set([...project.tags, ...customKeywords]));
+
   return {
-    title: `${project.title_en} | Alexander Bullo`,
+    title: `${project.title_en} | Aliaksandr Bullo`,
     description: project.description_en,
+    keywords,
     openGraph: {
       title: project.title_en,
       description: project.description_en,

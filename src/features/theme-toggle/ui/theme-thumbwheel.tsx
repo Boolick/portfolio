@@ -194,29 +194,28 @@ export function ThemeThumbwheel({
       className={`inline-flex items-center gap-1.5 sm:gap-2 font-mono select-none ${className}`}
       data-testid="theme-thumbwheel-wrapper"
     >
-      {/* 1. Light Mode Marker / Label (CSS-driven via .dark to guarantee zero hydration mismatch) */}
+      {/* 1. Light Mode Button */}
       {showLabels && (
         <button
           type="button"
           onClick={() => engineRef.current?.setMode("light", true)}
           className="tactile-btn text-[10px] px-1.5 py-0.5 border transition-colors cursor-pointer text-primary font-bold border-border bg-card dark:text-muted-foreground dark:font-normal dark:border-transparent dark:bg-transparent dark:hover:text-foreground"
-          title="Switch to Technical Paper Manual (Light)"
+          title="Light Theme"
         >
-          <span className="hidden md:inline">MANUAL:</span>
           <span>LIGHT</span>
         </button>
       )}
 
-      {/* 2. Recessed Japanese 1980s Knurled Thumbwheel */}
+      {/* 2. Constructivist Linear Slider Track */}
       <div
         ref={slotRef}
         role="slider"
         tabIndex={0}
-        aria-label="Theme calibration thumbwheel (Sony Walkman style)"
+        aria-label="Theme slider"
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={0}
-        aria-valuetext="Theme calibration thumbwheel"
+        aria-valuetext="Theme slider"
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
@@ -224,101 +223,31 @@ export function ThemeThumbwheel({
         onLostPointerCapture={handlePointerCancel}
         onKeyDown={handleKeyDown}
         style={{ touchAction: "none" }}
-        className="relative flex items-center w-[96px] sm:w-[108px] h-[22px] border border-border bg-[#0a0b0d] cursor-ew-resize focus-visible:ring-1 focus-visible:ring-primary outline-none overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.75),inset_0_-1px_1px_rgba(255,255,255,0.1)]"
+        className="relative flex items-center w-[72px] sm:w-[88px] h-[22px] border border-border bg-muted cursor-ew-resize focus-visible:ring-1 focus-visible:ring-primary outline-none overflow-hidden"
       >
-        {/* Recessed mechanical well floor */}
-        <div className="absolute inset-0 bg-[#0d0f13] pointer-events-none" />
+        {/* Center reference line */}
+        <div className="absolute inset-x-2 h-[1px] bg-border pointer-events-none" />
 
-        {/* Center Knurling Ribs (Wide pitch, full speed in center of cylinder) */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundPosition: "var(--wheel-offset, 0px) 0px",
-            backgroundImage: `repeating-linear-gradient(
-              90deg,
-              rgba(245, 242, 235, 0.58) 0px,
-              rgba(245, 242, 235, 0.58) 1.5px,
-              rgba(30, 33, 40, 0.95) 1.5px,
-              rgba(30, 33, 40, 0.95) 3.5px,
-              rgba(0, 0, 0, 0.98) 3.5px,
-              rgba(0, 0, 0, 0.98) 5.5px
-            )`,
-          }}
-        />
-
-        {/* Edge Foreshortened Knurling (Sine-projection compression near left & right cylinder edges) */}
-        <div
-          className="absolute inset-y-0 left-0 w-[26%] pointer-events-none opacity-85"
-          style={{
-            backgroundPosition: "calc(var(--wheel-offset, 0px) * 0.45) 0px",
-            backgroundImage: `repeating-linear-gradient(
-              90deg,
-              rgba(200, 200, 200, 0.4) 0px,
-              rgba(200, 200, 200, 0.4) 1px,
-              rgba(0, 0, 0, 0.95) 1px,
-              rgba(0, 0, 0, 0.95) 3px
-            )`,
-          }}
-        />
-        <div
-          className="absolute inset-y-0 right-0 w-[26%] pointer-events-none opacity-85"
-          style={{
-            backgroundPosition: "calc(var(--wheel-offset, 0px) * 0.45) 0px",
-            backgroundImage: `repeating-linear-gradient(
-              90deg,
-              rgba(200, 200, 200, 0.4) 0px,
-              rgba(200, 200, 200, 0.4) 1px,
-              rgba(0, 0, 0, 0.95) 1px,
-              rgba(0, 0, 0, 0.95) 3px
-            )`,
-          }}
-        />
-
-        {/* 3D Convex Cylinder Lighting & Deep Recessed Side Shadows */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: `
-              linear-gradient(90deg, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.45) 16%, transparent 38%, transparent 62%, rgba(0, 0, 0, 0.45) 84%, rgba(0, 0, 0, 0.92) 100%),
-              linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, transparent 28%, rgba(0, 0, 0, 0.55) 100%)
-            `,
-          }}
-        />
-
-        {/* Top & Bottom chassis bezel lips */}
-        <div className="absolute top-0 inset-x-0 h-[1px] bg-black/90 pointer-events-none" />
-        <div className="absolute bottom-0 inset-x-0 h-[1px] bg-white/10 pointer-events-none" />
-
-        {/* Sub-scale calibration ticks on bezel */}
-        <div className="absolute bottom-[1px] inset-x-[7px] flex justify-between pointer-events-none opacity-45 z-10">
-          <div className="w-[1px] h-1 bg-white" />
-          <div className="w-[1px] h-1.5 bg-[#ff5c00]" />
-          <div className="w-[1px] h-1 bg-white" />
-        </div>
-
-        {/* Fluorescent Safety Orange Indicator Track & Pip (Pure CSS variable driven) */}
-        <div className="absolute inset-y-0 left-[7px] right-[7px] pointer-events-none z-20">
+        {/* Signal Orange Indicator Pip */}
+        <div className="absolute inset-y-0 left-[6px] right-[6px] pointer-events-none z-20">
           <div
-            className="absolute top-[1px] bottom-[1px] w-[3.5px] bg-[#ff5c00] shadow-[0_0_8px_#ff5c00,0_0_2px_rgba(255,255,255,0.9)]"
+            className="absolute top-[2px] bottom-[2px] w-[4px] bg-primary"
             style={{
               left: "calc(var(--wheel-pos, 0) * 100%)",
               transform: "translate3d(-50%, 0, 0)",
             }}
-          >
-            <div className="absolute inset-y-[2px] left-[1px] w-[1px] bg-white/90" />
-          </div>
+          />
         </div>
       </div>
 
-      {/* 3. Dark Mode Marker / Label (CSS-driven via .dark to guarantee zero hydration mismatch) */}
+      {/* 3. Dark Mode Button */}
       {showLabels && (
         <button
           type="button"
           onClick={() => engineRef.current?.setMode("dark", true)}
           className="tactile-btn text-[10px] px-1.5 py-0.5 border border-transparent text-muted-foreground hover:text-foreground transition-colors cursor-pointer dark:text-primary dark:font-bold dark:border-border dark:bg-card"
-          title="Switch to Matte Hardware Rack (Dark)"
+          title="Dark Theme"
         >
-          <span className="hidden md:inline">RACK:</span>
           <span>DARK</span>
         </button>
       )}

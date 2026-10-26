@@ -18,38 +18,30 @@ export function ProjectCard({ project, index = 1 }: ProjectCardProps) {
   const title = pickLocale(project, "title", lang);
   const description = pickLocale(project, "description", lang);
   const imageSrc = resolveProjectImage(project.slug, project.image_url);
-
-  const modIndex = String(index).padStart(2, "0");
-  const slotStart = (index - 1) * 16 + 1;
-  const slotEnd = index * 16;
+  const num = String(index).padStart(2, "0");
 
   return (
-    <article className="chassis-module-double relative overflow-hidden flex flex-col">
-      {/* 1. TOP MODULE RAIL WITH BOLTS & METADATA */}
-      <div className="chassis-header bg-muted">
-        <div className="flex items-center gap-3">
-          <div className="rack-bolt" />
-          <span className="px-2 py-0.5 bg-foreground text-background dark:bg-primary dark:text-primary-foreground font-bold text-[11px] tracking-wider">
-            [ MOD_{modIndex} ]
+    <article className="border border-border bg-card flex flex-col">
+      {/* Project Header Bar */}
+      <div className="border-b border-border px-6 py-4 flex flex-wrap items-baseline justify-between gap-4">
+        <div className="flex items-baseline gap-4">
+          <span className="font-mono text-xs uppercase tracking-wider text-primary font-bold">
+            {num}
           </span>
-          <h3 className="font-sans font-bold text-sm sm:text-base text-foreground uppercase tracking-tight">
+          <h3 className="font-sans font-bold text-lg sm:text-xl text-foreground tracking-[-0.02em]">
             {title}
           </h3>
         </div>
 
-        <div className="flex items-center gap-3">
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 border border-status-ok text-status-ok text-[10px] font-bold">
-            <span className="h-1.5 w-1.5 rounded-full bg-status-ok" />
-            STATUS: PRODUCTION
-          </span>
-          <div className="rack-bolt" />
-        </div>
+        <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
+          {t("Production System", "Продакшн-система")}
+        </span>
       </div>
 
-      {/* 2. MAIN MODULE BODY */}
-      <div className="p-5 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
-        {/* Left: Project Image Viewport & Description */}
-        <div className="lg:col-span-7 space-y-4 flex flex-col justify-between">
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 border-b border-border last:border-b-0">
+        {/* Left: Project Visual */}
+        <div className="lg:col-span-7 border-b lg:border-b-0 lg:border-r border-border p-6 bg-background/40">
           <Link
             href={`/projects/${project.slug}`}
             className="block border border-border bg-muted overflow-hidden relative aspect-[16/10] group"
@@ -60,87 +52,65 @@ export function ProjectCard({ project, index = 1 }: ProjectCardProps) {
                 alt={title}
                 width={1280}
                 height={800}
-                className="w-full h-full object-cover filter contrast-[1.02] group-hover:scale-[1.02] transition-transform duration-300"
+                className="w-full h-full object-cover group-hover:scale-[1.01] transition-transform duration-300"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-muted-foreground font-mono text-xs">
+              <div className="w-full h-full flex items-center justify-center text-muted-foreground font-mono text-xs uppercase tracking-wider">
                 {project.slug}
               </div>
             )}
-            <div className="absolute bottom-1 right-1 bg-foreground/90 text-background text-[9px] font-mono px-1.5 py-0.5">
-              SLOT_{modIndex} {"//"} VIEWPORT
-            </div>
           </Link>
-
-          <div>
-            <span className="font-mono text-[10px] text-primary font-bold uppercase tracking-wider block mb-1">
-              {t("ENGINEERING SPECIFICATION & CHALLENGE:", "ИНЖЕНЕРНЫЙ ВЫЗОВ & РЕШЕНИЕ:")}
-            </span>
-            <p className="font-sans text-xs sm:text-sm text-muted-foreground leading-relaxed">
-              {description}
-            </p>
-          </div>
         </div>
 
-        {/* Right: Technical Specification Panel */}
-        <div className="lg:col-span-5 recessed-well flex flex-col justify-between space-y-4">
-          <div className="space-y-3">
-            <div className="flex items-center justify-between border-b border-border pb-1 text-[11px] font-mono text-primary font-bold">
-              <span>MODULE_SPECIFICATION // {modIndex}</span>
-              <span className="text-muted-foreground text-[10px]">ID: 0x{project.slug.slice(0, 4)}</span>
+        {/* Right: Engineering Spec Sheet */}
+        <div className="lg:col-span-5 p-6 flex flex-col justify-between gap-6">
+          <div className="space-y-6">
+            <div>
+              <div className="font-mono text-xs uppercase tracking-wider text-muted-foreground mb-2">
+                {t("Engineering Overview", "Инженерное описание")}
+              </div>
+              <p className="font-sans text-sm sm:text-base text-foreground leading-relaxed">
+                {description}
+              </p>
             </div>
 
-            {/* Stack Tags Registers */}
-            <div className="space-y-1.5">
-              <span className="text-[10px] font-mono text-muted-foreground uppercase block">
-                {t("SYSTEM REGISTERS / STACK:", "СИСТЕМНЫЕ РЕГИСТРЫ / СТЕК:")}
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {project.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="font-mono text-[10px] uppercase px-2 py-0.5 border border-border bg-card text-foreground font-semibold"
-                  >
-                    {tag}
-                  </span>
-                ))}
+            <div className="pt-4 border-t border-border">
+              <div className="font-mono text-xs uppercase tracking-wider text-muted-foreground mb-1.5">
+                {t("Technical Stack", "Технический стек")}
+              </div>
+              <div className="font-mono text-xs text-foreground leading-relaxed">
+                {t("Stack:", "Стек:")} {project.tags.join(" | ")}
               </div>
             </div>
           </div>
 
-          {/* Action Actuators */}
-          <div className="pt-3 border-t border-border flex items-center justify-between gap-2">
+          {/* Actions */}
+          <div className="pt-4 border-t border-border flex flex-wrap items-center justify-between gap-3">
             {project.link ? (
               <a
                 href={project.link}
                 target="_blank"
                 rel="noreferrer"
-                className="tactile-btn inline-flex items-center gap-1.5 px-3 py-1.5 bg-foreground text-background dark:bg-primary dark:text-primary-foreground font-mono text-[10px] font-bold uppercase"
+                className="tactile-btn inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground font-mono text-xs uppercase tracking-wider font-bold hover:opacity-90"
               >
-                <span>{t("LIVE DEMO", "ДЕМО-САЙТ")}</span>
-                <ExternalLink className="h-3 w-3" />
+                <span>{t("Live System", "Открыть проект")}</span>
+                <ExternalLink className="h-3.5 w-3.5" />
               </a>
             ) : (
-              <span className="font-mono text-[10px] text-muted-foreground">
-                INTERNAL SERVICE
+              <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
+                {t("Internal Architecture", "Внутренняя система")}
               </span>
             )}
 
             <Link
               href={`/projects/${project.slug}`}
-              className="tactile-btn inline-flex items-center gap-1.5 px-3 py-1.5 border border-border bg-card text-foreground font-mono text-[10px] font-bold uppercase hover:border-primary"
+              className="tactile-btn inline-flex items-center gap-2 px-4 py-2 border border-border bg-background text-foreground font-mono text-xs uppercase tracking-wider font-bold hover:border-primary hover:text-primary"
             >
-              <span>{t("TECH DOSSIER", "ДОСЬЕ")}</span>
-              <ArrowRight className="h-3 w-3 text-primary" />
+              <span>{t("Case Study", "Подробный разбор")}</span>
+              <ArrowRight className="h-3.5 w-3.5 text-primary" />
             </Link>
           </div>
         </div>
-      </div>
-
-      {/* 3. BOTTOM RACK RAIL WITH PIN METADATA */}
-      <div className="chassis-footer">
-        <span>SLOT_PINS: [{String(slotStart).padStart(2, "0")}-{String(slotEnd).padStart(2, "0")}] CONNECTED</span>
-        <span>BUS_SYNC: 100% // POWER_DRAW: NOMINAL</span>
       </div>
     </article>
   );

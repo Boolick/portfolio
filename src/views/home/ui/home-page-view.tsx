@@ -7,7 +7,7 @@ import { getExperiences } from "@/entities/experience/server";
 import { getSkillCategories } from "@/entities/skill/server";
 import { getEducation } from "@/entities/education/server";
 import { getLanguages } from "@/entities/language/server";
-import { generatePersonJsonLd } from "@/entities/profile/lib/json-ld";
+import { generateProfilePageJsonLd } from "@/entities/profile/lib/json-ld";
 
 export async function HomePageView() {
   const [profile, projects, experiences, skills, education, languages] =
@@ -20,7 +20,7 @@ export async function HomePageView() {
       getLanguages(),
     ]);
 
-  const jsonLd = generatePersonJsonLd(profile);
+  const jsonLd = generateProfilePageJsonLd(profile);
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
@@ -29,7 +29,7 @@ export async function HomePageView() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <SiteHeader />
-      <main className="max-w-7xl mx-auto px-4 flex-1 w-full">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 flex-1 w-full">
         <HardwareConsole
           profile={profile}
           projects={projects}

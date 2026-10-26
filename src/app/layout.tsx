@@ -23,6 +23,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://resumeportfoliocv.netlify.app"
+  ),
   title: "Aliaksandr Bullo | Fullstack Developer (Node.js, NestJS, React, TypeScript)",
   description:
     "Fullstack Software Engineer focused on React, Next.js, TypeScript and Node.js with an 11-year technical engineering background. Scalable FSD architecture, strict type safety, and real-time systems.",

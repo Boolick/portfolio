@@ -190,14 +190,6 @@ export function AdminProjectsView() {
 
         return (
           <div key={project.id} className="chassis-module p-6 sm:p-8 space-y-5">
-            <div className="chassis-header -mx-6 -mt-6 sm:-mx-8 sm:-mt-8 mb-2 px-4 py-2 flex items-center justify-between border-b border-border bg-muted/40 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-              <span className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-primary inline-block" />
-                MOD_PRJ // {project.slug || "DRAFT"}
-              </span>
-              <span>[ ORD: #{project.sort_order} ]</span>
-            </div>
-
             {/* Top row: Slug, Order, Published switch */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border">
               <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">

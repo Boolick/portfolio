@@ -41,11 +41,8 @@ export function AdminLayoutShell({ children }: { children: ReactNode }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-muted-foreground font-mono text-xs uppercase tracking-widest bg-background">
-        <span className="flex items-center gap-2">
-          <span className="w-2 h-2 bg-primary animate-pulse inline-block" />
-          VERIFYING_ADMIN_SESSION...
-        </span>
+      <div className="min-h-screen flex items-center justify-center text-muted-foreground font-mono text-xs uppercase tracking-wider bg-background">
+        <span>Loading session...</span>
       </div>
     );
   }
@@ -53,18 +50,14 @@ export function AdminLayoutShell({ children }: { children: ReactNode }) {
   if (!session || !isAdmin) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center bg-background">
-        <div className="chassis-module p-8 max-w-md w-full border border-destructive/50">
-          <div className="chassis-header -mx-8 -mt-8 mb-6 px-4 py-2 flex items-center justify-between border-b border-destructive/30 bg-destructive/10 text-destructive font-mono text-[10px] uppercase tracking-widest">
-            <span>SEC_ALERT // ERR_403</span>
-            <span>[ RESTRICTED ]</span>
-          </div>
+        <div className="border border-border bg-card p-8 max-w-md w-full">
           <ShieldAlert className="h-10 w-10 text-destructive mx-auto mb-3" />
-          <h1 className="text-lg font-bold font-mono uppercase tracking-tight mb-2">ACCESS_DENIED</h1>
+          <h1 className="text-lg font-bold font-sans tracking-[-0.02em] mb-2">Access Denied</h1>
           <p className="text-muted-foreground font-mono text-xs mb-6">
-            THIS AREA IS RESTRICTED TO CERTIFIED OPERATORS ONLY. PLEASE AUTHENTICATE.
+            This area is restricted to the site administrator.
           </p>
           <Button asChild className="tactile-btn font-mono text-xs uppercase tracking-wider w-full">
-            <Link href="/login">RETURN TO LOGIN</Link>
+            <Link href="/login">Return to Login</Link>
           </Button>
         </div>
       </div>
@@ -75,19 +68,18 @@ export function AdminLayoutShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
-      <header className="border-b border-border bg-card/90 backdrop-blur sticky top-0 z-30 font-mono">
+      <header className="border-b border-border bg-card sticky top-0 z-30 font-mono">
         <div className="container mx-auto max-w-6xl px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-2 h-2 bg-primary" />
-            <span className="font-bold text-sm tracking-wider uppercase">SYS_CONSOLE // ADMIN</span>
+            <span className="font-sans font-bold text-sm tracking-[-0.02em]">Admin Panel</span>
             <span className="text-muted-foreground text-xs hidden sm:inline">
-              / [{currentTab?.label.toUpperCase() ?? "DASHBOARD"}]
+              · {currentTab?.label ?? "Dashboard"}
             </span>
           </div>
           <div className="flex items-center gap-2">
             <Button asChild variant="outline" size="sm" className="gap-1.5 cursor-pointer font-mono text-xs uppercase tracking-wider rounded-none">
               <Link href="/">
-                <Home className="h-3.5 w-3.5" /> SITE
+                <Home className="h-3.5 w-3.5" /> Site
               </Link>
             </Button>
             <Button
@@ -96,7 +88,7 @@ export function AdminLayoutShell({ children }: { children: ReactNode }) {
               size="sm"
               className="gap-1.5 cursor-pointer text-destructive hover:text-destructive hover:bg-destructive/10 font-mono text-xs uppercase tracking-wider rounded-none border-destructive/40"
             >
-              <LogOut className="h-3.5 w-3.5" /> DISCONNECT
+              <LogOut className="h-3.5 w-3.5" /> Sign Out
             </Button>
           </div>
         </div>
@@ -104,8 +96,8 @@ export function AdminLayoutShell({ children }: { children: ReactNode }) {
 
       <div className="container mx-auto max-w-6xl px-4 py-8 flex-1 grid grid-cols-1 md:grid-cols-[220px_1fr] gap-8">
         <aside className="space-y-1 font-mono">
-          <div className="px-3 py-1.5 text-[10px] font-mono uppercase tracking-widest text-muted-foreground border-b border-border/50 mb-2">
-            CONTROL_BUS // NAV
+          <div className="px-3 py-1.5 text-xs font-mono uppercase tracking-wider text-muted-foreground border-b border-border mb-2">
+            Sections
           </div>
           {tabs.map((tab) => {
             const active = pathname === tab.href;

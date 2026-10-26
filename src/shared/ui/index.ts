@@ -30,3 +30,4 @@ export { Avatar, AvatarImage, AvatarFallback } from "./avatar";
 export { Toaster, toast } from "./sonner";
 export { Reveal, type RevealProps } from "./reveal";
 export { HardwareImage, type HardwareImageProps } from "./hardware-image";
+export { TypewriterText, type TypewriterTextProps } from "./typewriter-text";

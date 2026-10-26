@@ -54,11 +54,6 @@ export function AdminProfileView() {
   return (
     <form onSubmit={onSubmit} className="space-y-6">
       <div className="chassis-module p-6 sm:p-8 space-y-6">
-        <div className="chassis-header -mx-6 -mt-6 sm:-mx-8 sm:-mt-8 mb-4 px-4 py-2 flex items-center justify-between border-b border-border bg-muted/40 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-          <span>DATA_STORE // REG_01_PROFILE</span>
-          <span>[ RW_ACCESS ]</span>
-        </div>
-
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-border">
           <div>
             <h2 className="text-xl font-bold font-mono uppercase tracking-tight">Profile Information</h2>

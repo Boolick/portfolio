@@ -6,18 +6,14 @@ export function SiteFooter() {
   const { t } = useLanguage();
 
   return (
-    <footer className="border-t border-border bg-card py-4 px-4 font-mono text-[10px] text-muted-foreground uppercase mt-20">
-      <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+    <footer className="border-t border-border bg-background py-8 px-4 sm:px-6 font-mono text-xs text-muted-foreground">
+      <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
         <div>
-          AB_SYSTEMS © {new Date().getFullYear()} {"// "}{" "}
-          {t(
-            "ALL MEASUREMENTS ARE HARDWARE-CALIBRATED",
-            "ВСЕ ИЗМЕРЕНИЯ АППАРАТНО КАЛИБРОВАНЫ",
-          )}
+          © {new Date().getFullYear()} Aliaksandr Bullo.{" "}
+          {t("Fullstack Software Engineer.", "Fullstack-инженер.")}
         </div>
-        <div className="flex items-center gap-4">
-          <span className="hidden sm:inline">TEENAGE ENGINEERING / BRAUN ETHOS</span>
-          <span className="text-status-ok font-bold">● STABLE MATRIX</span>
+        <div className="uppercase tracking-wider">
+          {t("Hanoi, Vietnam (UTC+7) · Remote", "Ханой, Вьетнам (UTC+7) · Удаленно")}
         </div>
       </div>
     </footer>

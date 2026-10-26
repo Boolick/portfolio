@@ -86,3 +86,8 @@ vendor/
 coverage/
 .cache/
 tmp/
+
+# GSD files
+.planning/
+GEMINI.md
+AGENTS.md

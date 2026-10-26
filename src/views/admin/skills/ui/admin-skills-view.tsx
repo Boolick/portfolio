@@ -194,18 +194,10 @@ export function AdminSkillsView() {
               className="chassis-module p-6 space-y-5 flex flex-col justify-between"
             >
               <div className="space-y-4">
-                <div className="chassis-header -mx-6 -mt-6 mb-2 px-4 py-2 flex items-center justify-between border-b border-border bg-muted/40 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                  <span className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-primary inline-block" />
-                    REG_BANK // {cat.name_en || "CATEGORY"}
-                  </span>
-                  <span>[ #{cat.sort_order} ]</span>
-                </div>
-
                 {/* Order and Delete top bar */}
                 <div className="flex items-center justify-between border-b border-border pb-3">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-mono px-2 py-0.5 rounded bg-muted text-muted-foreground font-semibold">
+                    <span className="text-xs font-mono px-2 py-0.5 bg-muted text-muted-foreground font-semibold">
                       #{cat.sort_order}
                     </span>
                     <div className="flex items-center gap-1">

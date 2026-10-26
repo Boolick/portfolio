@@ -211,10 +211,6 @@ export function AdminEducationView() {
 
         {edu && (
           <form onSubmit={handleSaveEducation} className="chassis-module p-6 sm:p-8 space-y-6">
-            <div className="chassis-header -mx-6 -mt-6 sm:-mx-8 sm:-mt-8 mb-2 px-4 py-2 flex items-center justify-between border-b border-border bg-muted/40 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-              <span>ACADEMIC_RECORD // REG_04_EDU</span>
-              <span>[ VERIFIED ]</span>
-            </div>
             {/* Year */}
             <div className="space-y-1.5 max-w-xs">
               <Label className="text-xs font-medium">Study Period / Year</Label>
@@ -352,11 +348,6 @@ export function AdminEducationView() {
                 key={lang.id}
                 className="chassis-module p-5 space-y-4"
               >
-                <div className="chassis-header -mx-5 -mt-5 mb-2 px-3 py-1.5 flex items-center justify-between border-b border-border bg-muted/40 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                  <span>LANG_MODULE // {lang.name_en || "LANG"}</span>
-                  <span>[ #{lang.sort_order} ]</span>
-                </div>
-
                 {/* Header bar */}
                 <div className="flex items-center justify-between border-b border-border pb-3">
                   <div className="flex items-center gap-2">

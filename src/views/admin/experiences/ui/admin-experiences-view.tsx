@@ -189,18 +189,10 @@ export function AdminExperiencesView() {
               key={exp.id}
               className="chassis-module p-6 sm:p-8 space-y-6"
             >
-              <div className="chassis-header -mx-6 -mt-6 sm:-mx-8 sm:-mt-8 mb-2 px-4 py-2 flex items-center justify-between border-b border-border bg-muted/40 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                <span className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-primary inline-block" />
-                  REV_LOG // {exp.company || "EXPERIENCE"}
-                </span>
-                <span>[ #{exp.sort_order} ]</span>
-              </div>
-
               {/* Top Row: Meta Controls & Sorting */}
               <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border pb-4">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono px-2 py-0.5 rounded bg-muted text-muted-foreground font-semibold">
+                  <span className="text-xs font-mono px-2 py-0.5 bg-muted text-muted-foreground font-semibold">
                     #{exp.sort_order}
                   </span>
                   <div className="flex items-center gap-1">

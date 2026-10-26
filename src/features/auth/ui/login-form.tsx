@@ -43,15 +43,7 @@ export function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-md chassis-module p-6 sm:p-8">
-      <div className="chassis-header -mx-6 -mt-6 sm:-mx-8 sm:-mt-8 mb-6 px-4 py-2 flex items-center justify-between border-b border-border bg-muted/40">
-        <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground flex items-center gap-2">
-          <span className="w-1.5 h-1.5 bg-primary inline-block" />
-          SEC_AUTH_TERMINAL // AUTH-01
-        </span>
-        <span className="font-mono text-[10px] text-muted-foreground">[ RESTRICTED ]</span>
-      </div>
-
+    <div className="w-full max-w-md border border-border bg-card p-6 sm:p-8">
       <Link
         href="/"
         className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-muted-foreground hover:text-foreground mb-6 transition-colors"
@@ -60,11 +52,11 @@ export function LoginForm() {
       </Link>
 
       <div className="flex items-center gap-3 mb-2">
-        <div className="h-9 w-9 border border-primary/40 bg-primary/10 flex items-center justify-center text-primary">
+        <div className="h-9 w-9 border border-border bg-muted flex items-center justify-center text-primary">
           <Lock className="h-4 w-4" />
         </div>
-        <h1 className="text-xl font-bold font-mono tracking-tight uppercase">
-          {t("Admin sign in", "Вход в админку")}
+        <h1 className="text-xl font-bold font-sans tracking-[-0.02em]">
+          {t("Admin Sign In", "Вход в панель управления")}
         </h1>
       </div>
 
