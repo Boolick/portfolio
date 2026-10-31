@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { escapeHtml } from "@/shared/lib/telegram/escape-html";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -8,7 +9,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Missing ref parameter" }, { status: 400 });
   }
 
-  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const token = process.env.TELEGRAM_ALERT_BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
 
   if (!token || !chatId) {
@@ -56,19 +57,11 @@ export async function GET(req: NextRequest) {
     req.headers.get("cf-connecting-ip") ||
     "Unknown IP";
 
-  // HTML sanitization helper
-  const esc = (text: string) =>
-    text
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
-
-  const safeRef = esc(ref);
-  const safeCity = esc(city);
-  const safeCountry = esc(country);
-  const safeIp = esc(rawIp);
-  const safeUa = esc(userAgent.slice(0, 150));
+  const safeRef = escapeHtml(ref);
+  const safeCity = escapeHtml(city);
+  const safeCountry = escapeHtml(country);
+  const safeIp = escapeHtml(rawIp);
+  const safeUa = escapeHtml(userAgent.slice(0, 150));
   const time = new Date().toLocaleString("ru-RU", { timeZone: "UTC" }) + " UTC";
 
   const message = [
