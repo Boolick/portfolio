@@ -6,6 +6,9 @@ export function RefTracker() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+    // Skip tracking for Telegram Mini App visits to avoid duplicate unverified web pings
+    if (document.documentElement.getAttribute("data-tma") === "1") return;
+
     // Do not track visits inside administrative or auth routes
     const pathname = window.location.pathname;
     if (
