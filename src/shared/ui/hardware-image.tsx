@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image, { type ImageProps } from "next/image";
-import { resolveStorageImage } from "@/shared/lib/resolve-storage-image";
+import { resolveStorageImageCandidates } from "@/shared/lib/resolve-storage-image";
 import { cn } from "@/shared/lib/utils";
 
 export interface HardwareImageProps extends Omit<ImageProps, "src"> {
@@ -13,19 +13,23 @@ export function HardwareImage({
   fileName,
   alt,
   className,
+  sizes = "(max-width: 767px) 100vw, 50vw",
   ...props
 }: HardwareImageProps) {
-  const { primarySrc, fallbackSrc } = resolveStorageImage(fileName);
-  const [src, setSrc] = useState<string>(primarySrc);
+  const candidates = resolveStorageImageCandidates(fileName);
+  const [candidateIndex, setCandidateIndex] = useState(0);
+
+  const currentSrc = candidates[candidateIndex] || candidates[0];
 
   return (
     <Image
       {...props}
-      src={src}
+      src={currentSrc}
       alt={alt}
+      sizes={sizes}
       onError={() => {
-        if (src !== fallbackSrc) {
-          setSrc(fallbackSrc);
+        if (candidateIndex + 1 < candidates.length) {
+          setCandidateIndex((prev) => prev + 1);
         }
       }}
       className={cn("block w-full h-auto object-cover", className)}
