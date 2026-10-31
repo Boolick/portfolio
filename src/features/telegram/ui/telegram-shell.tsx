@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { TelegramThemeSync } from "./telegram-theme-sync";
 import { TelegramBackButton } from "./telegram-back-button";
 import { TelegramDeepLink } from "./telegram-deep-link";
+import { TelegramMainButton } from "./telegram-main-button";
+import { TelegramVisitTracker } from "./telegram-visit-tracker";
 import { LanguageSwitcher, useLanguage } from "@/features/language-switcher";
 import { ThemeThumbwheel } from "@/features/theme-toggle";
 import { MobileSectionNav } from "@/widgets/mobile-section-nav/ui/mobile-section-nav";
@@ -68,6 +70,8 @@ export function TelegramShell() {
       <TelegramThemeSync />
       <TelegramBackButton />
       <TelegramDeepLink />
+      <TelegramMainButton />
+      <TelegramVisitTracker />
 
       {/* Visual Telegram Utility Bar (Hidden on admin/login and standard web) */}
       {!isAdminOrLogin && (
