@@ -1,6 +1,7 @@
 import { SiteHeader } from "@/widgets/site-header";
 import { SiteFooter } from "@/widgets/site-footer";
 import { HardwareConsole } from "@/widgets/hardware-console";
+import { MobileBottomCta } from "@/widgets/mobile-bottom-cta/ui/mobile-bottom-cta";
 import { getProfile } from "@/entities/profile/server";
 import { getProjects } from "@/entities/project/server";
 import { getExperiences } from "@/entities/experience/server";
@@ -29,7 +30,7 @@ export async function HomePageView() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <SiteHeader />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 flex-1 w-full">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 flex-1 w-full pb-16 md:pb-0">
         <HardwareConsole
           profile={profile}
           projects={projects}
@@ -40,6 +41,7 @@ export async function HomePageView() {
         />
       </main>
       <SiteFooter />
+      <MobileBottomCta />
     </div>
   );
 }
