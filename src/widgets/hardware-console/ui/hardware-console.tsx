@@ -4,6 +4,8 @@ import { Send, Mail, Linkedin, FileDown, ArrowDown } from "lucide-react";
 import { useLanguage } from "@/features/language-switcher";
 import { pickLocale, pickLocaleArr } from "@/shared/lib";
 import { HardwareImage } from "@/shared/ui";
+import { openTelegramUrl } from "@/shared/lib/telegram/links";
+import { tmaHaptics } from "@/shared/lib/telegram/haptics";
 import type { Profile } from "@/entities/profile";
 import { ProjectCard, type Project } from "@/entities/project";
 import { ExperienceItem, type Experience } from "@/entities/experience";
@@ -67,29 +69,83 @@ export function HardwareConsole({
         </div>
 
         <div className="border border-border bg-card grid grid-cols-1 lg:grid-cols-12">
-          {/* Left Column: Identity, Offer, Stack, Actions */}
-          <div className="lg:col-span-8 p-4 sm:p-5 lg:p-6 flex flex-col justify-between gap-4 border-b lg:border-b-0 lg:border-r border-border">
-            <div className="space-y-3">
-              <div className="space-y-1.5">
-                {/* Mono Kicker with Role Title */}
-                <div className="font-mono text-xs uppercase tracking-wider text-primary font-semibold">
-                  {title}
-                </div>
-
-                {/* Single Page H1 */}
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-[-0.02em] text-foreground font-sans">
-                  {name}
-                </h1>
-
-                {/* Concrete Commercial Offer Line */}
-                <p className="text-sm sm:text-base text-foreground font-sans tracking-[-0.02em] font-medium leading-snug">
-                  {t(
-                    "Design and delivery of fault-tolerant web systems, Telegram Mini Apps and B2B platforms — end to end.",
-                    "Проектирование и разработка отказоустойчивых веб-систем, Telegram Mini Apps и B2B-платформ под ключ."
-                  )}
-                </p>
+          {/* Item 1: Identity & 2x2 Metrics Header Block */}
+          <div className="order-1 lg:col-span-8 p-4 sm:p-5 lg:p-6 pb-2 lg:pb-3 lg:border-r border-border flex flex-col gap-3">
+            <div className="space-y-1.5">
+              {/* Mono Kicker with Role Title */}
+              <div className="font-mono text-xs uppercase tracking-wider text-primary font-semibold">
+                {title}
               </div>
 
+              {/* Single Page H1 */}
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-[-0.02em] text-foreground font-sans">
+                {name}
+              </h1>
+
+              {/* Concrete Commercial Offer Line */}
+              <p className="text-sm sm:text-base text-foreground font-sans tracking-[-0.02em] font-medium leading-snug">
+                {t(
+                  "Design and delivery of fault-tolerant web systems, Telegram Mini Apps and B2B platforms — end to end.",
+                  "Проектирование и разработка отказоустойчивых веб-систем, Telegram Mini Apps и B2B-платформ под ключ."
+                )}
+              </p>
+            </div>
+
+            {/* Mobile/Tablet 2x2 Metrics Matrix (< 1024px) */}
+            <div className="lg:hidden grid grid-cols-2 border border-border divide-x divide-y divide-border bg-muted/30 font-mono text-[11px] sm:text-xs">
+              <div className="p-2 sm:p-2.5">
+                <span className="text-muted-foreground uppercase tracking-wider block text-[10px]">
+                  {t("Experience", "Опыт")}
+                </span>
+                <span className="font-bold tabular-nums text-foreground">
+                  {t("4+ IT / 11 Ind.", "4+ года IT / 11 лет произв.")}
+                </span>
+              </div>
+              <div className="p-2 sm:p-2.5">
+                <span className="text-muted-foreground uppercase tracking-wider block text-[10px]">
+                  {t("Production", "Продакшн")}
+                </span>
+                <span className="font-bold tabular-nums text-foreground">
+                  {projects.length} {t("Systems", "системы")}
+                </span>
+              </div>
+              <div className="p-2 sm:p-2.5">
+                <span className="text-muted-foreground uppercase tracking-wider block text-[10px]">
+                  {t("Specialization", "Специализация")}
+                </span>
+                <span className="font-bold text-foreground">
+                  {t("FSM / Realtime", "Отказоустойчивость / FSM")}
+                </span>
+              </div>
+              <div className="p-2 sm:p-2.5">
+                <span className="text-muted-foreground uppercase tracking-wider block text-[10px]">
+                  {t("Location", "Локация")}
+                </span>
+                <span className="font-bold text-accent-aa">
+                  {t("UTC+7 Remote", "UTC+7 Удаленно")}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Item 2: Uncropped Portrait (Single DOM Node across Mobile & Desktop) */}
+          <div className="order-2 lg:order-3 lg:col-span-4 p-4 sm:p-5 lg:pb-0 bg-muted/30 flex items-center justify-center">
+            <div className="border border-border bg-[#f6f4ee] overflow-hidden max-w-[240px] sm:max-w-[280px] lg:max-w-none mx-auto w-full aspect-[896/1200] max-h-[240px] sm:max-h-[300px] lg:max-h-[340px] flex items-center justify-center">
+              <HardwareImage
+                fileName="Image_1.png"
+                alt={name}
+                width={896}
+                height={1200}
+                sizes="(max-width: 767px) 240px, 360px"
+                priority
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </div>
+
+          {/* Item 3: Stack, Summary & Deduplicated CTAs Block */}
+          <div className="order-3 lg:order-2 lg:col-span-8 p-4 sm:p-5 lg:p-6 pt-2 lg:pt-3 lg:border-r border-border flex flex-col justify-between gap-4">
+            <div className="space-y-3">
               {/* Clean Pipe-Separated Stack */}
               <div className="border-y border-border py-2 font-mono text-xs">
                 <span className="text-muted-foreground uppercase tracking-wider mr-2">
@@ -114,54 +170,65 @@ export function HardwareConsole({
               </div>
             </div>
 
-            {/* Primary Actions: Streamlined 3-Control Bar */}
-            <div className="pt-3 border-t border-border flex flex-wrap items-center gap-2.5 font-mono text-xs uppercase tracking-wider">
-              <a
-                href="#contact"
-                className="tactile-btn inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground font-bold hover:opacity-90"
-              >
-                <span>{t("Discuss a project", "Обсудить проект")}</span>
-              </a>
+            {/* CTAs: Deduplicated for .web-only and .tma-only */}
+            <div className="pt-3 border-t border-border">
+              {/* Web Browser CTAs */}
+              <div className="web-only flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 font-mono text-xs uppercase tracking-wider">
+                <button
+                  type="button"
+                  onClick={() => openTelegramUrl("https://t.me/AlexanderBullo")}
+                  className="tactile-btn w-full sm:w-auto min-h-12 px-5 bg-[#ff5c00] text-[#0e0f12] font-bold flex items-center justify-center border border-border cursor-pointer hover:opacity-90"
+                >
+                  <span>{t("Discuss a project", "Обсудить проект")}</span>
+                </button>
 
-              <a
-                href={pdfUrl}
-                download={pdfFileName}
-                className="tactile-btn inline-flex items-center gap-2 px-3.5 py-2 bg-background text-foreground border border-border font-bold hover:border-primary hover:text-primary"
-              >
-                <FileDown className="h-3.5 w-3.5 text-primary" />
-                <span>{t("Download CV", "Скачать резюме")}</span>
-              </a>
+                <div className="grid grid-cols-2 sm:flex gap-2">
+                  <a
+                    href={pdfUrl}
+                    download={pdfFileName}
+                    className="tactile-btn min-h-11 px-3.5 flex items-center justify-center gap-1.5 bg-background text-foreground border border-border font-bold hover:border-primary hover:text-primary"
+                  >
+                    <FileDown className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+                    <span>{t("Download CV", "Скачать резюме")}</span>
+                  </a>
 
-              <a
-                href="#projects"
-                className="tactile-btn inline-flex items-center gap-2 px-3.5 py-2 border border-border bg-background text-foreground font-semibold hover:border-primary"
-              >
-                <span>{t("Selected projects", "Проекты")}</span>
-                <ArrowDown className="h-3.5 w-3.5 text-primary" />
-              </a>
+                  <a
+                    href="#projects"
+                    className="tactile-btn min-h-11 px-3.5 flex items-center justify-center gap-1.5 border border-border bg-background text-foreground font-semibold hover:border-primary"
+                  >
+                    <span>{t("Projects", "Проекты")}</span>
+                    <ArrowDown className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+                  </a>
+                </div>
+              </div>
+
+              {/* Telegram Mini App Single Primary CTA */}
+              <div className="tma-only">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    tmaHaptics.selection();
+                    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="tactile-btn w-full min-h-11 border border-border bg-background hover:border-primary font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center cursor-pointer"
+                >
+                  <span>{t("View production cases", "Смотреть продакшн-кейсы")}</span>
+                  <ArrowDown className="h-3.5 w-3.5 text-primary ml-1.5" aria-hidden="true" />
+                </button>
+              </div>
             </div>
           </div>
 
-          {/* Right Column: Portrait & Key Metrics */}
-          <div className="lg:col-span-4 p-4 sm:p-5 bg-muted/30 flex flex-col justify-between gap-3">
-            <div className="border border-border bg-[#f6f4ee] overflow-hidden max-w-[260px] sm:max-w-[300px] lg:max-w-none mx-auto w-full aspect-[896/1200] max-h-[300px] sm:max-h-[340px] lg:max-h-[360px] flex items-center justify-center">
-              <HardwareImage
-                fileName="Image_1.png"
-                alt={name}
-                width={896}
-                height={1200}
-                priority
-                className="w-full h-full object-contain"
-              />
-            </div>
-
+          {/* Item 4: Desktop Metrics Table (lg:block only) */}
+          <div className="order-4 lg:order-4 lg:col-span-4 p-4 sm:p-5 pt-0 bg-muted/30 hidden lg:block">
             <table className="w-full text-left border-collapse font-mono text-xs">
               <tbody className="divide-y divide-border">
                 <tr>
                   <td className="py-1.5 text-muted-foreground uppercase tracking-wider">
                     {t("Experience", "Опыт")}
                   </td>
-                  <td className="py-1.5 text-right font-bold text-foreground">
+                  <td className="py-1.5 text-right font-bold text-foreground tabular-nums">
                     {t("4+ yrs IT / 11 yrs Ind.", "4+ года IT / 11 лет произв.")}
                   </td>
                 </tr>
@@ -169,7 +236,7 @@ export function HardwareConsole({
                   <td className="py-1.5 text-muted-foreground uppercase tracking-wider">
                     {t("Commercial", "Коммерческие")}
                   </td>
-                  <td className="py-1.5 text-right font-bold text-foreground">
+                  <td className="py-1.5 text-right font-bold text-foreground tabular-nums">
                     {commercialCount} {t("Production Systems", "системы в продакшне")}
                   </td>
                 </tr>
@@ -185,7 +252,7 @@ export function HardwareConsole({
                   <td className="py-1.5 text-muted-foreground uppercase tracking-wider">
                     {t("Location", "Локация")}
                   </td>
-                  <td className="py-1.5 text-right font-bold text-primary">
+                  <td className="py-1.5 text-right font-bold text-accent-aa">
                     {location}
                   </td>
                 </tr>
@@ -228,7 +295,7 @@ export function HardwareConsole({
               {t("Selected Projects", "Избранные проекты")}
             </h2>
           </div>
-          <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
+          <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground tabular-nums">
             {projects.length} {t("Production Systems", "проекта в продакшне")}
           </span>
         </div>
@@ -258,9 +325,50 @@ export function HardwareConsole({
           </h2>
         </div>
 
-        {/* Career Summary Data Table */}
-        <div className="border border-border bg-card overflow-x-auto mb-6">
-          <table className="w-full text-left border-collapse">
+        {/* Mobile Summary Cards (< 768px, md:hidden) */}
+        <div className="md:hidden space-y-3 mb-5">
+          <div className="border border-border bg-card p-4 space-y-2">
+            <div className="flex items-center justify-between font-mono text-xs">
+              <span className="text-accent-aa font-bold tabular-nums">2022 — 2026</span>
+              <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Fullstack</span>
+            </div>
+            <h3 className="font-sans font-bold text-sm text-foreground">
+              {t("Fullstack Software Engineer", "Fullstack-инженер")}
+            </h3>
+            <p className="font-sans text-xs text-muted-foreground leading-relaxed">
+              {t(
+                "Distributed web applications, B2B platforms, Telegram Mini Apps, real-time trading interfaces.",
+                "Распределенные веб-сервисы, B2B-платформы, Telegram Mini Apps, торговые интерфейсы реального времени."
+              )}
+            </p>
+            <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-foreground pt-1 border-t border-border/50">
+              {t("99.9% Uptime · Zero Deadlocks", "99.9% Uptime · Без состояний гонки")}
+            </div>
+          </div>
+
+          <div className="border border-border bg-card p-4 space-y-2">
+            <div className="flex items-center justify-between font-mono text-xs">
+              <span className="text-accent-aa font-bold tabular-nums">2011 — 2022</span>
+              <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Operations</span>
+            </div>
+            <h3 className="font-sans font-bold text-sm text-foreground">
+              {t("Head of Production / Director", "Начальник производства / Директор")}
+            </h3>
+            <p className="font-sans text-xs text-muted-foreground leading-relaxed">
+              {t(
+                "11 years leading industrial manufacturing: end-to-end quality control, unit economics, CNC automation.",
+                "11 лет руководства промышленным производством: сквозной контроль качества, расчет себестоимости, ЧПУ."
+              )}
+            </p>
+            <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-foreground pt-1 border-t border-border/50">
+              {t("+180% Output Efficiency", "+180% к эффективности выпуска")}
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop Career Summary Data Table (>= 768px, hidden md:block) */}
+        <div className="hidden md:block border border-border bg-card overflow-x-auto mb-6">
+          <table className="w-full text-left border-collapse min-w-[750px]">
             <thead className="bg-muted/50 border-b border-border font-mono text-xs uppercase tracking-wider text-muted-foreground">
               <tr>
                 <th className="p-4 font-semibold">{t("Period", "Период")}</th>
@@ -271,7 +379,7 @@ export function HardwareConsole({
             </thead>
             <tbody className="divide-y divide-border font-sans text-sm">
               <tr>
-                <td className="p-4 font-mono text-xs uppercase tracking-wider font-bold text-primary whitespace-nowrap">
+                <td className="p-4 font-mono text-xs uppercase tracking-wider font-bold text-accent-aa whitespace-nowrap tabular-nums">
                   2022 — 2026
                 </td>
                 <td className="p-4 font-bold text-foreground whitespace-nowrap">
@@ -288,7 +396,7 @@ export function HardwareConsole({
                 </td>
               </tr>
               <tr>
-                <td className="p-4 font-mono text-xs uppercase tracking-wider font-bold text-foreground whitespace-nowrap">
+                <td className="p-4 font-mono text-xs uppercase tracking-wider font-bold text-accent-aa whitespace-nowrap tabular-nums">
                   2011 — 2022
                 </td>
                 <td className="p-4 font-bold text-foreground whitespace-nowrap">
@@ -310,8 +418,8 @@ export function HardwareConsole({
 
         {/* Detailed Experience List */}
         <div className="space-y-6">
-          {experiences.map((exp) => (
-            <ExperienceItem key={exp.id} experience={exp} />
+          {experiences.map((exp, idx) => (
+            <ExperienceItem key={exp.id} experience={exp} index={idx} />
           ))}
         </div>
       </section>
@@ -342,7 +450,7 @@ export function HardwareConsole({
                   <h4 className="font-sans font-bold text-lg text-foreground tracking-[-0.02em]">
                     {pickLocale(education, "degree", lang)}
                   </h4>
-                  <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground mt-1">
+                  <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground mt-1 tabular-nums">
                     {pickLocale(education, "institution", lang)} · {education.year}
                   </p>
                 </div>
@@ -418,29 +526,28 @@ export function HardwareConsole({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
             {profile.telegram && (
-              <a
-                href={profile.telegram}
-                target="_blank"
-                rel="noreferrer"
-                className="tactile-btn border border-border bg-background p-4 hover:border-primary flex items-center justify-between"
+              <button
+                type="button"
+                onClick={() => openTelegramUrl(profile.telegram!)}
+                className="tactile-btn border border-border bg-background p-4 hover:border-primary flex items-center justify-between text-left cursor-pointer min-h-12"
               >
                 <div className="flex items-center gap-2">
-                  <Send className="h-3.5 w-3.5 text-primary" />
+                  <Send className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
                   <span className="text-muted-foreground uppercase tracking-wider">
                     Telegram
                   </span>
                 </div>
                 <span className="font-bold text-foreground">@AlexanderBullo</span>
-              </a>
+              </button>
             )}
 
             {profile.email && (
               <a
                 href={`mailto:${profile.email}`}
-                className="tactile-btn border border-border bg-background p-4 hover:border-primary flex items-center justify-between"
+                className="tactile-btn border border-border bg-background p-4 hover:border-primary flex items-center justify-between min-h-12"
               >
                 <div className="flex items-center gap-2">
-                  <Mail className="h-3.5 w-3.5 text-primary" />
+                  <Mail className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
                   <span className="text-muted-foreground uppercase tracking-wider">
                     Email
                   </span>
@@ -456,10 +563,10 @@ export function HardwareConsole({
                 href={profile.linkedin}
                 target="_blank"
                 rel="noreferrer"
-                className="tactile-btn border border-border bg-background p-4 hover:border-primary flex items-center justify-between"
+                className="tactile-btn border border-border bg-background p-4 hover:border-primary flex items-center justify-between min-h-12"
               >
                 <div className="flex items-center gap-2">
-                  <Linkedin className="h-3.5 w-3.5 text-primary" />
+                  <Linkedin className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
                   <span className="text-muted-foreground uppercase tracking-wider">
                     LinkedIn
                   </span>
@@ -471,13 +578,13 @@ export function HardwareConsole({
             <a
               href={pdfUrl}
               download={pdfFileName}
-              className="tactile-btn bg-primary text-primary-foreground font-bold p-4 flex items-center justify-between uppercase tracking-wider hover:opacity-90"
+              className="tactile-btn bg-[#ff5c00] text-[#0e0f12] font-bold p-4 flex items-center justify-between uppercase tracking-wider hover:opacity-90 min-h-12"
             >
               <div className="flex items-center gap-2">
-                <FileDown className="h-3.5 w-3.5" />
+                <FileDown className="h-3.5 w-3.5" aria-hidden="true" />
                 <span>{t("Resume PDF", "Резюме PDF")}</span>
               </div>
-              <span>↓</span>
+              <span aria-hidden="true">↓</span>
             </a>
           </div>
         </div>
