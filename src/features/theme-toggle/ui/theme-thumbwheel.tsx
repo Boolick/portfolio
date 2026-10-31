@@ -3,6 +3,7 @@
 import { useEffect, useRef, useCallback, useSyncExternalStore } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 import { ThemeWheelEngine, type ThemeMode } from "../model/wheel-engine";
+import { tmaHaptics } from "@/shared/lib/telegram/haptics";
 
 interface ThemeThumbwheelProps {
   className?: string;
@@ -76,9 +77,13 @@ export function ThemeThumbwheel({
       },
       onModeChange: (newMode) => {
         updateAria(engine.getPosition(), newMode);
+        tmaHaptics.impact("medium");
       },
       onSettled: (settledMode) => {
         updateAria(engine.getPosition(), settledMode);
+      },
+      onTick: () => {
+        tmaHaptics.selection();
       },
     });
 

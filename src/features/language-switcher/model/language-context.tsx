@@ -4,6 +4,7 @@ import {
   createContext,
   useContext,
   useCallback,
+  useEffect,
   useSyncExternalStore,
   type ReactNode,
 } from "react";
@@ -35,12 +36,23 @@ function subscribeLang(callback: () => void) {
 }
 
 function getLangSnapshot(): Lang {
-  const stored = localStorage.getItem("lang");
-  if (stored === "ru" || stored === "en") return stored;
-  if (typeof navigator !== "undefined" && navigator.language?.toLowerCase().startsWith("ru")) {
-    return "ru";
+  if (typeof window === "undefined") return "en";
+  try {
+    const stored = localStorage.getItem("lang");
+    if (stored === "ru" || stored === "en") return stored;
+    // Auto-detect from Telegram if available and not manually chosen
+    const isTma = document.documentElement.getAttribute("data-tma") === "1";
+    const tmaCode = window.Telegram?.WebApp?.initDataUnsafe?.user?.language_code;
+    if (isTma && tmaCode && !localStorage.getItem("lang_manual")) {
+      return /^(ru|be|uk|kk)/i.test(tmaCode) ? "ru" : "en";
+    }
+    if (typeof navigator !== "undefined" && navigator.language?.toLowerCase().startsWith("ru")) {
+      return "ru";
+    }
+    return "en";
+  } catch {
+    return "en";
   }
-  return "en";
 }
 
 function getLangServerSnapshot(): Lang {
@@ -55,13 +67,40 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   );
 
   const setLang = useCallback((nextLang: Lang) => {
-    localStorage.setItem("lang", nextLang);
+    try {
+      localStorage.setItem("lang_manual", "1");
+      localStorage.setItem("lang", nextLang);
+    } catch {}
     window.dispatchEvent(new Event(LANG_EVENT));
   }, []);
 
   const toggleLang = useCallback(() => {
     setLang(lang === "en" ? "ru" : "en");
   }, [lang, setLang]);
+
+  useEffect(() => {
+    function checkTelegramLanguage() {
+      try {
+        if (localStorage.getItem("lang_manual")) return;
+        const isTma = document.documentElement.getAttribute("data-tma") === "1";
+        const code = window.Telegram?.WebApp?.initDataUnsafe?.user?.language_code;
+        if (isTma && code) {
+          const resolved: Lang = /^(ru|be|uk|kk)/i.test(code) ? "ru" : "en";
+          const current = localStorage.getItem("lang");
+          if (current !== resolved) {
+            localStorage.setItem("lang", resolved);
+            window.dispatchEvent(new Event(LANG_EVENT));
+          }
+        }
+      } catch {}
+    }
+
+    checkTelegramLanguage();
+    window.addEventListener("tma-sdk-loaded", checkTelegramLanguage);
+    return () => {
+      window.removeEventListener("tma-sdk-loaded", checkTelegramLanguage);
+    };
+  }, []);
 
   const t = useCallback((en: string, ru: string) => (lang === "ru" ? ru : en), [lang]);
 

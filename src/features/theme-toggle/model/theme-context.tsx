@@ -58,22 +58,29 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   );
 
   useEffect(() => {
-    const isDark = theme === "dark";
     const root = document.documentElement;
-    // Only initialize root properties if wheel engine hasn't already taken ownership
-    if (!root.style.getPropertyValue("--wheel-pos")) {
-      root.classList.toggle("dark", isDark);
-      root.style.setProperty("--theme-mix", isDark ? "100%" : "0%");
-      root.style.setProperty("--wheel-pos", isDark ? "1" : "0");
-      root.style.setProperty("--wheel-offset", isDark ? "88px" : "0px");
-      root.style.colorScheme = isDark ? "dark" : "light";
-    }
+    if (root.classList.contains("is-theme-dragging")) return;
+    const isDark = theme === "dark";
+    root.classList.toggle("dark", isDark);
+    root.style.setProperty("--theme-mix", isDark ? "100%" : "0%");
+    root.style.setProperty("--wheel-pos", isDark ? "1" : "0");
+    root.style.setProperty("--wheel-offset", isDark ? "88px" : "0px");
+    root.style.colorScheme = isDark ? "dark" : "light";
   }, [theme]);
 
   const setTheme = useCallback((next: Theme) => {
     try {
       localStorage.setItem("theme", next);
     } catch {}
+    if (typeof document !== "undefined") {
+      const root = document.documentElement;
+      const isDark = next === "dark";
+      root.classList.toggle("dark", isDark);
+      root.style.setProperty("--theme-mix", isDark ? "100%" : "0%");
+      root.style.setProperty("--wheel-pos", isDark ? "1" : "0");
+      root.style.setProperty("--wheel-offset", isDark ? "88px" : "0px");
+      root.style.colorScheme = isDark ? "dark" : "light";
+    }
     window.dispatchEvent(new CustomEvent("theme-wheel-set", { detail: next }));
     window.dispatchEvent(new Event(THEME_EVENT));
   }, []);
