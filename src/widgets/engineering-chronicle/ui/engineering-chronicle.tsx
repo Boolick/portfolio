@@ -1,11 +1,20 @@
 "use client";
 
+import { useState } from "react";
+import dynamic from "next/dynamic";
 import { useLanguage } from "@/features/language-switcher";
-import { CHRONICLE_PANELS } from "../model/panels";
+import { CHRONICLE_PANELS, type ChroniclePanelData } from "../model/panels";
 import { ChroniclePanel } from "./chronicle-panel";
+
+// Lazy load the full pinch-zoom modal so 0 bytes of modal code ship in initial bundle
+const ChronicleZoomModal = dynamic(
+  () => import("./chronicle-zoom-modal").then((m) => m.ChronicleZoomModal),
+  { ssr: false }
+);
 
 export function EngineeringChronicle() {
   const { t } = useLanguage();
+  const [zoomedPanel, setZoomedPanel] = useState<ChroniclePanelData | null>(null);
 
   return (
     <section id="approach" className="py-8 md:py-10">
@@ -32,9 +41,24 @@ export function EngineeringChronicle() {
       {/* Graphic Novel 1-2-1-2 Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {CHRONICLE_PANELS.map((panel) => (
-          <ChroniclePanel key={panel.num} panel={panel} />
+          <ChroniclePanel
+            key={panel.num}
+            panel={panel}
+            onZoom={setZoomedPanel}
+          />
         ))}
       </div>
+
+      {/* Fullscreen Pinch-Zoom Modal */}
+      {zoomedPanel && (
+        <ChronicleZoomModal
+          panel={zoomedPanel}
+          open={Boolean(zoomedPanel)}
+          onOpenChange={(open) => {
+            if (!open) setZoomedPanel(null);
+          }}
+        />
+      )}
     </section>
   );
 }
