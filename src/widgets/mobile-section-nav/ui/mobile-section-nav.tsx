@@ -103,7 +103,8 @@ export function MobileSectionNav({
     <div
       data-collapsed={isCollapsed}
       className={cn(
-        "md:hidden relative border-t border-border bg-background/95 backdrop-blur-xs transition-all duration-180 ease-out overflow-hidden",
+        variant === "tma" ? "relative" : "md:hidden relative",
+        "border-t border-border bg-background/95 backdrop-blur-xs transition-all duration-180 ease-out overflow-hidden",
         isCollapsed
           ? "-translate-y-full opacity-0 pointer-events-none h-0 border-t-0"
           : "translate-y-0 opacity-100 h-10",

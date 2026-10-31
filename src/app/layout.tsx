@@ -4,7 +4,7 @@ import "./globals.css";
 import { LanguageProvider } from "@/features/language-switcher";
 import { ThemeProvider } from "@/features/theme-toggle";
 import { AuthProvider } from "@/features/auth";
-import { TelegramProvider } from "@/features/telegram";
+import { TelegramProvider, TelegramShell } from "@/features/telegram";
 import { Toaster } from "@/shared/ui";
 import { ConsoleEasterEgg } from "@/features/easter-egg";
 import { RefTracker } from "@/features/analytics";
@@ -96,6 +96,7 @@ export default function RootLayout({
               <TelegramProvider>
                 <ConsoleEasterEgg />
                 <RefTracker />
+                <TelegramShell />
                 {children}
                 <Toaster />
               </TelegramProvider>

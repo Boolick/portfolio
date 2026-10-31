@@ -192,6 +192,10 @@ html[data-tma="1"] body {
   overflow-x: hidden;
 }
 
+html[data-tma="1"] body {
+  padding-bottom: calc(1rem + var(--safe-bottom, 0px));
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
