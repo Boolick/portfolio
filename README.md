@@ -75,3 +75,40 @@ TELEGRAM_CHAT_ID=
 ```
 
 If those variables are missing, the tracking function returns a server configuration error.
+
+
+## Usage Examples
+
+### Running Local Development Server
+
+Start the local server on `http://localhost:3000`:
+
+```bash
+npm run dev
+```
+
+### Managing Telegram Webhook via CLI
+
+Register the Next.js `/api/telegram/webhook` endpoint with Telegram:
+
+```bash
+node --env-file=.env.local scripts/set-webhook.mjs set
+```
+
+Check the active webhook status and configuration:
+
+```bash
+node --env-file=.env.local scripts/set-webhook.mjs info
+```
+
+### Referral Visit Tracking
+
+Visit notification triggered via referral query parameter:
+
+```bash
+curl -X GET "http://localhost:3000/api/track-visit?ref=github"
+```
+
+## License
+
+Private repository. All rights reserved.
