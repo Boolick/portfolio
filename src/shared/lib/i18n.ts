@@ -1,3 +1,5 @@
+import { typograf } from "./typograf";
+
 export type Lang = "en" | "ru";
 
 export function pickLocale<T extends object>(
@@ -8,7 +10,8 @@ export function pickLocale<T extends object>(
   const r = row as Record<string, unknown>;
   const key = `${field}_${lang}`;
   const fallback = `${field}_en`;
-  return ((r[key] as string) || (r[fallback] as string) || "") as string;
+  const val = ((r[key] as string) || (r[fallback] as string) || "") as string;
+  return typograf(val);
 }
 
 export function pickLocaleArr<T extends object>(
@@ -19,5 +22,6 @@ export function pickLocaleArr<T extends object>(
   const r = row as Record<string, unknown>;
   const key = `${field}_${lang}`;
   const fallback = `${field}_en`;
-  return ((r[key] as string[]) || (r[fallback] as string[]) || []) as string[];
+  const arr = ((r[key] as string[]) || (r[fallback] as string[]) || []) as string[];
+  return arr.map((item) => typograf(item));
 }

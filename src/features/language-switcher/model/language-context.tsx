@@ -8,7 +8,7 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import type { Lang } from "@/shared/lib";
+import { type Lang, typograf } from "@/shared/lib";
 
 export type Locale = Lang;
 
@@ -70,6 +70,9 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     try {
       localStorage.setItem("lang_manual", "1");
       localStorage.setItem("lang", nextLang);
+      if (typeof document !== "undefined") {
+        document.documentElement.lang = nextLang;
+      }
     } catch {}
     window.dispatchEvent(new Event(LANG_EVENT));
   }, []);
@@ -77,6 +80,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const toggleLang = useCallback(() => {
     setLang(lang === "en" ? "ru" : "en");
   }, [lang, setLang]);
+
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.documentElement.lang = lang;
+    }
+  }, [lang]);
 
   useEffect(() => {
     function checkTelegramLanguage() {
@@ -102,7 +111,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const t = useCallback((en: string, ru: string) => (lang === "ru" ? ru : en), [lang]);
+  const t = useCallback(
+    (en: string, ru: string) => typograf(lang === "ru" ? ru : en),
+    [lang]
+  );
 
   return (
     <LanguageContext.Provider

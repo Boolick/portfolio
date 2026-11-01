@@ -86,22 +86,22 @@ const resumeDataEN: ResumeData = {
   whyMeIntro: `Fullstack Developer with an 11-year technical background. I don't just build interfaces — I approach web applications as complex engineering systems.`,
   whyMePoints: [
     {
-      icon: "🛠",
+      icon: "01",
       title: "Architectural Approach",
       text: "Design scalable client-side architecture (FSD), enforce strict typing, and build transparent CI/CD processes.",
     },
     {
-      icon: "⚡",
+      icon: "02",
       title: "Performance Focus",
       text: "Accelerate interface loading (LCP < 1.8s) and design real-time communications (WebSockets / Supabase Realtime) with near-zero latency.",
     },
     {
-      icon: "📈",
+      icon: "03",
       title: "Business-Oriented",
       text: "Transform business workflows into digital products, integrating Telegram Stars payments and headless CMS platforms.",
     },
     {
-      icon: "🤖",
+      icon: "04",
       title: "AI-Assisted Delivery",
       text: "Utilize AI workflows (Claude Code, Cursor, Codex) to accelerate feature implementation, write comprehensive tests, and debug edge cases.",
     },
@@ -192,7 +192,7 @@ const resumeDataEN: ResumeData = {
     },
     {
       name: "UI & Styling",
-      skills: ["Tailwind CSS v4", "Radix UI", "Framer Motion", "SCSS", "Design Systems", "Responsive Layouts"],
+      skills: ["Tailwind CSS v4", "Radix UI", "Design Systems", "Responsive Layouts"],
     },
     {
       name: "State & Data",
@@ -233,7 +233,7 @@ const resumeDataEN: ResumeData = {
       id: "dexsa",
       title: "DEXSA · Telegram Mini App",
       description:
-        "Fast-growing Telegram Mini App startup: payment workflows with Telegram Stars, Supabase Realtime data sync, and resilient mobile UI.",
+        "Production Telegram Mini App & social platform: payment workflows with Telegram Stars, Supabase Realtime data sync, and resilient mobile UI.",
       image: "/projects/dexsa.png",
       link: "https://t.me/ipu_promise_bot",
       tags: ["Next.js", "React", "TypeScript", "TanStack Query", "Zustand", "Supabase Realtime"],
@@ -249,9 +249,9 @@ const resumeDataEN: ResumeData = {
     },
     {
       id: "portfolio",
-      title: "Bento Portfolio & CV",
+      title: "Engineering Portfolio & TMA",
       description:
-        "Bilingual portfolio and CMS dashboard built on Next.js 16 App Router, React 19, Tailwind CSS v4, Supabase RLS, and Framer Motion.",
+        "Bilingual engineering showcase and CMS dashboard built on Next.js 16 App Router, React 19, Tailwind CSS v4, Telegram Mini App SDK, and Supabase RLS.",
       image: "/projects/portfolio.png",
       link: "https://resumeportfoliocv.netlify.app/",
       tags: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS v4", "Supabase"],
@@ -284,7 +284,7 @@ const resumeDataEN: ResumeData = {
 
 const resumeDataRU: ResumeData = {
   name: "Александр Булло",
-  title: "Fullstack Developer · React / Next.js / Node.js / AI",
+  title: "Fullstack-инженер (Node.js, NestJS, React, TypeScript)",
   contacts: {
     email: CONTACT.EMAIL.ru,
     linkedin: SOCIAL_LINKS.LINKEDIN,
@@ -301,22 +301,22 @@ const resumeDataRU: ResumeData = {
   whyMeIntro: `Fullstack-разработчик с 11-летним инженерным бэкграундом. Я подхожу к разработке веб-приложений как к созданию надёжных инженерных систем.`,
   whyMePoints: [
     {
-      icon: "🛠",
+      icon: "01",
       title: "Архитектурный подход",
       text: "Проектирование масштабируемой клиентской архитектуры (FSD), строгая типизация и прозрачный CI/CD.",
     },
     {
-      icon: "⚡",
+      icon: "02",
       title: "Фокус на производительности",
       text: "Ускорение загрузки (LCP < 1.8s) и проектирование real-time коммуникаций (WebSockets / Supabase) с минимальной задержкой.",
     },
     {
-      icon: "📈",
+      icon: "03",
       title: "Продуктовый фокус",
       text: "Перевод офлайн-процессов в цифровые воронки, интеграция Telegram Stars и работа с Headless CMS.",
     },
     {
-      icon: "🤖",
+      icon: "04",
       title: "AI-ускорение разработки",
       text: "Ежедневное применение Claude Code, Cursor и MCP для быстрой декомпозиции, написания тестов и отладки.",
     },
@@ -407,7 +407,7 @@ const resumeDataRU: ResumeData = {
     },
     {
       name: "UI и стили",
-      skills: ["Tailwind CSS v4", "Radix UI", "Framer Motion", "SCSS", "Дизайн-системы", "Адаптивная вёрстка"],
+      skills: ["Tailwind CSS v4", "Radix UI", "Дизайн-системы", "Адаптивная вёрстка"],
     },
     {
       name: "Состояние и данные",
@@ -464,9 +464,9 @@ const resumeDataRU: ResumeData = {
     },
     {
       id: "portfolio",
-      title: "Bento Портфолио & Резюме",
+      title: "Инженерное портфолио & TMA",
       description:
-        "Двуязычное портфолио с CMS-админкой на базе Next.js 16 App Router, React 19, Tailwind CSS v4, Supabase RLS и Framer Motion.",
+        "Двуязычное инженерное портфолио с CMS-админкой на базе Next.js 16 App Router, React 19, Tailwind CSS v4, Telegram Mini App SDK и Supabase RLS.",
       image: "/projects/portfolio.png",
       link: "https://resumeportfoliocv.netlify.app/",
       tags: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS v4", "Supabase"],

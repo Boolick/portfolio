@@ -11,8 +11,8 @@
  * classes with zero hardcoded colors in components.
  */
 @theme inline {
-  --font-sans: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-mono), ui-monospace, monospace;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 
   --radius-sm: 0px;
   --radius-md: 0px;
@@ -72,7 +72,7 @@
   --secondary-light: #ebe5d8;
   --secondary-fg-light: #121212;
   --muted-light: #f4f0e8;
-  --muted-fg-light: #666660;
+  --muted-fg-light: #54544e;
   --border-light: #1a1a1a;
   --input-light: #1a1a1a;
 
@@ -105,9 +105,9 @@
 
   /* Signal Orange Accent */
   --primary: #ff5c00;
-  --primary-foreground: #ffffff;
+  --primary-foreground: #0e0f12;
   --accent: #ff5c00;
-  --accent-foreground: #ffffff;
+  --accent-foreground: #0e0f12;
   --ring: #ff5c00;
 
   /* Accessible Burnt Orange Token (WCAG AA Contrast) */
@@ -149,9 +149,11 @@
     --secondary: #ebe5d8;
     --secondary-foreground: #121212;
     --muted: #f4f0e8;
-    --muted-foreground: #666660;
+    --muted-foreground: #54544e;
     --border: #1a1a1a;
     --input: #1a1a1a;
+    --primary-foreground: #0e0f12;
+    --accent-foreground: #0e0f12;
     --primary-text: #b83b0a;
   }
   .dark {
@@ -207,10 +209,16 @@ html[data-tma="1"] body {
     scroll-behavior: smooth;
   }
 
+  @media (max-width: 767px) {
+    html:not([data-tma="1"]) {
+      scroll-padding-bottom: calc(5.5rem + var(--safe-bottom, 0px));
+    }
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: var(--font-sans);
+    font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     margin: 0 auto;
     padding: 0;
@@ -218,18 +226,29 @@ html[data-tma="1"] body {
 
   h1, h2, h3, h4, h5, h6 {
     letter-spacing: -0.02em;
-  }
-
-  h1, h2, h3, h4 {
     text-wrap: balance;
+    overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: none;
+    -webkit-hyphens: none;
   }
 
   p, li {
     text-wrap: pretty;
+    overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphenate-limit-chars: 6 3 3;
+  }
+
+  button, button *, a, a *, code, pre, .font-mono, .font-mono *, [data-typewriter] {
+    hyphens: none;
+    -webkit-hyphens: none;
   }
 
   .font-mono {
-    font-family: var(--font-mono);
+    font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
   }
 
   section[id] {
@@ -339,6 +358,9 @@ html[data-tma="1"] body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
   .tw-cursor {
     display: none !important;
   }
@@ -370,12 +392,6 @@ input:focus-visible,
 textarea:focus-visible {
   outline: 1px solid var(--ring);
   outline-offset: 1px;
-}
-
-/* ===== Text Wrapping & Overflow Prevention ===== */
-h1, h2, h3, h4, h5, h6, p, span, li {
-  word-break: break-word;
-  overflow-wrap: break-word;
 }
 
 .grid > div {

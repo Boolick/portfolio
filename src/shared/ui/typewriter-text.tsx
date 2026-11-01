@@ -113,7 +113,11 @@ export function TypewriterText({
   const Tag = Component as ElementType;
 
   return (
-    <Tag ref={containerRef} className={cn("grid", className)}>
+    <Tag
+      ref={containerRef}
+      data-typewriter=""
+      className={cn("grid [text-wrap:wrap]", className)}
+    >
       {/* Screen reader full text representation */}
       <span className="sr-only">{text}</span>
 
