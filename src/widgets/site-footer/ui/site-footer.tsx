@@ -6,7 +6,7 @@ export function SiteFooter() {
   const { t } = useLanguage();
 
   return (
-    <footer className="border-t border-border bg-background py-8 px-4 sm:px-6 font-mono text-xs text-muted-foreground web-only">
+    <footer className="border-t border-border bg-background pt-8 pb-24 md:py-8 px-4 sm:px-6 font-mono text-xs text-muted-foreground web-only">
       <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
         <div>
           © {new Date().getFullYear()} Aliaksandr Bullo.{" "}

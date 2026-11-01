@@ -13,7 +13,7 @@ export function SkillCategoryCard({ category }: SkillCategoryCardProps) {
   const name = pickLocale(category, "name", lang);
 
   return (
-    <div className="border border-border bg-card p-6 flex flex-col justify-between gap-4">
+    <div className="border border-border bg-card p-4 sm:p-6 h-full flex flex-col justify-start gap-3">
       <h3 className="font-sans text-base font-bold tracking-[-0.02em] text-foreground border-b border-border pb-3">
         {name}
       </h3>

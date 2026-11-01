@@ -2,7 +2,7 @@
 
 import { Send, Mail, Linkedin, FileDown, ArrowDown } from "lucide-react";
 import { useLanguage } from "@/features/language-switcher";
-import { pickLocale, pickLocaleArr } from "@/shared/lib";
+import { pickLocale, pickLocaleArr, pluralizeRu } from "@/shared/lib";
 import { HardwareImage } from "@/shared/ui";
 import { openTelegramUrl } from "@/shared/lib/telegram/links";
 import { tmaHaptics } from "@/shared/lib/telegram/haptics";
@@ -57,10 +57,10 @@ export function HardwareConsole({
       {/* ======================================================== */}
       <section
         id="profile"
-        className="pt-1 sm:pt-2 md:pt-3 pb-6 sm:pb-8"
+        className="pt-2 sm:pt-4 lg:pt-6 pb-8 sm:pb-10 lg:pb-12"
       >
         <div className="flex items-baseline gap-4 mb-2 sm:mb-3">
-          <span className="font-mono text-xs uppercase tracking-wider text-primary font-bold">
+          <span className="font-mono text-xs uppercase tracking-wider text-accent-aa font-bold">
             01
           </span>
           <h2 className="text-lg sm:text-xl font-bold tracking-[-0.02em] text-foreground">
@@ -73,7 +73,7 @@ export function HardwareConsole({
           <div className="order-1 lg:col-span-8 p-4 sm:p-5 lg:p-6 pb-2 lg:pb-3 lg:border-r border-border flex flex-col gap-3">
             <div className="space-y-1.5">
               {/* Mono Kicker with Role Title */}
-              <div className="font-mono text-xs uppercase tracking-wider text-primary font-semibold">
+              <div className="font-mono text-xs uppercase tracking-wider text-accent-aa font-semibold">
                 {title}
               </div>
 
@@ -106,7 +106,9 @@ export function HardwareConsole({
                   {t("Production", "Продакшн")}
                 </span>
                 <span className="font-bold tabular-nums text-foreground">
-                  {projects.length} {t("Systems", "системы")}
+                  {lang === "ru"
+                    ? pluralizeRu(projects.length, ["система", "системы", "систем"])
+                    : `${projects.length} ${projects.length === 1 ? "System" : "Systems"}`}
                 </span>
               </div>
               <div className="p-2 sm:p-2.5">
@@ -177,9 +179,9 @@ export function HardwareConsole({
                 <button
                   type="button"
                   onClick={() => openTelegramUrl("https://t.me/AlexanderBullo")}
-                  className="tactile-btn w-full sm:w-auto min-h-12 px-5 bg-[#ff5c00] text-[#0e0f12] font-bold flex items-center justify-center border border-border cursor-pointer hover:opacity-90"
+                  className="tactile-btn w-full sm:w-auto min-h-12 px-5 bg-primary text-primary-foreground font-bold flex items-center justify-center border border-border cursor-pointer hover:opacity-90"
                 >
-                  <span>{t("Discuss a project", "Обсудить проект")}</span>
+                  <span>{t("DISCUSS A PROJECT", "ОБСУДИТЬ ПРОЕКТ")}</span>
                 </button>
 
                 <div className="grid grid-cols-2 sm:flex gap-2">
@@ -189,14 +191,14 @@ export function HardwareConsole({
                     className="tactile-btn min-h-11 px-3.5 flex items-center justify-center gap-1.5 bg-background text-foreground border border-border font-bold hover:border-primary hover:text-primary"
                   >
                     <FileDown className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
-                    <span>{t("Download CV", "Скачать резюме")}</span>
+                    <span>{t("DOWNLOAD CV", "СКАЧАТЬ РЕЗЮМЕ")}</span>
                   </a>
 
                   <a
                     href="#projects"
                     className="tactile-btn min-h-11 px-3.5 flex items-center justify-center gap-1.5 border border-border bg-background text-foreground font-semibold hover:border-primary"
                   >
-                    <span>{t("Projects", "Проекты")}</span>
+                    <span>{t("PROJECTS", "ПРОЕКТЫ")}</span>
                     <ArrowDown className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
                   </a>
                 </div>
@@ -213,7 +215,7 @@ export function HardwareConsole({
                   }}
                   className="tactile-btn w-full min-h-11 border border-border bg-background hover:border-primary font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center cursor-pointer"
                 >
-                  <span>{t("View production cases", "Смотреть продакшн-кейсы")}</span>
+                  <span>{t("VIEW PRODUCTION CASES", "СМОТРЕТЬ ПРОДАКШН-КЕЙСЫ")}</span>
                   <ArrowDown className="h-3.5 w-3.5 text-primary ml-1.5" aria-hidden="true" />
                 </button>
               </div>
@@ -237,7 +239,9 @@ export function HardwareConsole({
                     {t("Commercial", "Коммерческие")}
                   </td>
                   <td className="py-1.5 text-right font-bold text-foreground tabular-nums">
-                    {commercialCount} {t("Production Systems", "системы в продакшне")}
+                    {lang === "ru"
+                      ? `${pluralizeRu(commercialCount, ["система", "системы", "систем"])}\u00A0в\u00A0продакшне`
+                      : `${commercialCount} ${commercialCount === 1 ? "Production System" : "Production Systems"}`}
                   </td>
                 </tr>
                 <tr>
@@ -265,9 +269,9 @@ export function HardwareConsole({
       {/* ======================================================== */}
       {/* 02. TECHNICAL STACK & SPECIFICATIONS                     */}
       {/* ======================================================== */}
-      <section id="stack" className="py-6 md:py-8">
+      <section id="stack" className="py-8 sm:py-10 lg:py-12">
         <div className="flex items-baseline gap-4 mb-4 sm:mb-5">
-          <span className="font-mono text-xs uppercase tracking-wider text-primary font-bold">
+          <span className="font-mono text-xs uppercase tracking-wider text-accent-aa font-bold">
             02
           </span>
           <h2 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground">
@@ -285,10 +289,10 @@ export function HardwareConsole({
       {/* ======================================================== */}
       {/* 03. SELECTED PROJECTS (ENGINEERING SPEC SHEETS)          */}
       {/* ======================================================== */}
-      <section id="projects" className="py-6 md:py-8">
+      <section id="projects" className="py-8 sm:py-10 lg:py-12">
         <div className="flex flex-wrap items-baseline justify-between gap-4 mb-4 sm:mb-5">
           <div className="flex items-baseline gap-4">
-            <span className="font-mono text-xs uppercase tracking-wider text-primary font-bold">
+            <span className="font-mono text-xs uppercase tracking-wider text-accent-aa font-bold">
               03
             </span>
             <h2 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground">
@@ -296,7 +300,9 @@ export function HardwareConsole({
             </h2>
           </div>
           <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground tabular-nums">
-            {projects.length} {t("Production Systems", "проекта в продакшне")}
+            {lang === "ru"
+              ? `${pluralizeRu(projects.length, ["проект", "проекта", "проектов"])}\u00A0в\u00A0продакшне`
+              : `${projects.length} ${projects.length === 1 ? "Production System" : "Production Systems"}`}
           </span>
         </div>
 
@@ -315,9 +321,9 @@ export function HardwareConsole({
       {/* ======================================================== */}
       {/* 05. EXPERIENCE & CAREER TIMELINE                         */}
       {/* ======================================================== */}
-      <section id="experience" className="py-6 md:py-8">
+      <section id="experience" className="py-8 sm:py-10 lg:py-12">
         <div className="flex items-baseline gap-4 mb-4 sm:mb-5">
-          <span className="font-mono text-xs uppercase tracking-wider text-primary font-bold">
+          <span className="font-mono text-xs uppercase tracking-wider text-accent-aa font-bold">
             05
           </span>
           <h2 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground">
@@ -427,9 +433,9 @@ export function HardwareConsole({
       {/* ======================================================== */}
       {/* 06. EDUCATION & LANGUAGES                                */}
       {/* ======================================================== */}
-      <section id="education" className="py-6 md:py-8">
+      <section id="education" className="py-8 sm:py-10 lg:py-12">
         <div className="flex items-baseline gap-4 mb-4 sm:mb-5">
-          <span className="font-mono text-xs uppercase tracking-wider text-primary font-bold">
+          <span className="font-mono text-xs uppercase tracking-wider text-accent-aa font-bold">
             06
           </span>
           <h2 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground">
@@ -506,9 +512,9 @@ export function HardwareConsole({
       {/* ======================================================== */}
       {/* 07. CONTACT                                              */}
       {/* ======================================================== */}
-      <section id="contact" className="py-6 md:py-8">
+      <section id="contact" className="py-8 sm:py-10 lg:py-12">
         <div className="flex items-baseline gap-4 mb-4 sm:mb-5">
-          <span className="font-mono text-xs uppercase tracking-wider text-primary font-bold">
+          <span className="font-mono text-xs uppercase tracking-wider text-accent-aa font-bold">
             07
           </span>
           <h2 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground">
@@ -544,7 +550,7 @@ export function HardwareConsole({
             {profile.email && (
               <a
                 href={`mailto:${profile.email}`}
-                className="tactile-btn border border-border bg-background p-4 hover:border-primary flex items-center justify-between min-h-12"
+                className="tactile-btn border border-border bg-background p-4 hover:border-primary flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 min-h-12"
               >
                 <div className="flex items-center gap-2">
                   <Mail className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
@@ -552,7 +558,7 @@ export function HardwareConsole({
                     Email
                   </span>
                 </div>
-                <span className="font-bold text-foreground truncate ml-2">
+                <span className="font-bold text-foreground break-all sm:break-normal sm:truncate sm:ml-2">
                   {profile.email}
                 </span>
               </a>
@@ -578,7 +584,7 @@ export function HardwareConsole({
             <a
               href={pdfUrl}
               download={pdfFileName}
-              className="tactile-btn bg-[#ff5c00] text-[#0e0f12] font-bold p-4 flex items-center justify-between uppercase tracking-wider hover:opacity-90 min-h-12"
+              className="tactile-btn bg-primary text-primary-foreground font-bold p-4 flex items-center justify-between uppercase tracking-wider hover:opacity-90 min-h-12"
             >
               <div className="flex items-center gap-2">
                 <FileDown className="h-3.5 w-3.5" aria-hidden="true" />

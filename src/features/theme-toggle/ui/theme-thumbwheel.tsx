@@ -204,7 +204,7 @@ export function ThemeThumbwheel({
         <button
           type="button"
           onClick={() => engineRef.current?.setMode("light", true)}
-          className="tactile-btn hidden sm:inline-flex items-center text-[10px] px-1.5 py-0.5 border transition-colors cursor-pointer text-primary font-bold border-border bg-card dark:text-muted-foreground dark:font-normal dark:border-transparent dark:bg-transparent dark:hover:text-foreground"
+          className="tactile-btn hidden sm:inline-flex items-center min-h-6 text-[10px] px-2 py-0.5 border transition-colors cursor-pointer text-accent-aa font-bold border-border bg-card dark:text-muted-foreground dark:font-normal dark:border-transparent dark:bg-transparent dark:hover:text-foreground"
           title="Light Theme"
         >
           <span>LIGHT</span>
@@ -228,7 +228,7 @@ export function ThemeThumbwheel({
         onLostPointerCapture={handlePointerCancel}
         onKeyDown={handleKeyDown}
         style={{ touchAction: "none" }}
-        className="relative flex items-center w-[72px] sm:w-[88px] h-[22px] border border-border bg-muted cursor-ew-resize focus-visible:ring-1 focus-visible:ring-primary outline-none overflow-hidden after:absolute after:-inset-y-2 after:inset-x-0 after:content-['']"
+        className="relative flex items-center w-[72px] sm:w-[88px] h-[22px] border border-border bg-muted cursor-ew-resize focus-visible:ring-1 focus-visible:ring-primary outline-none overflow-hidden after:absolute after:-inset-y-[11px] after:inset-x-0 after:content-['']"
       >
         {/* Center reference line */}
         <div className="absolute inset-x-2 h-[1px] bg-border pointer-events-none" />
@@ -250,7 +250,7 @@ export function ThemeThumbwheel({
         <button
           type="button"
           onClick={() => engineRef.current?.setMode("dark", true)}
-          className="tactile-btn hidden sm:inline-flex items-center text-[10px] px-1.5 py-0.5 border border-transparent text-muted-foreground hover:text-foreground transition-colors cursor-pointer dark:text-primary dark:font-bold dark:border-border dark:bg-card"
+          className="tactile-btn hidden sm:inline-flex items-center min-h-6 text-[10px] px-2 py-0.5 border border-transparent text-muted-foreground hover:text-foreground transition-colors cursor-pointer dark:text-primary dark:font-bold dark:border-border dark:bg-card"
           title="Dark Theme"
         >
           <span>DARK</span>
@@ -268,7 +268,7 @@ export function ThemeThumbwheel({
               ? "Sound: OFF (Click to enable mechanical audio clicks)"
               : "Sound: ON (Click to mute mechanical audio clicks)"
           }
-          className="tactile-btn p-1 border border-border bg-card text-muted-foreground hover:text-foreground cursor-pointer hidden sm:inline-flex items-center justify-center h-[22px] w-[22px]"
+          className="tactile-btn p-1 border border-border bg-card text-muted-foreground hover:text-foreground cursor-pointer hidden sm:inline-flex items-center justify-center h-6 w-6"
         >
           {isMuted ? (
             <VolumeX className="w-3 h-3 text-muted-foreground" />

@@ -41,11 +41,11 @@ export function MobileBottomCta() {
   const primaryLabel =
     activeSection === "projects"
       ? isRu
-        ? "Заказать похожий проект"
-        : "Order Similar System"
+        ? "ЗАКАЗАТЬ ПРОЕКТ"
+        : "ORDER A PROJECT"
       : isRu
-      ? "Написать в Telegram"
-      : "Message in Telegram";
+      ? "НАПИСАТЬ В TELEGRAM"
+      : "MESSAGE IN TELEGRAM";
 
   return (
     <div
@@ -57,12 +57,12 @@ export function MobileBottomCta() {
         paddingBottom: "max(env(safe-area-inset-bottom, 0px), 8px)",
       }}
     >
-      <div className="flex items-center gap-2 p-2 max-w-lg mx-auto">
+      <div className="flex items-stretch gap-2 p-2 max-w-lg mx-auto">
         {/* Primary Lead Action: Signal Orange background (#ff5c00) + Black text (#0e0f12) */}
         <button
           type="button"
           onClick={handleTelegramClick}
-          className="tactile-btn flex-1 min-h-12 px-3 flex items-center justify-center font-mono text-xs font-bold uppercase tracking-wider text-[#0e0f12] bg-[#ff5c00] border border-border cursor-pointer"
+          className="tactile-btn flex-1 min-h-12 px-3 flex items-center justify-center font-mono text-xs font-bold uppercase tracking-wider text-center leading-tight bg-primary text-primary-foreground border border-border cursor-pointer"
         >
           <span>{primaryLabel}</span>
         </button>
@@ -71,7 +71,7 @@ export function MobileBottomCta() {
         <a
           href={pdfUrl}
           download={pdfFileName}
-          className="tactile-btn min-h-12 px-4 flex items-center justify-center font-mono text-xs font-medium uppercase tracking-wider border border-border bg-card text-foreground hover:border-primary transition-colors"
+          className="tactile-btn min-h-12 px-4 flex items-center justify-center font-mono text-xs font-medium uppercase tracking-wider text-center leading-tight border border-border bg-card text-foreground hover:border-primary transition-colors"
         >
           <span>{isRu ? "Резюме PDF" : "CV PDF"}</span>
         </a>

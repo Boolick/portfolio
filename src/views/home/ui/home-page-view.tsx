@@ -30,7 +30,7 @@ export async function HomePageView() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <SiteHeader />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 flex-1 w-full pb-16 md:pb-0">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 flex-1 w-full">
         <HardwareConsole
           profile={profile}
           projects={projects}

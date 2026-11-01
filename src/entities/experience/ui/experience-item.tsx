@@ -88,10 +88,10 @@ export function ExperienceItem({ experience, index = 1 }: ExperienceItemProps) {
           >
             <span>
               {expanded
-                ? t("Collapse details", "Свернуть детали")
+                ? t("COLLAPSE DETAILS", "СВЕРНУТЬ ДЕТАЛИ")
                 : t(
-                    `Expand engineering details (+${descriptions.length - 2})`,
-                    `Развернуть детали (+${descriptions.length - 2})`
+                    `EXPAND DETAILS (+${descriptions.length - 2})`,
+                    `РАЗВЕРНУТЬ ДЕТАЛИ (+${descriptions.length - 2})`
                   )}
             </span>
             <span aria-hidden="true">{expanded ? "↑" : "↓"}</span>
