@@ -17,10 +17,10 @@ export function EngineeringChronicle() {
   const [zoomedPanel, setZoomedPanel] = useState<ChroniclePanelData | null>(null);
 
   return (
-    <section id="approach" className="py-8 md:py-10">
+    <section id="approach" className="py-8 sm:py-10 lg:py-12">
       <div className="flex flex-wrap items-baseline justify-between gap-4 mb-4 sm:mb-6">
         <div className="flex items-baseline gap-4">
-          <span className="font-mono text-xs uppercase tracking-wider text-primary font-bold">
+          <span className="font-mono text-xs uppercase tracking-wider text-accent-aa font-bold">
             04
           </span>
           <h2 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground">

@@ -26,6 +26,15 @@ export function ProjectDetailView({ project }: ProjectDetailViewProps) {
 
   const candidates = resolveProjectImageCandidates(project.slug, project.image_url);
   const [candidateIdx, setCandidateIdx] = useState(0);
+  const [imgFailed, setImgFailed] = useState(false);
+  const [prevSlug, setPrevSlug] = useState(project.slug);
+
+  if (project.slug !== prevSlug) {
+    setPrevSlug(project.slug);
+    setCandidateIdx(0);
+    setImgFailed(false);
+  }
+
   const currentImageSrc = candidates[candidateIdx] || candidates[0];
 
   return (
@@ -51,7 +60,7 @@ export function ProjectDetailView({ project }: ProjectDetailViewProps) {
         <article className="border border-border bg-card">
           <header className="p-4 sm:p-8 md:p-10 border-b border-border space-y-4">
             <div className="flex flex-wrap items-baseline justify-between gap-2 font-mono text-xs uppercase tracking-wider">
-              <span className="text-primary font-bold">
+              <span className="text-accent-aa font-bold">
                 {t("Engineering Case Study", "Инженерный кейс")}
               </span>
               <span className="text-muted-foreground">{project.slug}</span>
@@ -75,9 +84,9 @@ export function ProjectDetailView({ project }: ProjectDetailViewProps) {
           </header>
 
           {/* Project Visual with .webp -> .png candidate fallback chain */}
-          {currentImageSrc && (
-            <div className="border-b border-border bg-muted/40 p-4 sm:p-8 md:p-10">
-              <div className="border border-border bg-background relative aspect-[16/10] overflow-hidden">
+          <div className="border-b border-border bg-muted/40 p-4 sm:p-8 md:p-10">
+            <div className="border border-border bg-background relative aspect-[16/10] overflow-hidden flex items-center justify-center">
+              {!imgFailed && currentImageSrc ? (
                 <Image
                   src={currentImageSrc}
                   alt={title}
@@ -89,30 +98,36 @@ export function ProjectDetailView({ project }: ProjectDetailViewProps) {
                   onError={() => {
                     if (candidateIdx < candidates.length - 1) {
                       setCandidateIdx((prev) => prev + 1);
+                    } else {
+                      setImgFailed(true);
                     }
                   }}
                 />
-              </div>
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-muted-foreground font-mono text-xs uppercase tracking-wider bg-muted">
+                  {project.slug}
+                </div>
+              )}
             </div>
-          )}
+          </div>
 
           {/* Detailed Specification */}
           <div className="p-4 sm:p-8 md:p-10 space-y-8">
-            <div className="prose prose-neutral dark:prose-invert max-w-none text-foreground leading-relaxed font-sans text-sm sm:text-base whitespace-pre-line">
+            <div className="max-w-none text-foreground leading-relaxed font-sans text-sm sm:text-base whitespace-pre-line">
               {longDescription}
             </div>
 
             {/* Specification Action Bar */}
-            <div className="pt-6 border-t border-border flex flex-wrap items-center justify-between gap-4">
-              <div className="flex flex-wrap items-center gap-3">
+            <div className="pt-6 border-t border-border flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
                 {project.link && (
                   <button
                     type="button"
                     onClick={() => openExternalUrl(project.link!)}
-                    className="tactile-btn min-h-12 px-6 bg-primary text-primary-foreground font-mono text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2 cursor-pointer transition-colors hover:brightness-110"
+                    className="tactile-btn w-full sm:w-auto min-h-12 px-6 bg-primary text-primary-foreground font-mono text-xs font-bold uppercase tracking-wider inline-flex items-center justify-center gap-2 cursor-pointer transition-opacity hover:opacity-90"
                   >
                     <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                    <span>{t("Open Live System", "Открыть проект")}</span>
+                    <span>{t("LIVE SYSTEM", "ОТКРЫТЬ ПРОЕКТ")}</span>
                   </button>
                 )}
 

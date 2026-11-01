@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -9,7 +10,7 @@ import { pickLocale } from "@/shared/lib";
 import { openExternalUrl } from "@/shared/lib/telegram/links";
 import { tmaHaptics } from "@/shared/lib/telegram/haptics";
 import type { Project } from "../model/types";
-import { resolveProjectImage } from "../lib/resolve-project-image";
+import { resolveProjectImageCandidates } from "../lib/resolve-project-image";
 
 interface ProjectCardProps {
   project: Project;
@@ -21,8 +22,31 @@ export function ProjectCard({ project, index = 1 }: ProjectCardProps) {
   const { lang, t } = useLanguage();
   const title = pickLocale(project, "title", lang);
   const description = pickLocale(project, "description", lang);
-  const imageSrc = resolveProjectImage(project.slug, project.image_url);
   const num = String(index).padStart(2, "0");
+
+  const candidates = useMemo(
+    () => resolveProjectImageCandidates(project.slug, project.image_url),
+    [project.slug, project.image_url]
+  );
+  const [candidateIdx, setCandidateIdx] = useState(0);
+  const [imgFailed, setImgFailed] = useState(false);
+  const [prevSlug, setPrevSlug] = useState(project.slug);
+
+  if (project.slug !== prevSlug) {
+    setPrevSlug(project.slug);
+    setCandidateIdx(0);
+    setImgFailed(false);
+  }
+
+  const currentImageSrc = candidates[candidateIdx];
+
+  const handleImageError = () => {
+    if (candidateIdx < candidates.length - 1) {
+      setCandidateIdx((prev) => prev + 1);
+    } else {
+      setImgFailed(true);
+    }
+  };
 
   const casePath = `/projects/${project.slug}`;
 
@@ -46,7 +70,7 @@ export function ProjectCard({ project, index = 1 }: ProjectCardProps) {
       {/* Project Header Bar */}
       <div className="border-b border-border px-4 py-3 sm:px-6 sm:py-4 flex flex-wrap items-baseline justify-between gap-4">
         <div className="flex items-baseline gap-3 sm:gap-4">
-          <span className="font-mono text-xs uppercase tracking-wider text-primary font-bold">
+          <span className="font-mono text-xs uppercase tracking-wider text-accent-aa font-bold">
             {num}
           </span>
           <h3 className="font-sans font-bold text-lg sm:text-xl text-foreground tracking-[-0.02em]">
@@ -69,13 +93,14 @@ export function ProjectCard({ project, index = 1 }: ProjectCardProps) {
             onClick={handleCaseClick}
             className="block border border-border bg-muted overflow-hidden relative aspect-[16/10] group"
           >
-            {imageSrc ? (
+            {!imgFailed && currentImageSrc ? (
               <Image
-                src={imageSrc}
+                src={currentImageSrc}
                 alt={title}
                 width={1280}
                 height={800}
-                sizes="(max-width: 767px) 100vw, (max-width: 1200px) 60vw, 750px)"
+                sizes="(max-width: 767px) 100vw, (max-width: 1200px) 60vw, 750px"
+                onError={handleImageError}
                 className="w-full h-full object-cover group-hover:scale-[1.01] transition-transform duration-300"
               />
             ) : (
@@ -112,7 +137,7 @@ export function ProjectCard({ project, index = 1 }: ProjectCardProps) {
           <div
             className={
               project.link
-                ? "pt-4 border-t border-border grid grid-cols-2 gap-2.5 font-mono text-xs uppercase tracking-wider"
+                ? "pt-4 border-t border-border flex flex-col sm:grid sm:grid-cols-2 gap-2.5 font-mono text-xs uppercase tracking-wider"
                 : "pt-4 border-t border-border flex flex-col font-mono text-xs uppercase tracking-wider"
             }
           >
@@ -122,9 +147,9 @@ export function ProjectCard({ project, index = 1 }: ProjectCardProps) {
                 onClick={handleLiveClick}
                 target="_blank"
                 rel="noreferrer"
-                className="tactile-btn min-h-11 px-3 flex items-center justify-center gap-1.5 bg-primary text-primary-foreground font-bold hover:opacity-90"
+                className="tactile-btn min-h-12 sm:min-h-11 px-3 flex items-center justify-center gap-1.5 bg-primary text-primary-foreground font-bold hover:opacity-90"
               >
-                <span>{t("Live System", "Открыть")}</span>
+                <span>{t("LIVE SYSTEM", "ОТКРЫТЬ")}</span>
                 <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
               </a>
             ) : null}
@@ -133,9 +158,9 @@ export function ProjectCard({ project, index = 1 }: ProjectCardProps) {
               href={casePath}
               onPointerDown={handleCasePointerDown}
               onClick={handleCaseClick}
-              className="tactile-btn min-h-11 px-3 flex items-center justify-center gap-1.5 border border-border bg-background text-foreground font-bold hover:border-primary hover:text-primary"
+              className="tactile-btn min-h-12 sm:min-h-11 px-3 flex items-center justify-center gap-1.5 border border-border bg-background text-foreground font-bold hover:border-primary hover:text-primary"
             >
-              <span>{t("Case Study", "Подробный разбор")}</span>
+              <span>{t("CASE STUDY", "ПОДРОБНЫЙ РАЗБОР")}</span>
               <ArrowRight className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
             </Link>
           </div>

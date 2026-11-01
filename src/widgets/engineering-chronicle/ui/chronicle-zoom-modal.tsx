@@ -7,6 +7,7 @@ import { useLanguage } from "@/features/language-switcher";
 import { useTelegram } from "@/features/telegram";
 import { HardwareImage } from "@/shared/ui";
 import { tmaHaptics } from "@/shared/lib/telegram/haptics";
+import { typograf } from "@/shared/lib";
 import type { ChroniclePanelData } from "../model/panels";
 
 interface ChronicleZoomModalProps {
@@ -33,9 +34,9 @@ export function ChronicleZoomModal({
 
   if (!panel) return null;
 
-  const title = panel.title[lang];
-  const punchline = panel.punchline[lang];
-  const caption = panel.caption[lang];
+  const title = typograf(panel.title[lang]);
+  const punchline = typograf(panel.punchline[lang]);
+  const caption = typograf(panel.caption[lang]);
 
   const handleClose = () => {
     tmaHaptics.impact("light");
@@ -94,7 +95,7 @@ export function ChronicleZoomModal({
                 width={1376}
                 height={768}
                 sizes="100vw"
-                className="max-h-[72vh] w-auto h-auto object-contain shadow-2xl"
+                className="max-h-[72vh] w-auto h-auto object-contain border border-white/20"
               />
             </div>
           </div>

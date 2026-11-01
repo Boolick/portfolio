@@ -4,6 +4,7 @@ import { Maximize2 } from "lucide-react";
 import { useLanguage } from "@/features/language-switcher";
 import { HardwareImage, TypewriterText } from "@/shared/ui";
 import { tmaHaptics } from "@/shared/lib/telegram/haptics";
+import { typograf } from "@/shared/lib";
 import { cn } from "@/shared/lib/utils";
 import type { ChroniclePanelData } from "../model/panels";
 
@@ -15,9 +16,9 @@ interface ChroniclePanelProps {
 export function ChroniclePanel({ panel, onZoom }: ChroniclePanelProps) {
   const { lang, t } = useLanguage();
   const isRu = lang === "ru";
-  const title = panel.title[lang];
-  const punchline = panel.punchline[lang];
-  const caption = panel.caption[lang];
+  const title = typograf(panel.title[lang]);
+  const punchline = typograf(panel.punchline[lang]);
+  const caption = typograf(panel.caption[lang]);
 
   const handleZoom = () => {
     tmaHaptics.impact("light");
@@ -60,7 +61,7 @@ export function ChroniclePanel({ panel, onZoom }: ChroniclePanelProps) {
       <div
         onClick={handleZoom}
         className={cn(
-          "relative w-full bg-[#f6f4ee] overflow-hidden cursor-pointer sm:cursor-default",
+          "group relative w-full bg-[#f6f4ee] overflow-hidden cursor-pointer sm:cursor-zoom-in",
           panel.aspectRatioClass
         )}
       >
@@ -112,7 +113,7 @@ export function ChroniclePanel({ panel, onZoom }: ChroniclePanelProps) {
             handleZoom();
           }}
           aria-label={t("Zoom illustration", "Увеличить иллюстрацию")}
-          className="tactile-btn hidden sm:flex items-center justify-center absolute top-2 right-2 p-1.5 border border-border bg-card/90 text-foreground hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity z-20 cursor-pointer"
+          className="tactile-btn hidden sm:flex items-center justify-center absolute top-2 right-2 min-h-9 min-w-9 p-1.5 border border-border bg-card/90 text-foreground hover:text-primary opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity z-20 cursor-pointer"
         >
           <Maximize2 className="h-3.5 w-3.5" aria-hidden="true" />
         </button>

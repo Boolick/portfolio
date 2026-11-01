@@ -74,10 +74,10 @@ export function ShareCaseButton({ slug, title }: ShareCaseButtonProps) {
     <button
       type="button"
       onClick={handleShare}
-      className="tactile-btn min-h-12 px-5 border border-border bg-card hover:border-primary text-foreground font-mono text-xs font-bold uppercase tracking-wider inline-flex items-center justify-center gap-2 cursor-pointer transition-colors"
+      className="tactile-btn w-full sm:w-auto min-h-12 px-4 border border-border bg-card hover:border-primary text-foreground font-mono text-xs font-bold uppercase tracking-wider inline-flex items-center justify-center gap-2 cursor-pointer transition-colors text-center"
     >
       <Share2 className="h-4 w-4" aria-hidden="true" strokeWidth={1.75} />
-      <span>{t("Forward case to Tech Lead", "Переслать кейс тимлиду")}</span>
+      <span>{t("SHARE CASE STUDY", "ПОДЕЛИТЬСЯ КЕЙСОМ")}</span>
     </button>
   );
 }

@@ -3,8 +3,7 @@
 import { useEffect } from "react";
 
 /**
- * ConsoleEasterEgg - Displays a styled message in browser DevTools console
- * Easter egg for curious developers who open F12
+ * ConsoleEasterEgg - Displays a clean Constructivist engineering summary in DevTools console.
  */
 export function ConsoleEasterEgg() {
   useEffect(() => {
@@ -19,53 +18,43 @@ export function ConsoleEasterEgg() {
   ██║  ██║██████╔╝
   ╚═╝  ╚═╝╚═════╝ 
   
-  Alexander Bullo
-  Frontend Developer
+  Aliaksandr Bullo
+  Senior Fullstack Software Engineer
 `;
 
     const styles = {
       logo: "color: #FF5C00; font-weight: bold; font-size: 14px; font-family: monospace;",
-      greeting:
-        "color: #0E0F12; background: #FF5C00; padding: 6px 14px; font-family: monospace; font-size: 14px; font-weight: bold;",
-      message: "color: #8A909A; font-family: monospace; font-size: 12px; line-height: 1.6;",
-      highlight: "color: #FF5C00; font-family: monospace; font-weight: bold; font-size: 12px;",
-      link: "color: #10B981; font-family: monospace; font-size: 12px; text-decoration: underline;",
+      header:
+        "color: #0E0F12; background: #FF5C00; padding: 6px 14px; font-family: monospace; font-size: 13px; font-weight: bold;",
+      body: "color: #8A909A; font-family: monospace; font-size: 12px; line-height: 1.6;",
+      accent: "color: #FF5C00; font-family: monospace; font-weight: bold; font-size: 12px;",
+      link: "color: #10B981; font-family: monospace; font-size: 12px;",
     };
 
     console.log(asciiArt, styles.logo);
-    console.log("%c[ SYS_BOOT ] ALEXANDER BULLO // HARDWARE CONSOLE SPEC_01", styles.greeting);
+    console.log("%cALIAKSANDR BULLO // ENGINEERING BLUEPRINT", styles.header);
     console.log(
-      `%cI/O DIAGNOSTICS: Operator inspecting DevTools terminal. 🔧
-
-%cARCHITECTURE SPECIFICATIONS:
-%c• Next.js 16 + React 19 + TypeScript
-• TailwindCSS v4 @theme inline + Custom Hardware Modules  
+      `%cENGINEERING STACK & ARCHITECTURE:
+%c• Next.js 16 (App Router) + React 19 + TypeScript
+• Node.js & NestJS Microservices
+• PostgreSQL & Redis State Management
+• Tailwind CSS v4 + Constructivist Blueprint Design System
 • Feature-Sliced Design (FSD v2.1)
-• Supabase Storage (S3 S-bucket) + Dynamic Fallback
-• Teenage Engineering EP-133 & Eurorack 19" Design System
-• Bilingual EN/RU with real-time toggle
-• Print-optimized CV Datasheet export
+• Zero-Flash Bilingual (EN/RU) Typography Engine
 
-%cCOMMUNICATION CHANNELS:
-%c📧 bulloalexander77@gmail.com
-💬 @AlexanderBullo (Telegram)
-🐙 github.com/boolick
+%cCONTACT & CHANNELS:
+%cEmail:    bulloalexander77@gmail.com
+Telegram: @AlexanderBullo
+GitHub:   github.com/boolick
 
 %c"Any fool can write code that a computer can understand. 
 Good programmers write code that humans can understand."
 — Martin Fowler`,
-      styles.message,
-      styles.message,
-      styles.highlight,
-      styles.message,
+      styles.body,
+      styles.accent,
+      styles.body,
       styles.link,
-      styles.message
-    );
-
-    console.log(
-      "%c%s",
-      "color: #10B981; font-family: monospace; font-size: 12px;",
-      "\n● CALIBRATION MATRIX STABLE: All test pins nominal."
+      styles.body
     );
   }, []);
 

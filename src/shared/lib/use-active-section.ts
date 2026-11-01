@@ -1,6 +1,7 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useEffect, useSyncExternalStore } from "react";
+import { usePathname } from "next/navigation";
 
 export interface HomeSectionMeta {
   id: string;
@@ -65,6 +66,18 @@ function setupObserver() {
   }
 }
 
+export function rebindObserver() {
+  if (typeof window === "undefined") return;
+  if (sharedObserver) {
+    sharedObserver.disconnect();
+    sharedObserver = null;
+    sectionRatios.clear();
+  }
+  if (listeners.size > 0) {
+    setupObserver();
+  }
+}
+
 function teardownObserver() {
   if (sharedObserver) {
     sharedObserver.disconnect();
@@ -97,7 +110,16 @@ function getServerSnapshot(): string {
 /**
  * Shared singleton IntersectionObserver hook for tracking active home section.
  * Spawns at most ONE observer regardless of how many components subscribe.
+ * Re-binds observer when returning to "/" from subpages like /projects/[slug].
  */
 export function useActiveSection(): string {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (pathname === "/") {
+      rebindObserver();
+    }
+  }, [pathname]);
+
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
