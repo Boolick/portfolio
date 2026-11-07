@@ -5,24 +5,22 @@ import { usePathname } from "next/navigation";
 
 export interface HomeSectionMeta {
   id: string;
-  num: string;
   en: string;
   ru: string;
   tmaCore: boolean;
 }
 
 export const HOME_SECTIONS: readonly HomeSectionMeta[] = [
-  { id: "profile", num: "01", en: "Profile", ru: "Профиль", tmaCore: true },
-  { id: "projects", num: "02", en: "Projects", ru: "Проекты", tmaCore: true },
-  { id: "approach", num: "03", en: "Approach", ru: "Подход", tmaCore: true },
-  { id: "experience", num: "04", en: "Resume", ru: "Резюме", tmaCore: true },
-  { id: "contact", num: "05", en: "Contact", ru: "Контакты", tmaCore: true },
+  { id: "projects", en: "Projects", ru: "Проекты", tmaCore: true },
+  { id: "approach", en: "Approach", ru: "Подход", tmaCore: true },
+  { id: "experience", en: "Experience", ru: "Опыт", tmaCore: true },
+  { id: "contact", en: "Contact", ru: "Контакты", tmaCore: true },
 ] as const;
 
 type Listener = () => void;
 const listeners = new Set<Listener>();
 
-let currentActiveId = "profile";
+let currentActiveId = "";
 let sharedObserver: IntersectionObserver | null = null;
 const sectionRatios = new Map<string, number>();
 
@@ -102,7 +100,7 @@ function getSnapshot(): string {
 }
 
 function getServerSnapshot(): string {
-  return "profile";
+  return "";
 }
 
 /**

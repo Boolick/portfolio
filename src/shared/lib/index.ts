@@ -10,3 +10,4 @@ export {
   getTargetScrollY,
   type SmoothScrollOptions,
 } from "./scroll";
+export { playTactileFeedback, mechanicalClick } from "./sound/mechanical-click";

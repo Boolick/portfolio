@@ -19,17 +19,12 @@ export function EngineeringChronicle() {
   return (
     <section id="approach" className="py-8 sm:py-10 lg:py-12">
       <div className="flex flex-wrap items-baseline justify-between gap-4 mb-3 sm:mb-4">
-        <div className="flex items-baseline gap-3 sm:gap-4">
-          <span className="font-sans text-xl sm:text-2xl font-bold tracking-[-0.02em] text-accent-aa tabular-nums shrink-0">
-            03
-          </span>
-          <h2 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground">
-            {t(
-              "Engineering Standard: Why My Systems Don't Lose Money or Data",
-              "Инженерный стандарт: почему системы не теряют деньги и данные"
-            )}
-          </h2>
-        </div>
+        <h2 className="text-xl sm:text-2xl lg:text-[26px] font-bold tracking-[-0.02em] text-foreground">
+          {t(
+            "Engineering Standard: Why My Systems Don't Lose Money or Data",
+            "Инженерный стандарт: почему системы не теряют деньги и данные"
+          )}
+        </h2>
         <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
           {t(
             "From race conditions to deterministic state",

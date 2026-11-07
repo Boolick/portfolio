@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Send, Mail, Linkedin, FileDown, ArrowDown } from "lucide-react";
 import { useLanguage } from "@/features/language-switcher";
-import { pickLocale, pickLocaleArr, pluralizeRu, smoothScrollTo } from "@/shared/lib";
+import { pickLocale, pickLocaleArr, smoothScrollTo } from "@/shared/lib";
 import { HardwareImage } from "@/shared/ui";
 import { openTelegramUrl } from "@/shared/lib/telegram/links";
 import type { Profile } from "@/entities/profile";
@@ -34,9 +34,6 @@ export function HardwareConsole({
   const { lang, t } = useLanguage();
 
   const name = pickLocale(profile, "name", lang) || "Aliaksandr Bullo";
-  const title =
-    pickLocale(profile, "title", lang) ||
-    "Fullstack Product Engineer (React, Next.js, TypeScript, Node.js)";
   const summary =
     pickLocale(profile, "summary", lang) ||
     (lang === "ru"
@@ -66,40 +63,23 @@ export function HardwareConsole({
   return (
     <div className="divide-y divide-border">
       {/* ======================================================== */}
-      {/* 01. ENGINEER PROFILE (HERO)                              */}
+      {/* ENGINEER HERO CARD                                       */}
       {/* ======================================================== */}
       <section
         id="profile"
-        className="pt-1 sm:pt-2 lg:pt-3 pb-6 sm:pb-8 lg:pb-10"
+        className="pt-4 sm:pt-6 pb-6 sm:pb-8 lg:pb-10"
       >
-        <div className="flex items-baseline gap-3 sm:gap-4 mb-2.5 sm:mb-3">
-          <span className="font-sans text-xl sm:text-2xl font-bold tracking-[-0.02em] text-accent-aa tabular-nums shrink-0">
-            01
-          </span>
-          <h2 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground">
-            {t("Engineer Profile", "Профиль инженера")}
-          </h2>
-        </div>
-
         <div className="border border-border bg-card grid grid-cols-1 lg:grid-cols-12 items-stretch">
-          {/* Item 1: Identity & Role (Mobile: 1st, Desktop: Left Column Top) */}
-          <div className="order-1 lg:col-span-7 xl:col-span-8 lg:row-start-1 lg:col-start-1 p-4 sm:p-5 lg:p-6 pb-2.5 sm:pb-3 lg:pb-3 lg:border-r border-border flex flex-col gap-2.5 sm:gap-3">
-            <div className="space-y-2">
-              {/* Mono Kicker with Role Title */}
-              <div className="font-mono text-xs uppercase tracking-wider text-accent-aa font-semibold">
-                {title}
-              </div>
+          {/* Item 1: Identity & Offer (Mobile: 1st, Desktop: Left Column Top) */}
+          <div className="order-1 lg:col-span-7 xl:col-span-8 lg:row-start-1 lg:col-start-1 p-5 sm:p-6 lg:p-7 pb-3 sm:pb-4 lg:pb-4 lg:border-r border-border flex flex-col justify-center gap-3">
+            <h1 className="text-2xl sm:text-3xl lg:text-[36px] xl:text-[40px] font-bold tracking-[-0.03em] text-foreground font-sans leading-tight">
+              {name}
+            </h1>
 
-              {/* Single Page H1 */}
-              <h1 className="text-2xl sm:text-3xl lg:text-[34px] xl:text-[36px] font-bold tracking-[-0.03em] text-foreground font-sans leading-tight">
-                {name}
-              </h1>
-
-              {/* Concrete Commercial Offer Line from profile.summary */}
-              <p className="text-sm sm:text-base lg:text-[16px] text-foreground font-sans tracking-[-0.02em] font-medium leading-snug pt-0.5">
-                {summary}
-              </p>
-            </div>
+            {/* Concrete Commercial Offer Line from profile.summary */}
+            <p className="text-sm sm:text-base lg:text-[16px] text-foreground font-sans tracking-[-0.02em] font-medium leading-relaxed">
+              {summary}
+            </p>
           </div>
 
           {/* Item 2: Uncropped Portrait & Telemetry (Mobile: 2nd, Desktop: Spans Rows 1 & 2 on Right) */}
@@ -119,12 +99,8 @@ export function HardwareConsole({
               </div>
             </div>
 
-            {/* Engineering Telemetry / Metrics Table (Without redundant 'X+ yrs' badges) */}
+            {/* Engineering Telemetry / Metrics Table */}
             <div className="border-t border-border bg-card dark:bg-card p-3 sm:p-3.5">
-              <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground mb-1.5 font-semibold flex items-center justify-between">
-                <span>{t("PROFILE SPECS", "ПАРАМЕТРЫ ПРОФИЛЯ")}</span>
-                <span className="text-accent-aa tabular-nums">01 / SPEC</span>
-              </div>
               <table className="w-full text-left border-collapse font-mono text-[11px] sm:text-xs">
                 <tbody className="divide-y divide-border">
                   <tr>
@@ -165,21 +141,30 @@ export function HardwareConsole({
           </div>
 
           {/* Item 3: Stack, Positioning & Action CTAs (Mobile: 3rd, Desktop: Left Column Bottom) */}
-          <div className="order-3 lg:order-2 lg:col-span-7 xl:col-span-8 lg:row-start-2 lg:col-start-1 p-4 sm:p-5 lg:p-6 pt-2.5 sm:pt-3 lg:pt-3 lg:border-r border-t lg:border-t-0 border-border flex flex-col justify-between gap-4">
+          <div className="order-3 lg:order-2 lg:col-span-7 xl:col-span-8 lg:row-start-2 lg:col-start-1 p-5 sm:p-6 lg:p-7 pt-3 sm:pt-4 lg:pt-4 lg:border-r border-t lg:border-t-0 border-border flex flex-col justify-between gap-4">
             <div className="space-y-4">
-              {/* Clean Pipe-Separated Stack */}
-              <div className="border-y border-border py-2 font-mono text-[11px] sm:text-xs leading-relaxed">
-                <span className="text-muted-foreground uppercase tracking-wider mr-2 font-semibold">
-                  {t("Stack:", "Стек:")}
-                </span>
-                <span className="text-foreground">
-                  TypeScript | React | Next.js | Node.js | NestJS | PostgreSQL | Redis | WebSockets
-                </span>
+              {/* Clean Pipe-Separated / Mid-Dot Stack */}
+              <div className="border-y border-border py-2.5 font-mono text-[11px] sm:text-xs leading-relaxed text-foreground">
+                <span className="font-medium">TypeScript</span>
+                <span className="mx-1.5 text-muted-foreground/60">·</span>
+                <span className="font-medium">React</span>
+                <span className="mx-1.5 text-muted-foreground/60">·</span>
+                <span className="font-medium">Next.js</span>
+                <span className="mx-1.5 text-muted-foreground/60">·</span>
+                <span className="font-medium">Node.js</span>
+                <span className="mx-1.5 text-muted-foreground/60">·</span>
+                <span className="font-medium">NestJS</span>
+                <span className="mx-1.5 text-muted-foreground/60">·</span>
+                <span className="font-medium">PostgreSQL</span>
+                <span className="mx-1.5 text-muted-foreground/60">·</span>
+                <span className="font-medium">Redis</span>
+                <span className="mx-1.5 text-muted-foreground/60">·</span>
+                <span className="font-medium">WebSockets</span>
               </div>
 
               {/* Engineering Background & Positioning */}
-              <div className="space-y-2.5 font-sans text-xs sm:text-sm leading-relaxed text-foreground">
-                <p className="text-muted-foreground text-xs leading-relaxed">
+              <div className="font-sans leading-relaxed">
+                <p className="text-sm sm:text-base lg:text-[15px] xl:text-[16px] text-foreground/90 font-normal leading-relaxed">
                   {whyMe}
                 </p>
               </div>
@@ -241,23 +226,13 @@ export function HardwareConsole({
       </section>
 
       {/* ======================================================== */}
-      {/* 02. SELECTED PROJECTS (COMMERCIAL BLUEPRINTS)            */}
+      {/* SELECTED PROJECTS (COMMERCIAL BLUEPRINTS)                */}
       {/* ======================================================== */}
       <section id="projects" className="py-8 sm:py-10 lg:py-12">
-        <div className="flex flex-wrap items-baseline justify-between gap-4 mb-4 sm:mb-5">
-          <div className="flex items-baseline gap-3 sm:gap-4">
-            <span className="font-sans text-xl sm:text-2xl font-bold tracking-[-0.02em] text-accent-aa tabular-nums shrink-0">
-              02
-            </span>
-            <h2 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground">
-              {t("Selected Projects", "Избранные проекты")}
-            </h2>
-          </div>
-          <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground tabular-nums">
-            {lang === "ru"
-              ? `${pluralizeRu(featuredProjects.length, ["проект", "проекта", "проектов"])}\u00A0в\u00A0продакшне`
-              : `${featuredProjects.length} ${featuredProjects.length === 1 ? "Production System" : "Production Systems"}`}
-          </span>
+        <div className="mb-4 sm:mb-6">
+          <h2 className="text-xl sm:text-2xl lg:text-[26px] font-bold tracking-[-0.02em] text-foreground">
+            {t("Selected Projects", "Избранные проекты")}
+          </h2>
         </div>
 
         <div className="space-y-6 sm:space-y-8">
@@ -273,14 +248,11 @@ export function HardwareConsole({
       <EngineeringChronicle />
 
       {/* ======================================================== */}
-      {/* 04. QUALIFICATIONS: STACK, EXPERIENCE & CREDENTIALS      */}
+      {/* QUALIFICATIONS: STACK, EXPERIENCE & CREDENTIALS          */}
       {/* ======================================================== */}
       <section id="experience" className="py-8 sm:py-10 lg:py-12">
-        <div className="flex items-baseline gap-3 sm:gap-4 mb-4 sm:mb-6">
-          <span className="font-sans text-xl sm:text-2xl font-bold tracking-[-0.02em] text-accent-aa tabular-nums shrink-0">
-            04
-          </span>
-          <h2 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground">
+        <div className="mb-4 sm:mb-6">
+          <h2 className="text-xl sm:text-2xl lg:text-[26px] font-bold tracking-[-0.02em] text-foreground">
             {t("Qualifications & Experience", "Квалификация и опыт работы")}
           </h2>
         </div>
@@ -406,14 +378,11 @@ export function HardwareConsole({
       )}
 
       {/* ======================================================== */}
-      {/* 05. CONTACT                                              */}
+      {/* CONTACT                                                  */}
       {/* ======================================================== */}
       <section id="contact" className="py-8 sm:py-10 lg:py-12">
-        <div className="flex items-baseline gap-3 sm:gap-4 mb-4 sm:mb-5">
-          <span className="font-sans text-xl sm:text-2xl font-bold tracking-[-0.02em] text-accent-aa tabular-nums shrink-0">
-            05
-          </span>
-          <h2 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground">
+        <div className="mb-4 sm:mb-5">
+          <h2 className="text-xl sm:text-2xl lg:text-[26px] font-bold tracking-[-0.02em] text-foreground">
             {t("Contact", "Контакты")}
           </h2>
         </div>

@@ -38,14 +38,10 @@ export function TelegramShell() {
   let locationContent: React.ReactNode = null;
   if (isHome) {
     const sec = HOME_SECTIONS.find((s) => s.id === activeSection) || HOME_SECTIONS[0];
-    const activeSectionNumber = sec.num;
     const activeSectionLabel = (isRu ? sec.ru : sec.en).toUpperCase();
 
     locationContent = (
-      <>
-        <span className="text-accent-aa">{activeSectionNumber}</span>
-        <span>/ {activeSectionLabel}</span>
-      </>
+      <span>{activeSectionLabel}</span>
     );
   } else if (isProject) {
     const slug = pathname.replace("/projects/", "").split("/")[0] || "CASE";

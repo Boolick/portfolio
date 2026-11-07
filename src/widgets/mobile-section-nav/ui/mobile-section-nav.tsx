@@ -127,14 +127,6 @@ export function MobileSectionNav({
                   : "text-muted-foreground hover:text-foreground font-medium"
               )}
             >
-              <span
-                className={cn(
-                  "tabular-nums text-[10px]",
-                  isActive ? "text-accent-aa font-bold" : "text-muted-foreground"
-                )}
-              >
-                {sec.num}
-              </span>
               <span>{label}</span>
 
               {/* Constructivist 2px active indicator bar */}

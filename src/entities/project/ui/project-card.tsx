@@ -17,13 +17,12 @@ interface ProjectCardProps {
   index?: number;
 }
 
-export function ProjectCard({ project, index = 1 }: ProjectCardProps) {
+export function ProjectCard({ project, index: _index }: ProjectCardProps) {
   const router = useRouter();
   const { lang, t } = useLanguage();
   const title = pickLocale(project, "title", lang);
   const description = pickLocale(project, "description", lang);
   const outcomes = pickLocale(project, "outcomes", lang);
-  const num = String(index).padStart(2, "0");
 
   const candidates = useMemo(
     () => resolveProjectImageCandidates(project.slug, project.image_url),
@@ -70,14 +69,9 @@ export function ProjectCard({ project, index = 1 }: ProjectCardProps) {
     <article className="border border-border bg-card flex flex-col">
       {/* Project Header Bar */}
       <div className="border-b border-border px-4 py-3 sm:px-6 sm:py-4 flex flex-wrap items-baseline justify-between gap-4">
-        <div className="flex items-baseline gap-3 sm:gap-4">
-          <span className="font-mono text-xs uppercase tracking-wider text-accent-aa font-bold">
-            {num}
-          </span>
-          <h3 className="font-sans font-bold text-lg sm:text-xl text-foreground tracking-[-0.02em]">
-            {title}
-          </h3>
-        </div>
+        <h3 className="font-sans font-bold text-lg sm:text-xl text-foreground tracking-[-0.02em]">
+          {title}
+        </h3>
 
         <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
           {t("Production System", "Продакшн-система")}

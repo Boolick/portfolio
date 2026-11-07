@@ -120,7 +120,8 @@ class HardwareAudioSynthesizer {
       osc.frequency.setValueAtTime(baseFreq, startTime);
       osc.frequency.exponentialRampToValueAtTime(280, startTime + 0.0055);
 
-      const impactPeak = isThresholdSnap ? 0.42 : 0.28;
+      const volumeScale = 0.58;
+      const impactPeak = (isThresholdSnap ? 0.42 : 0.28) * volumeScale;
       oscGain.gain.setValueAtTime(impactPeak, startTime);
       oscGain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.006);
 
@@ -141,7 +142,7 @@ class HardwareAudioSynthesizer {
         filter.Q.setValueAtTime(1.8, startTime);
 
         const noiseGain = ctx.createGain();
-        const noisePeak = isThresholdSnap ? 0.38 : 0.24;
+        const noisePeak = (isThresholdSnap ? 0.38 : 0.24) * volumeScale;
         noiseGain.gain.setValueAtTime(noisePeak, startTime);
         noiseGain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.0055);
 
