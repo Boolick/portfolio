@@ -27,17 +27,30 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-function wipeLegacyClientCookies() {
-  if (typeof document === "undefined") return;
-  // Clean up any legacy non-HttpOnly client cookies to prevent collision or DevTools leak
-  const cookies = document.cookie.split(";");
-  for (const cookie of cookies) {
-    const eqPos = cookie.indexOf("=");
-    const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();
-    if (name.startsWith("sb-") && name.includes("-auth-token")) {
-      document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;`;
+function wipeLegacyClientStorage() {
+  if (typeof window === "undefined") return;
+
+  // 1. Purge any Supabase tokens or session artifacts from localStorage
+  try {
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const key = localStorage.key(i);
+      if (key && (key.startsWith("sb-") || key.includes("supabase.auth.token") || key.includes("supabase"))) {
+        localStorage.removeItem(key);
+      }
     }
-  }
+  } catch {}
+
+  // 2. Clean up any legacy non-HttpOnly client cookies to prevent collision or DevTools leak
+  try {
+    const cookies = document.cookie.split(";");
+    for (const cookie of cookies) {
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();
+      if (name.startsWith("sb-") && name.includes("-auth-token")) {
+        document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;`;
+      }
+    }
+  } catch {}
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -72,12 +85,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // Initial verification via BFF session endpoint
     void refreshSession();
-    wipeLegacyClientCookies();
+    wipeLegacyClientStorage();
   }, [refreshSession]);
 
   const signIn = async (email: string, password: string) => {
     try {
-      wipeLegacyClientCookies();
+      wipeLegacyClientStorage();
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -92,7 +105,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       setUser(data.user);
       setIsAdmin(data.user?.role === "admin");
-      wipeLegacyClientCookies();
+      wipeLegacyClientStorage();
 
       return { error: null };
     } catch (err) {
@@ -106,7 +119,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } finally {
       setUser(null);
       setIsAdmin(false);
-      wipeLegacyClientCookies();
+      wipeLegacyClientStorage();
     }
   };
 
