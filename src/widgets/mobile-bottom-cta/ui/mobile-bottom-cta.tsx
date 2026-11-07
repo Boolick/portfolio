@@ -41,8 +41,8 @@ export function MobileBottomCta() {
   const primaryLabel =
     activeSection === "projects"
       ? isRu
-        ? "ЗАКАЗАТЬ ПРОЕКТ"
-        : "ORDER A PROJECT"
+        ? "ОБСУДИТЬ ЗАДАЧУ"
+        : "DISCUSS A PROJECT"
       : isRu
       ? "НАПИСАТЬ В TELEGRAM"
       : "MESSAGE IN TELEGRAM";

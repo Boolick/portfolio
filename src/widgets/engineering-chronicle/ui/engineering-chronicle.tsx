@@ -18,15 +18,15 @@ export function EngineeringChronicle() {
 
   return (
     <section id="approach" className="py-8 sm:py-10 lg:py-12">
-      <div className="flex flex-wrap items-baseline justify-between gap-4 mb-4 sm:mb-6">
+      <div className="flex flex-wrap items-baseline justify-between gap-4 mb-3 sm:mb-4">
         <div className="flex items-baseline gap-3 sm:gap-4">
           <span className="font-sans text-xl sm:text-2xl font-bold tracking-[-0.02em] text-accent-aa tabular-nums shrink-0">
-            04
+            03
           </span>
           <h2 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground">
             {t(
-              "Engineering Philosophy: Why Architecture Matters",
-              "Инженерный подход: почему архитектура имеет значение"
+              "Engineering Standard: Why My Systems Don't Lose Money or Data",
+              "Инженерный стандарт: почему системы не теряют деньги и данные"
             )}
           </h2>
         </div>
@@ -37,6 +37,14 @@ export function EngineeringChronicle() {
           )}
         </p>
       </div>
+
+      {/* Human-friendly editorial lead-in */}
+      <p className="font-sans text-sm sm:text-base text-muted-foreground max-w-3xl leading-relaxed mb-6">
+        {t(
+          "The costliest bugs happen in everyday moments — like a customer on a weak elevator signal tapping \"Pay\" three times in a row. A 6-panel breakdown of how deterministic architecture protects business revenue and saves engineering teams from 3 AM incidents.",
+          "Самые дорогие ошибки случаются в бытовых мелочах — например, когда покупатель едет в лифте со слабой связью и трижды нажимает кнопку «Оплатить». Короткая история в 6 кадрах о том, как продуманная архитектура защищает выручку бизнеса и избавляет команду от ночных аварий."
+        )}
+      </p>
 
       {/* Graphic Novel 1-2-1-2 Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

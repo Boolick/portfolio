@@ -32,11 +32,8 @@ export function MobileSectionNav({
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const activeItemRef = useRef<HTMLAnchorElement | null>(null);
 
-  // Filter sections based on variant
-  const sections: readonly HomeSectionMeta[] =
-    variant === "tma"
-      ? HOME_SECTIONS.filter((s) => s.tmaCore)
-      : HOME_SECTIONS.filter((s) => s.id !== "education"); // 6 items on web
+  // In 5-stage Kaizen architecture, all sections are core and shared
+  const sections: readonly HomeSectionMeta[] = HOME_SECTIONS;
 
   // Handle auto-hide on downward scroll with passive rAF listener
   useEffect(() => {

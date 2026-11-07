@@ -7,6 +7,8 @@ export interface Project {
   description_ru: string;
   long_description_en: string;
   long_description_ru: string;
+  outcomes_en?: string;
+  outcomes_ru?: string;
   link: string;
   image_url: string;
   tags: string[];

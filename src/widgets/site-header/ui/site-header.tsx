@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LogIn, LayoutDashboard, FileDown } from "lucide-react";
+import { LayoutDashboard, FileDown } from "lucide-react";
 import { ThemeThumbwheel } from "@/features/theme-toggle";
 import { LanguageSwitcher, useLanguage } from "@/features/language-switcher";
 import { useAuth } from "@/features/auth";
@@ -49,15 +49,31 @@ export function SiteHeader({ isAdmin: propsIsAdmin }: SiteHeaderProps) {
           <Link
             href="/#projects"
             onClick={(e) => handleNavAnchor(e, "projects")}
-            className="hidden lg:inline-flex items-center h-8 px-2 text-muted-foreground hover:text-foreground uppercase tracking-wider transition-colors whitespace-nowrap shrink-0"
+            className="hidden md:inline-flex items-center h-8 px-2 text-muted-foreground hover:text-foreground uppercase tracking-wider transition-colors whitespace-nowrap shrink-0"
           >
             {t("Projects", "Проекты")}
           </Link>
 
           <Link
+            href="/#approach"
+            onClick={(e) => handleNavAnchor(e, "approach")}
+            className="hidden lg:inline-flex items-center h-8 px-2 text-muted-foreground hover:text-foreground uppercase tracking-wider transition-colors whitespace-nowrap shrink-0"
+          >
+            {t("Approach", "Подход")}
+          </Link>
+
+          <Link
+            href="/#experience"
+            onClick={(e) => handleNavAnchor(e, "experience")}
+            className="hidden md:inline-flex items-center h-8 px-2 text-muted-foreground hover:text-foreground uppercase tracking-wider transition-colors whitespace-nowrap shrink-0"
+          >
+            {t("Experience", "Опыт")}
+          </Link>
+
+          <Link
             href="/#contact"
             onClick={(e) => handleNavAnchor(e, "contact")}
-            className="hidden md:inline-flex items-center h-8 px-2 text-muted-foreground hover:text-primary uppercase tracking-wider transition-colors font-semibold whitespace-nowrap shrink-0"
+            className="hidden sm:inline-flex items-center h-8 px-2 text-muted-foreground hover:text-primary uppercase tracking-wider transition-colors font-semibold whitespace-nowrap shrink-0"
           >
             {t("Contact", "Контакты")}
           </Link>
@@ -74,6 +90,7 @@ export function SiteHeader({ isAdmin: propsIsAdmin }: SiteHeaderProps) {
           <LanguageSwitcher />
           <ThemeThumbwheel />
 
+          {/* Admin link shown only when authenticated */}
           {isAdmin ? (
             <Link
               href="/admin"
@@ -90,15 +107,7 @@ export function SiteHeader({ isAdmin: propsIsAdmin }: SiteHeaderProps) {
             >
               <LayoutDashboard className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
             </Link>
-          ) : (
-            <Link
-              href="/login"
-              className="tactile-btn inline-flex items-center justify-center h-8 w-8 border border-border bg-card text-muted-foreground hover:text-foreground shrink-0"
-              aria-label={t("Login", "Войти")}
-            >
-              <LogIn className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-            </Link>
-          )}
+          ) : null}
         </nav>
       </div>
 

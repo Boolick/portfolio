@@ -22,6 +22,7 @@ export function ProjectCard({ project, index = 1 }: ProjectCardProps) {
   const { lang, t } = useLanguage();
   const title = pickLocale(project, "title", lang);
   const description = pickLocale(project, "description", lang);
+  const outcomes = pickLocale(project, "outcomes", lang);
   const num = String(index).padStart(2, "0");
 
   const candidates = useMemo(
@@ -116,12 +117,19 @@ export function ProjectCard({ project, index = 1 }: ProjectCardProps) {
           <div className="space-y-4 sm:space-y-6">
             <div>
               <div className="font-mono text-xs uppercase tracking-wider text-muted-foreground mb-2">
-                {t("Engineering Overview", "Инженерное описание")}
+                {t("Challenge & Solution", "Задача и решение")}
               </div>
               <p className="font-sans text-sm sm:text-base text-foreground leading-relaxed">
                 {description}
               </p>
             </div>
+
+            {outcomes && (
+              <div className="pt-3 border-t border-border/70 font-mono text-xs text-accent-aa font-medium leading-relaxed flex items-start gap-2">
+                <span className="text-primary font-bold shrink-0">■</span>
+                <span>{outcomes}</span>
+              </div>
+            )}
 
             <div className="pt-4 border-t border-border">
               <div className="font-mono text-xs uppercase tracking-wider text-muted-foreground mb-1.5">

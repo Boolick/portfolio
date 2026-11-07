@@ -282,6 +282,17 @@ export function AdminProjectsView() {
                     className="mt-1.5"
                   />
                 </div>
+                <div>
+                  <Label className="text-xs font-mono uppercase text-muted-foreground">
+                    Measurable Outcomes / Results (EN)
+                  </Label>
+                  <Input
+                    value={project.outcomes_en ?? ""}
+                    onChange={(e) => update(project.id, { outcomes_en: e.target.value })}
+                    placeholder="e.g. 1.8s catalog LCP · Automated B2B order funnel"
+                    className="mt-1.5 font-mono text-sm"
+                  />
+                </div>
               </div>
             )}
 
@@ -320,6 +331,17 @@ export function AdminProjectsView() {
                     }
                     rows={4}
                     className="mt-1.5"
+                  />
+                </div>
+                <div>
+                  <Label className="text-xs font-mono uppercase text-muted-foreground">
+                    Ключевые результаты / Метрики (RU)
+                  </Label>
+                  <Input
+                    value={project.outcomes_ru ?? ""}
+                    onChange={(e) => update(project.id, { outcomes_ru: e.target.value })}
+                    placeholder="Например: Загрузка каталога за 1.8 с · Автоматизация B2B-заказов"
+                    className="mt-1.5 font-mono text-sm"
                   />
                 </div>
               </div>

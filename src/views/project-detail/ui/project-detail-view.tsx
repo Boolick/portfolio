@@ -23,6 +23,7 @@ export function ProjectDetailView({ project }: ProjectDetailViewProps) {
   const description = pickLocale(project, "description", lang);
   const longDescription =
     pickLocale(project, "long_description", lang) || description;
+  const outcomes = pickLocale(project, "outcomes", lang);
 
   const candidates = resolveProjectImageCandidates(project.slug, project.image_url);
   const [candidateIdx, setCandidateIdx] = useState(0);
@@ -74,9 +75,16 @@ export function ProjectDetailView({ project }: ProjectDetailViewProps) {
               {description}
             </p>
 
+            {outcomes && (
+              <div className="pt-3 border-t border-border font-mono text-xs text-accent-aa font-medium flex items-start gap-2">
+                <span className="text-primary font-bold shrink-0">■</span>
+                <span>{outcomes}</span>
+              </div>
+            )}
+
             {/* Inline Pipe-Separated Stack */}
             <div className="pt-4 border-t border-border font-mono text-xs">
-              <span className="text-muted-foreground uppercase tracking-wider mr-2">
+              <span className="text-muted-foreground uppercase tracking-wider mr-2 font-semibold">
                 {t("Stack:", "Стек:")}
               </span>
               <span className="text-foreground">{project.tags.join(" | ")}</span>
@@ -111,11 +119,40 @@ export function ProjectDetailView({ project }: ProjectDetailViewProps) {
             </div>
           </div>
 
-          {/* Detailed Specification */}
-          <div className="p-4 sm:p-8 md:p-10 space-y-8">
-            <div className="max-w-none text-foreground leading-relaxed font-sans text-sm sm:text-base whitespace-pre-line">
-              {longDescription}
-            </div>
+          {/* Detailed Specification with Structured Sections */}
+          <div className="p-4 sm:p-8 md:p-10 space-y-6">
+            {longDescription.split(/\n(?=## )/).map((section, idx) => {
+              const trimmed = section.trim();
+              if (trimmed.startsWith("## ")) {
+                const firstLineEnd = trimmed.indexOf("\n");
+                const heading =
+                  firstLineEnd === -1
+                    ? trimmed.slice(3)
+                    : trimmed.slice(3, firstLineEnd);
+                const body =
+                  firstLineEnd === -1 ? "" : trimmed.slice(firstLineEnd).trim();
+                return (
+                  <div key={idx} className="space-y-2">
+                    <h2 className="font-mono text-xs uppercase tracking-wider text-accent-aa font-bold">
+                      {heading}
+                    </h2>
+                    {body && (
+                      <p className="text-foreground leading-relaxed font-sans text-sm sm:text-base whitespace-pre-line">
+                        {body}
+                      </p>
+                    )}
+                  </div>
+                );
+              }
+              return (
+                <p
+                  key={idx}
+                  className="text-foreground leading-relaxed font-sans text-sm sm:text-base whitespace-pre-line"
+                >
+                  {trimmed}
+                </p>
+              );
+            })}
 
             {/* Specification Action Bar */}
             <div className="pt-6 border-t border-border flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-4">

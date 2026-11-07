@@ -1,114 +1,99 @@
-# Resume Site
+# Aliaksandr Bullo — Engineering Portfolio & Blueprint
 
-Interactive bilingual resume and portfolio site built with Next.js, React, TypeScript, and Framer Motion. The project is optimized for both screen presentation and clean PDF export, with static hosting plus a Netlify function for referral tracking.
+High-performance personal portfolio, interactive engineering showcase, and Telegram Mini App for **Aliaksandr Bullo**, Senior Fullstack Software Engineer.
 
-## Stack
+The application presents verified production case studies, system architecture patterns, and technical competencies in an authentic Swiss / Constructivist typography aesthetic.
 
-- Next.js 16 with App Router and static export
-- React 19
-- TypeScript
-- Tailwind CSS 4
-- Framer Motion
-- Netlify Functions
+---
 
-## Features
+## Tech Stack
 
-- English and Russian resume content
-- Separate desktop and mobile layouts
-- PDF-friendly print layout
-- Project showcase with portfolio cards
-- SEO metadata and JSON-LD schema
-- Referral tracking via `/.netlify/functions/track-visit`
+- **Framework:** Next.js 16 (App Router, Server Actions, Route Handlers)
+- **UI & Runtimes:** React 19, TypeScript, Tailwind CSS v4
+- **State & Fonts:** Native Contexts, Google Manrope & JetBrains Mono
+- **Data & Performance:** Edge caching, Server-Side Rendering (SSR/SSG), strict TypeScript data contracts
+- **Ergonomics:** Telegram Mini App 8.0+ native shell, tactile haptics, spring smooth scroll engine
+
+---
+
+## Architectural Principles
+
+1. **Feature-Sliced Design (FSD):** Strict layering across `app`, `views`, `widgets`, `features`, `entities`, and `shared`.
+2. **Security-First (OWASP):** 
+   - Zero credential or token leakage to client-side bundles.
+   - Strict Origin & CSRF validation on mutating API route handlers.
+   - Cryptographic HMAC-SHA256 signature verification for Telegram Mini App telemetry.
+3. **Deterministic Performance:**
+   - 0ms layout shift (CLS = 0) with pre-calibrated aspect ratios and font fallback metrics.
+   - WebP-first asset delivery with SVG/monogram fallbacks.
+   - Complete WCAG 2.2 AA contrast compliance across light and dark themes.
+
+---
 
 ## Project Structure
 
 ```text
 src/
-  app/                 app router entrypoints and global styles
-  components/          page sections and UI primitives
-  context/             language state
-  data/                resume content and localized UI copy
-  shared/              theme tokens, helpers, constants
-netlify/functions/     serverless tracking handler
-public/                static assets and project previews
+├── app/                  # Next.js App Router entrypoints, route handlers & global styles
+├── views/                # Composite page views (Home, Projects, Not-Found)
+├── widgets/              # Autonomous UI widgets (HardwareConsole, SiteHeader, SiteFooter)
+├── features/             # Interactive UI features (ThemeToggle, LanguageSwitcher, Analytics)
+├── entities/             # Business models & domain entities (Profile, Project, Experience)
+└── shared/               # Reusable primitives, UI design system tokens & utility engines
+public/                   # Static assets, WebP images, and downloadable CV PDFs
+scripts/                  # DevOps & webhook management utilities
 ```
 
-## Development
+---
 
-Install dependencies and start the dev server:
+## Getting Started
+
+### Prerequisites
+
+- Node.js >= 20.x
+- npm >= 10.x
+
+### Installation
 
 ```bash
 npm install
-npm run dev
 ```
 
-Useful commands:
+### Local Development
 
-```bash
-npm run lint
-npm run build
-```
-
-App runs at `http://localhost:3000`.
-
-## Content Editing
-
-- Resume data and localized strings: `src/data/resume-data.ts`
-- Social links and contact info: `src/shared/constants/social-links.ts`
-- Theme variables: `src/shared/styles/themes/default.css`
-
-## Build and Deploy
-
-The app uses static export configured in `next.config.ts`.
-
-- `npm run build` generates the production build
-- Static files are emitted to `out/`
-- Netlify can serve the exported app and `netlify/functions/*`
-
-## Environment
-
-For the tracking function, configure:
-
-```bash
-TELEGRAM_BOT_TOKEN=
-TELEGRAM_CHAT_ID=
-```
-
-If those variables are missing, the tracking function returns a server configuration error.
-
-
-## Usage Examples
-
-### Running Local Development Server
-
-Start the local server on `http://localhost:3000`:
+Start the development server:
 
 ```bash
 npm run dev
 ```
 
-### Managing Telegram Webhook via CLI
+The application will be available at `http://localhost:3000`.
 
-Register the Next.js `/api/telegram/webhook` endpoint with Telegram:
+### Quality Gates & Testing
 
-```bash
-node --env-file=.env.local scripts/set-webhook.mjs set
-```
-
-Check the active webhook status and configuration:
+Run unit tests, linting, and type checking:
 
 ```bash
-node --env-file=.env.local scripts/set-webhook.mjs info
+npm test             # Run Node.js native test runner (37 tests)
+npm run lint         # Run ESLint checks
+npx tsc --noEmit     # TypeScript typecheck
+npm run build        # Production Next.js build
 ```
 
-### Referral Visit Tracking
+---
 
-Visit notification triggered via referral query parameter:
+## Environment Configuration
+
+Configuration template is available in `.env.example`. Copy it to `.env.local`:
 
 ```bash
-curl -X GET "http://localhost:3000/api/track-visit?ref=github"
+cp .env.example .env.local
 ```
+
+Populate the required environment variables in your deployment dashboard or local environment.
+
+---
 
 ## License
 
-Private repository. All rights reserved.
+Private repository. Copyright © Aliaksandr Bullo. All rights reserved.

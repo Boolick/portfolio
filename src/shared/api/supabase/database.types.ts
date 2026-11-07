@@ -196,6 +196,8 @@ export type Database = {
           link: string;
           long_description_en: string;
           long_description_ru: string;
+          outcomes_en: string;
+          outcomes_ru: string;
           published: boolean;
           slug: string;
           sort_order: number;
@@ -213,6 +215,8 @@ export type Database = {
           link?: string;
           long_description_en?: string;
           long_description_ru?: string;
+          outcomes_en?: string;
+          outcomes_ru?: string;
           published?: boolean;
           slug: string;
           sort_order?: number;
@@ -230,6 +234,8 @@ export type Database = {
           link?: string;
           long_description_en?: string;
           long_description_ru?: string;
+          outcomes_en?: string;
+          outcomes_ru?: string;
           published?: boolean;
           slug?: string;
           sort_order?: number;

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "node --experimental-strip-types --test src/features/theme-toggle/model/wheel-engine.test.ts src/shared/lib/scroll/smooth-scroll.test.ts src/shared/lib/telegram/start-param.test.ts src/shared/lib/telegram/verify-init-data.test.ts src/shared/lib/typewriter/typewriter-engine.test.ts src/shared/lib/typograf.test.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",

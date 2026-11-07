@@ -13,12 +13,10 @@ export interface HomeSectionMeta {
 
 export const HOME_SECTIONS: readonly HomeSectionMeta[] = [
   { id: "profile", num: "01", en: "Profile", ru: "Профиль", tmaCore: true },
-  { id: "stack", num: "02", en: "Stack", ru: "Стек", tmaCore: true },
-  { id: "projects", num: "03", en: "Projects", ru: "Проекты", tmaCore: true },
-  { id: "approach", num: "04", en: "Approach", ru: "Подход", tmaCore: true },
-  { id: "experience", num: "05", en: "Career", ru: "Карьера", tmaCore: true },
-  { id: "education", num: "06", en: "Education", ru: "Обучение", tmaCore: false },
-  { id: "contact", num: "07", en: "Contact", ru: "Контакты", tmaCore: false },
+  { id: "projects", num: "02", en: "Projects", ru: "Проекты", tmaCore: true },
+  { id: "approach", num: "03", en: "Approach", ru: "Подход", tmaCore: true },
+  { id: "experience", num: "04", en: "Resume", ru: "Резюме", tmaCore: true },
+  { id: "contact", num: "05", en: "Contact", ru: "Контакты", tmaCore: true },
 ] as const;
 
 type Listener = () => void;
