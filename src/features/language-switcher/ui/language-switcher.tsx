@@ -13,19 +13,19 @@ export function LanguageSwitcher() {
   };
 
   return (
-    <div className="relative inline-flex items-center justify-center min-h-11 min-w-11">
+    <div className="relative inline-flex items-center shrink-0">
       <button
         type="button"
         onClick={handleClick}
         aria-label={isRu ? "Переключить язык на English" : "Switch language to Russian"}
         title={isRu ? "Переключить язык" : "Switch Language"}
-        className="tactile-btn inline-flex items-center h-7 border border-border bg-card p-0.5 font-mono text-[10px] sm:text-[11px] cursor-pointer after:absolute after:inset-0 after:content-['']"
+        className="tactile-btn inline-flex items-center h-8 border border-border bg-card p-0.5 font-mono text-xs cursor-pointer shrink-0 select-none"
       >
         <span
           className={
             !isRu
-              ? "px-1.5 py-0.5 bg-primary text-primary-foreground font-bold"
-              : "px-1.5 py-0.5 text-muted-foreground hover:text-foreground font-medium"
+              ? "h-full px-2 inline-flex items-center justify-center bg-primary text-primary-foreground font-bold whitespace-nowrap"
+              : "h-full px-2 inline-flex items-center justify-center text-muted-foreground hover:text-foreground font-medium whitespace-nowrap"
           }
         >
           EN
@@ -33,8 +33,8 @@ export function LanguageSwitcher() {
         <span
           className={
             isRu
-              ? "px-1.5 py-0.5 bg-primary text-primary-foreground font-bold"
-              : "px-1.5 py-0.5 text-muted-foreground hover:text-foreground font-medium"
+              ? "h-full px-2 inline-flex items-center justify-center bg-primary text-primary-foreground font-bold whitespace-nowrap"
+              : "h-full px-2 inline-flex items-center justify-center text-muted-foreground hover:text-foreground font-medium whitespace-nowrap"
           }
         >
           RU

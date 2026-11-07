@@ -10,6 +10,7 @@ import {
 } from "@/shared/lib/use-active-section";
 import { tmaHaptics } from "@/shared/lib/telegram/haptics";
 import { cn } from "@/shared/lib/utils";
+import { smoothScrollTo } from "@/shared/lib/scroll";
 
 interface MobileSectionNavProps {
   variant?: "web" | "tma";
@@ -86,13 +87,9 @@ export function MobileSectionNav({
 
   const handleNavClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+      e.preventDefault();
       tmaHaptics.selection();
-      const el = document.getElementById(id);
-      if (el) {
-        e.preventDefault();
-        el.scrollIntoView({ behavior: "smooth" });
-        window.history.replaceState(null, "", `#${id}`);
-      }
+      smoothScrollTo(id);
     },
     []
   );

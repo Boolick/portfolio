@@ -2,7 +2,7 @@
 
 import { Send, Mail, Linkedin, FileDown, ArrowDown } from "lucide-react";
 import { useLanguage } from "@/features/language-switcher";
-import { pickLocale, pickLocaleArr, pluralizeRu } from "@/shared/lib";
+import { pickLocale, pickLocaleArr, pluralizeRu, smoothScrollTo } from "@/shared/lib";
 import { HardwareImage } from "@/shared/ui";
 import { openTelegramUrl } from "@/shared/lib/telegram/links";
 import { tmaHaptics } from "@/shared/lib/telegram/haptics";
@@ -59,98 +59,109 @@ export function HardwareConsole({
         id="profile"
         className="pt-2 sm:pt-4 lg:pt-6 pb-8 sm:pb-10 lg:pb-12"
       >
-        <div className="flex items-baseline gap-4 mb-2 sm:mb-3">
-          <span className="font-mono text-xs uppercase tracking-wider text-accent-aa font-bold">
+        <div className="flex items-baseline gap-3 sm:gap-4 mb-3 sm:mb-4">
+          <span className="font-sans text-xl sm:text-2xl font-bold tracking-[-0.02em] text-accent-aa tabular-nums shrink-0">
             01
           </span>
-          <h2 className="text-lg sm:text-xl font-bold tracking-[-0.02em] text-foreground">
+          <h2 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground">
             {t("Engineer Profile", "Профиль инженера")}
           </h2>
         </div>
 
-        <div className="border border-border bg-card grid grid-cols-1 lg:grid-cols-12">
-          {/* Item 1: Identity & 2x2 Metrics Header Block */}
-          <div className="order-1 lg:col-span-8 p-4 sm:p-5 lg:p-6 pb-2 lg:pb-3 lg:border-r border-border flex flex-col gap-3">
-            <div className="space-y-1.5">
+        <div className="border border-border bg-card grid grid-cols-1 lg:grid-cols-12 items-stretch">
+          {/* Item 1: Identity & Role (Mobile: 1st, Desktop: Left Column Top) */}
+          <div className="order-1 lg:col-span-7 xl:col-span-8 lg:row-start-1 lg:col-start-1 p-5 sm:p-6 lg:p-8 pb-3 lg:pb-4 lg:border-r border-border flex flex-col gap-3 sm:gap-4">
+            <div className="space-y-2">
               {/* Mono Kicker with Role Title */}
               <div className="font-mono text-xs uppercase tracking-wider text-accent-aa font-semibold">
                 {title}
               </div>
 
               {/* Single Page H1 */}
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-[-0.02em] text-foreground font-sans">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[40px] font-bold tracking-[-0.03em] text-foreground font-sans leading-tight">
                 {name}
               </h1>
 
               {/* Concrete Commercial Offer Line */}
-              <p className="text-sm sm:text-base text-foreground font-sans tracking-[-0.02em] font-medium leading-snug">
+              <p className="text-sm sm:text-base lg:text-lg text-foreground font-sans tracking-[-0.02em] font-medium leading-snug">
                 {t(
                   "Design and delivery of fault-tolerant web systems, Telegram Mini Apps and B2B platforms — end to end.",
                   "Проектирование и разработка отказоустойчивых веб-систем, Telegram Mini Apps и B2B-платформ под ключ."
                 )}
               </p>
             </div>
+          </div>
 
-            {/* Mobile/Tablet 2x2 Metrics Matrix (< 1024px) */}
-            <div className="lg:hidden grid grid-cols-2 border border-border divide-x divide-y divide-border bg-muted/30 font-mono text-[11px] sm:text-xs">
-              <div className="p-2 sm:p-2.5">
-                <span className="text-muted-foreground uppercase tracking-wider block text-[10px]">
-                  {t("Experience", "Опыт")}
-                </span>
-                <span className="font-bold tabular-nums text-foreground">
-                  {t("4+ IT / 11 Ind.", "4+ года IT / 11 лет произв.")}
-                </span>
+          {/* Item 2: Uncropped Portrait & Telemetry (Mobile: 2nd, Desktop: Spans Rows 1 & 2 on Right) */}
+          <div className="order-2 lg:order-3 lg:col-span-5 xl:col-span-4 lg:row-start-1 lg:row-span-2 lg:col-start-8 xl:col-start-9 bg-muted/20 flex flex-col justify-between border-t lg:border-t-0 border-border">
+            {/* Uncropped Blueprint Illustration Container */}
+            <div className="p-4 sm:p-5 lg:p-6 flex-1 flex items-center justify-center">
+              <div className="border border-border bg-[#f6f4ee] dark:bg-[#15171c] w-full max-w-[280px] sm:max-w-[320px] lg:max-w-none mx-auto overflow-hidden flex items-center justify-center p-3 sm:p-4">
+                <HardwareImage
+                  fileName="Image_1.png"
+                  alt={name}
+                  width={896}
+                  height={1200}
+                  sizes="(max-width: 767px) 280px, (max-width: 1023px) 320px, 420px"
+                  priority
+                  className="w-full h-auto max-h-[360px] sm:max-h-[420px] lg:max-h-[460px] object-contain mx-auto"
+                />
               </div>
-              <div className="p-2 sm:p-2.5">
-                <span className="text-muted-foreground uppercase tracking-wider block text-[10px]">
-                  {t("Production", "Продакшн")}
-                </span>
-                <span className="font-bold tabular-nums text-foreground">
-                  {lang === "ru"
-                    ? pluralizeRu(projects.length, ["система", "системы", "систем"])
-                    : `${projects.length} ${projects.length === 1 ? "System" : "Systems"}`}
-                </span>
+            </div>
+
+            {/* Engineering Telemetry / Metrics Table */}
+            <div className="border-t border-border bg-card dark:bg-card p-4 sm:p-5">
+              <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground mb-2.5 font-semibold flex items-center justify-between">
+                <span>{t("ENGINEERING SPECS", "ПАРАМЕТРЫ ИНЖЕНЕРА")}</span>
+                <span className="text-accent-aa tabular-nums">01 / SPEC</span>
               </div>
-              <div className="p-2 sm:p-2.5">
-                <span className="text-muted-foreground uppercase tracking-wider block text-[10px]">
-                  {t("Specialization", "Специализация")}
-                </span>
-                <span className="font-bold text-foreground">
-                  {t("FSM / Realtime", "Отказоустойчивость / FSM")}
-                </span>
-              </div>
-              <div className="p-2 sm:p-2.5">
-                <span className="text-muted-foreground uppercase tracking-wider block text-[10px]">
-                  {t("Location", "Локация")}
-                </span>
-                <span className="font-bold text-accent-aa">
-                  {t("UTC+7 Remote", "UTC+7 Удаленно")}
-                </span>
-              </div>
+              <table className="w-full text-left border-collapse font-mono text-xs">
+                <tbody className="divide-y divide-border">
+                  <tr>
+                    <td className="py-1.5 text-muted-foreground uppercase tracking-wider">
+                      {t("Experience", "Опыт")}
+                    </td>
+                    <td className="py-1.5 text-right font-bold text-foreground tabular-nums">
+                      {t("4+ yrs IT / 11 yrs Ind.", "4+ года IT / 11 лет произв.")}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-1.5 text-muted-foreground uppercase tracking-wider">
+                      {t("Commercial", "Коммерческие")}
+                    </td>
+                    <td className="py-1.5 text-right font-bold text-foreground tabular-nums">
+                      {lang === "ru"
+                        ? `${pluralizeRu(commercialCount, ["система", "системы", "систем"])}\u00A0в\u00A0продакшне`
+                        : `${commercialCount} ${commercialCount === 1 ? "Production System" : "Production Systems"}`}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-1.5 text-muted-foreground uppercase tracking-wider">
+                      {t("Focus", "Специализация")}
+                    </td>
+                    <td className="py-1.5 text-right font-bold text-foreground">
+                      {t("Fault-Tolerant / FSM", "Отказоустойчивость / FSM")}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-1.5 text-muted-foreground uppercase tracking-wider">
+                      {t("Location", "Локация")}
+                    </td>
+                    <td className="py-1.5 text-right font-bold text-accent-aa">
+                      {location}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
-          {/* Item 2: Uncropped Portrait (Single DOM Node across Mobile & Desktop) */}
-          <div className="order-2 lg:order-3 lg:col-span-4 p-4 sm:p-5 lg:pb-0 bg-muted/30 flex items-center justify-center">
-            <div className="border border-border bg-[#f6f4ee] overflow-hidden max-w-[240px] sm:max-w-[280px] lg:max-w-none mx-auto w-full aspect-[896/1200] max-h-[240px] sm:max-h-[300px] lg:max-h-[340px] flex items-center justify-center">
-              <HardwareImage
-                fileName="Image_1.png"
-                alt={name}
-                width={896}
-                height={1200}
-                sizes="(max-width: 767px) 240px, 360px"
-                priority
-                className="w-full h-full object-contain"
-              />
-            </div>
-          </div>
-
-          {/* Item 3: Stack, Summary & Deduplicated CTAs Block */}
-          <div className="order-3 lg:order-2 lg:col-span-8 p-4 sm:p-5 lg:p-6 pt-2 lg:pt-3 lg:border-r border-border flex flex-col justify-between gap-4">
-            <div className="space-y-3">
+          {/* Item 3: Stack, Summary & Action CTAs (Mobile: 3rd, Desktop: Left Column Bottom) */}
+          <div className="order-3 lg:order-2 lg:col-span-7 xl:col-span-8 lg:row-start-2 lg:col-start-1 p-5 sm:p-6 lg:p-8 pt-3 lg:pt-4 lg:border-r border-t lg:border-t-0 border-border flex flex-col justify-between gap-6">
+            <div className="space-y-4">
               {/* Clean Pipe-Separated Stack */}
-              <div className="border-y border-border py-2 font-mono text-xs">
-                <span className="text-muted-foreground uppercase tracking-wider mr-2">
+              <div className="border-y border-border py-2.5 font-mono text-xs leading-relaxed">
+                <span className="text-muted-foreground uppercase tracking-wider mr-2 font-semibold">
                   {t("Stack:", "Стек:")}
                 </span>
                 <span className="text-foreground">
@@ -159,7 +170,7 @@ export function HardwareConsole({
               </div>
 
               {/* Engineering Background & Summary */}
-              <div className="space-y-2 font-sans text-xs sm:text-sm leading-relaxed text-foreground">
+              <div className="space-y-2.5 font-sans text-xs sm:text-sm leading-relaxed text-foreground">
                 <p className="font-medium text-foreground">
                   {t(
                     "11 years managing industrial manufacturing operations before transitioning into distributed web systems engineering.",
@@ -173,33 +184,37 @@ export function HardwareConsole({
             </div>
 
             {/* CTAs: Deduplicated for .web-only and .tma-only */}
-            <div className="pt-3 border-t border-border">
+            <div className="pt-4 border-t border-border">
               {/* Web Browser CTAs */}
               <div className="web-only flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 font-mono text-xs uppercase tracking-wider">
                 <button
                   type="button"
                   onClick={() => openTelegramUrl("https://t.me/AlexanderBullo")}
-                  className="tactile-btn w-full sm:w-auto min-h-12 px-5 bg-primary text-primary-foreground font-bold flex items-center justify-center border border-border cursor-pointer hover:opacity-90"
+                  className="tactile-btn w-full sm:w-auto h-11 px-5 bg-primary text-primary-foreground font-bold flex items-center justify-center border border-border cursor-pointer hover:opacity-90 whitespace-nowrap shrink-0"
                 >
                   <span>{t("DISCUSS A PROJECT", "ОБСУДИТЬ ПРОЕКТ")}</span>
                 </button>
 
-                <div className="grid grid-cols-2 sm:flex gap-2">
+                <div className="grid grid-cols-2 sm:flex gap-2 min-w-0">
                   <a
                     href={pdfUrl}
                     download={pdfFileName}
-                    className="tactile-btn min-h-11 px-3.5 flex items-center justify-center gap-1.5 bg-background text-foreground border border-border font-bold hover:border-primary hover:text-primary"
+                    className="tactile-btn h-11 px-3 sm:px-4 flex items-center justify-center gap-1.5 bg-background text-foreground border border-border font-bold hover:border-primary hover:text-primary whitespace-nowrap shrink-0 text-center text-xs"
                   >
-                    <FileDown className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+                    <FileDown className="h-3.5 w-3.5 text-primary shrink-0" aria-hidden="true" />
                     <span>{t("DOWNLOAD CV", "СКАЧАТЬ РЕЗЮМЕ")}</span>
                   </a>
 
                   <a
                     href="#projects"
-                    className="tactile-btn min-h-11 px-3.5 flex items-center justify-center gap-1.5 border border-border bg-background text-foreground font-semibold hover:border-primary"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      smoothScrollTo("projects");
+                    }}
+                    className="tactile-btn h-11 px-3 sm:px-4 flex items-center justify-center gap-1.5 border border-border bg-background text-foreground font-semibold hover:border-primary whitespace-nowrap shrink-0 text-center text-xs"
                   >
                     <span>{t("PROJECTS", "ПРОЕКТЫ")}</span>
-                    <ArrowDown className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+                    <ArrowDown className="h-3.5 w-3.5 text-primary shrink-0" aria-hidden="true" />
                   </a>
                 </div>
               </div>
@@ -211,57 +226,15 @@ export function HardwareConsole({
                   onClick={(e) => {
                     e.preventDefault();
                     tmaHaptics.selection();
-                    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+                    smoothScrollTo("projects");
                   }}
-                  className="tactile-btn w-full min-h-11 border border-border bg-background hover:border-primary font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center cursor-pointer"
+                  className="tactile-btn w-full h-11 border border-border bg-background hover:border-primary font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center cursor-pointer"
                 >
                   <span>{t("VIEW PRODUCTION CASES", "СМОТРЕТЬ ПРОДАКШН-КЕЙСЫ")}</span>
                   <ArrowDown className="h-3.5 w-3.5 text-primary ml-1.5" aria-hidden="true" />
                 </button>
               </div>
             </div>
-          </div>
-
-          {/* Item 4: Desktop Metrics Table (lg:block only) */}
-          <div className="order-4 lg:order-4 lg:col-span-4 p-4 sm:p-5 pt-0 bg-muted/30 hidden lg:block">
-            <table className="w-full text-left border-collapse font-mono text-xs">
-              <tbody className="divide-y divide-border">
-                <tr>
-                  <td className="py-1.5 text-muted-foreground uppercase tracking-wider">
-                    {t("Experience", "Опыт")}
-                  </td>
-                  <td className="py-1.5 text-right font-bold text-foreground tabular-nums">
-                    {t("4+ yrs IT / 11 yrs Ind.", "4+ года IT / 11 лет произв.")}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-1.5 text-muted-foreground uppercase tracking-wider">
-                    {t("Commercial", "Коммерческие")}
-                  </td>
-                  <td className="py-1.5 text-right font-bold text-foreground tabular-nums">
-                    {lang === "ru"
-                      ? `${pluralizeRu(commercialCount, ["система", "системы", "систем"])}\u00A0в\u00A0продакшне`
-                      : `${commercialCount} ${commercialCount === 1 ? "Production System" : "Production Systems"}`}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-1.5 text-muted-foreground uppercase tracking-wider">
-                    {t("Focus", "Специализация")}
-                  </td>
-                  <td className="py-1.5 text-right font-bold text-foreground">
-                    {t("Fault-Tolerant / FSM", "Отказоустойчивость / FSM")}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-1.5 text-muted-foreground uppercase tracking-wider">
-                    {t("Location", "Локация")}
-                  </td>
-                  <td className="py-1.5 text-right font-bold text-accent-aa">
-                    {location}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
       </section>
@@ -270,8 +243,8 @@ export function HardwareConsole({
       {/* 02. TECHNICAL STACK & SPECIFICATIONS                     */}
       {/* ======================================================== */}
       <section id="stack" className="py-8 sm:py-10 lg:py-12">
-        <div className="flex items-baseline gap-4 mb-4 sm:mb-5">
-          <span className="font-mono text-xs uppercase tracking-wider text-accent-aa font-bold">
+        <div className="flex items-baseline gap-3 sm:gap-4 mb-4 sm:mb-5">
+          <span className="font-sans text-xl sm:text-2xl font-bold tracking-[-0.02em] text-accent-aa tabular-nums shrink-0">
             02
           </span>
           <h2 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground">
@@ -291,8 +264,8 @@ export function HardwareConsole({
       {/* ======================================================== */}
       <section id="projects" className="py-8 sm:py-10 lg:py-12">
         <div className="flex flex-wrap items-baseline justify-between gap-4 mb-4 sm:mb-5">
-          <div className="flex items-baseline gap-4">
-            <span className="font-mono text-xs uppercase tracking-wider text-accent-aa font-bold">
+          <div className="flex items-baseline gap-3 sm:gap-4">
+            <span className="font-sans text-xl sm:text-2xl font-bold tracking-[-0.02em] text-accent-aa tabular-nums shrink-0">
               03
             </span>
             <h2 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground">
@@ -322,8 +295,8 @@ export function HardwareConsole({
       {/* 05. EXPERIENCE & CAREER TIMELINE                         */}
       {/* ======================================================== */}
       <section id="experience" className="py-8 sm:py-10 lg:py-12">
-        <div className="flex items-baseline gap-4 mb-4 sm:mb-5">
-          <span className="font-mono text-xs uppercase tracking-wider text-accent-aa font-bold">
+        <div className="flex items-baseline gap-3 sm:gap-4 mb-4 sm:mb-5">
+          <span className="font-sans text-xl sm:text-2xl font-bold tracking-[-0.02em] text-accent-aa tabular-nums shrink-0">
             05
           </span>
           <h2 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground">
@@ -434,8 +407,8 @@ export function HardwareConsole({
       {/* 06. EDUCATION & LANGUAGES                                */}
       {/* ======================================================== */}
       <section id="education" className="py-8 sm:py-10 lg:py-12">
-        <div className="flex items-baseline gap-4 mb-4 sm:mb-5">
-          <span className="font-mono text-xs uppercase tracking-wider text-accent-aa font-bold">
+        <div className="flex items-baseline gap-3 sm:gap-4 mb-4 sm:mb-5">
+          <span className="font-sans text-xl sm:text-2xl font-bold tracking-[-0.02em] text-accent-aa tabular-nums shrink-0">
             06
           </span>
           <h2 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground">
@@ -513,8 +486,8 @@ export function HardwareConsole({
       {/* 07. CONTACT                                              */}
       {/* ======================================================== */}
       <section id="contact" className="py-8 sm:py-10 lg:py-12">
-        <div className="flex items-baseline gap-4 mb-4 sm:mb-5">
-          <span className="font-mono text-xs uppercase tracking-wider text-accent-aa font-bold">
+        <div className="flex items-baseline gap-3 sm:gap-4 mb-4 sm:mb-5">
+          <span className="font-sans text-xl sm:text-2xl font-bold tracking-[-0.02em] text-accent-aa tabular-nums shrink-0">
             07
           </span>
           <h2 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground">

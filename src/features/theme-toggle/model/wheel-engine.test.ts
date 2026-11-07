@@ -149,7 +149,16 @@ describe("ThemeWheelEngine - Quantizer & Step Navigation", () => {
     engine.onPointerUp();
 
     // Wait for spring simulation to settle
-    await new Promise((resolve) => setTimeout(resolve, 650));
+    await new Promise<void>((resolve, reject) => {
+      const timeout = setTimeout(() => reject(new Error("Spring animation timed out")), 1200);
+      const interval = setInterval(() => {
+        if (settledMode !== null) {
+          clearTimeout(timeout);
+          clearInterval(interval);
+          resolve();
+        }
+      }, 20);
+    });
 
     // Must have generated multiple intermediate frames (not a 1-step jump!)
     assert.ok(positions.length >= 8, `Expected >= 8 smooth frames, got ${positions.length}`);

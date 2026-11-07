@@ -205,11 +205,14 @@ html[data-tma="1"] body {
 
   html {
     font-synthesis: none;
-    scroll-padding-top: 6rem;
-    scroll-behavior: smooth;
+    scroll-padding-top: 3.5rem;
+    overflow-x: hidden;
   }
 
   @media (max-width: 767px) {
+    html {
+      scroll-padding-top: 6rem;
+    }
     html:not([data-tma="1"]) {
       scroll-padding-bottom: calc(5.5rem + var(--safe-bottom, 0px));
     }
@@ -222,6 +225,8 @@ html[data-tma="1"] body {
     -webkit-font-smoothing: antialiased;
     margin: 0 auto;
     padding: 0;
+    overflow-x: hidden;
+    min-width: 320px;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -252,7 +257,13 @@ html[data-tma="1"] body {
   }
 
   section[id] {
-    scroll-margin-top: calc(5.75rem + var(--tg-content-safe-area-inset-top, 0px));
+    scroll-margin-top: calc(3.5rem + var(--tg-content-safe-area-inset-top, 0px));
+  }
+
+  @media (max-width: 767px) {
+    section[id] {
+      scroll-margin-top: calc(6rem + var(--tg-content-safe-area-inset-top, 0px));
+    }
   }
 }
 

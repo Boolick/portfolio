@@ -196,7 +196,7 @@ export function ThemeThumbwheel({
 
   return (
     <div
-      className={`inline-flex items-center gap-1.5 sm:gap-2 font-mono select-none ${className}`}
+      className={`inline-flex items-center gap-1.5 sm:gap-2 font-mono select-none shrink-0 ${className}`}
       data-testid="theme-thumbwheel-wrapper"
     >
       {/* 1. Light Mode Button */}
@@ -204,7 +204,7 @@ export function ThemeThumbwheel({
         <button
           type="button"
           onClick={() => engineRef.current?.setMode("light", true)}
-          className="tactile-btn hidden sm:inline-flex items-center min-h-6 text-[10px] px-2 py-0.5 border transition-colors cursor-pointer text-accent-aa font-bold border-border bg-card dark:text-muted-foreground dark:font-normal dark:border-transparent dark:bg-transparent dark:hover:text-foreground"
+          className="tactile-btn hidden lg:inline-flex items-center h-8 text-[11px] px-2.5 border transition-colors cursor-pointer whitespace-nowrap shrink-0 text-accent-aa font-bold border-border bg-card dark:text-muted-foreground dark:font-normal dark:border-transparent dark:bg-transparent dark:hover:text-foreground"
           title="Light Theme"
         >
           <span>LIGHT</span>
@@ -228,7 +228,7 @@ export function ThemeThumbwheel({
         onLostPointerCapture={handlePointerCancel}
         onKeyDown={handleKeyDown}
         style={{ touchAction: "none" }}
-        className="relative flex items-center w-[72px] sm:w-[88px] h-[22px] border border-border bg-muted cursor-ew-resize focus-visible:ring-1 focus-visible:ring-primary outline-none overflow-hidden after:absolute after:-inset-y-[11px] after:inset-x-0 after:content-['']"
+        className="relative flex items-center w-[64px] sm:w-[76px] h-8 border border-border bg-muted cursor-ew-resize focus-visible:ring-1 focus-visible:ring-primary outline-none overflow-hidden shrink-0 select-none after:absolute after:-inset-y-[11px] after:inset-x-0 after:content-['']"
       >
         {/* Center reference line */}
         <div className="absolute inset-x-2 h-[1px] bg-border pointer-events-none" />
@@ -236,7 +236,7 @@ export function ThemeThumbwheel({
         {/* Signal Orange Indicator Pip */}
         <div className="absolute inset-y-0 left-[6px] right-[6px] pointer-events-none z-20">
           <div
-            className="absolute top-[2px] bottom-[2px] w-[4px] bg-primary"
+            className="absolute top-[4px] bottom-[4px] w-[4px] bg-primary"
             style={{
               left: "calc(var(--wheel-pos, 0) * 100%)",
               transform: "translate3d(-50%, 0, 0)",
@@ -250,7 +250,7 @@ export function ThemeThumbwheel({
         <button
           type="button"
           onClick={() => engineRef.current?.setMode("dark", true)}
-          className="tactile-btn hidden sm:inline-flex items-center min-h-6 text-[10px] px-2 py-0.5 border border-transparent text-muted-foreground hover:text-foreground transition-colors cursor-pointer dark:text-primary dark:font-bold dark:border-border dark:bg-card"
+          className="tactile-btn hidden lg:inline-flex items-center h-8 text-[11px] px-2.5 border transition-colors cursor-pointer whitespace-nowrap shrink-0 text-muted-foreground hover:text-foreground border-transparent bg-transparent dark:text-primary dark:font-bold dark:border-border dark:bg-card"
           title="Dark Theme"
         >
           <span>DARK</span>
@@ -268,12 +268,12 @@ export function ThemeThumbwheel({
               ? "Sound: OFF (Click to enable mechanical audio clicks)"
               : "Sound: ON (Click to mute mechanical audio clicks)"
           }
-          className="tactile-btn p-1 border border-border bg-card text-muted-foreground hover:text-foreground cursor-pointer hidden sm:inline-flex items-center justify-center h-6 w-6"
+          className="tactile-btn border border-border bg-card text-muted-foreground hover:text-foreground cursor-pointer inline-flex items-center justify-center h-8 w-8 shrink-0"
         >
           {isMuted ? (
-            <VolumeX className="w-3 h-3 text-muted-foreground" />
+            <VolumeX className="w-3.5 h-3.5 text-muted-foreground" />
           ) : (
-            <Volume2 className="w-3 h-3 text-primary" />
+            <Volume2 className="w-3.5 h-3.5 text-primary" />
           )}
         </button>
       )}
