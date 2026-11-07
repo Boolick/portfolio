@@ -97,3 +97,6 @@ docs/
 
 # Supabase schema & migrations
 supabase/
+
+# Local administrative & devops scripts
+scripts/
