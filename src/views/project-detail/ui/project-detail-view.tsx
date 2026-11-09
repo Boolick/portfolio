@@ -1,0 +1,186 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowLeft, ExternalLink } from "lucide-react";
+import { Button } from "@/shared/ui";
+import { SiteHeader } from "@/widgets/site-header";
+import { SiteFooter } from "@/widgets/site-footer";
+import { useLanguage } from "@/features/language-switcher";
+import { pickLocale } from "@/shared/lib";
+import { type Project, resolveProjectImageCandidates } from "@/entities/project";
+import { ShareCaseButton } from "@/features/telegram";
+import { openExternalUrl } from "@/shared/lib/telegram/links";
+
+interface ProjectDetailViewProps {
+  project: Project;
+}
+
+export function ProjectDetailView({ project }: ProjectDetailViewProps) {
+  const { lang, t } = useLanguage();
+  const title = pickLocale(project, "title", lang);
+  const description = pickLocale(project, "description", lang);
+  const longDescription =
+    pickLocale(project, "long_description", lang) || description;
+  const outcomes = pickLocale(project, "outcomes", lang);
+
+  const candidates = resolveProjectImageCandidates(project.slug, project.image_url);
+  const [candidateIdx, setCandidateIdx] = useState(0);
+  const [imgFailed, setImgFailed] = useState(false);
+  const [prevSlug, setPrevSlug] = useState(project.slug);
+
+  if (project.slug !== prevSlug) {
+    setPrevSlug(project.slug);
+    setCandidateIdx(0);
+    setImgFailed(false);
+  }
+
+  const currentImageSrc = candidates[candidateIdx] || candidates[0];
+
+  return (
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
+      <SiteHeader />
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-5 sm:py-12 md:py-20 flex-1 w-full">
+        {/* Back Navigation (Web only: TMA uses native BackButton in title bar) */}
+        <div className="mb-5 sm:mb-8 web-only">
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="gap-2 font-mono text-xs uppercase tracking-wider min-h-11 px-4 cursor-pointer"
+          >
+            <Link href="/#projects">
+              <ArrowLeft className="h-3.5 w-3.5" />
+              <span>{t("Back to Projects", "Назад к проектам")}</span>
+            </Link>
+          </Button>
+        </div>
+
+        {/* Engineering Specification Sheet */}
+        <article className="border border-border bg-card">
+          <header className="p-4 sm:p-8 md:p-10 border-b border-border space-y-4">
+            <div className="flex flex-wrap items-baseline justify-between gap-2 font-mono text-xs uppercase tracking-wider">
+              <span className="text-accent-aa font-bold">
+                {t("Engineering Case Study", "Инженерный кейс")}
+              </span>
+              <span className="text-muted-foreground">{project.slug}</span>
+            </div>
+
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-[-0.02em] text-foreground font-sans">
+              {title}
+            </h1>
+
+            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed font-sans">
+              {description}
+            </p>
+
+            {outcomes && (
+              <div className="pt-3 border-t border-border font-mono text-xs text-accent-aa font-medium flex items-start gap-2">
+                <span className="text-primary font-bold shrink-0">■</span>
+                <span>{outcomes}</span>
+              </div>
+            )}
+
+            {/* Inline Pipe-Separated Stack */}
+            <div className="pt-4 border-t border-border font-mono text-xs">
+              <span className="text-muted-foreground uppercase tracking-wider mr-2 font-semibold">
+                {t("Stack:", "Стек:")}
+              </span>
+              <span className="text-foreground">{project.tags.join(" | ")}</span>
+            </div>
+          </header>
+
+          {/* Project Visual with .webp -> .png candidate fallback chain */}
+          <div className="border-b border-border bg-muted/40 p-4 sm:p-8 md:p-10">
+            <div className="border border-border bg-background relative aspect-[16/10] overflow-hidden flex items-center justify-center">
+              {!imgFailed && currentImageSrc ? (
+                <Image
+                  src={currentImageSrc}
+                  alt={title}
+                  width={1280}
+                  height={800}
+                  sizes="(max-width: 1024px) 100vw, 960px"
+                  className="w-full h-full object-cover"
+                  priority
+                  onError={() => {
+                    if (candidateIdx < candidates.length - 1) {
+                      setCandidateIdx((prev) => prev + 1);
+                    } else {
+                      setImgFailed(true);
+                    }
+                  }}
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-muted-foreground font-mono text-xs uppercase tracking-wider bg-muted">
+                  {project.slug}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Detailed Specification with Structured Sections */}
+          <div className="p-4 sm:p-8 md:p-10 space-y-6">
+            {longDescription.split(/\n(?=## )/).map((section, idx) => {
+              const trimmed = section.trim();
+              if (trimmed.startsWith("## ")) {
+                const firstLineEnd = trimmed.indexOf("\n");
+                const heading =
+                  firstLineEnd === -1
+                    ? trimmed.slice(3)
+                    : trimmed.slice(3, firstLineEnd);
+                const body =
+                  firstLineEnd === -1 ? "" : trimmed.slice(firstLineEnd).trim();
+                return (
+                  <div key={idx} className="space-y-2">
+                    <h2 className="font-mono text-xs uppercase tracking-wider text-accent-aa font-bold">
+                      {heading}
+                    </h2>
+                    {body && (
+                      <p className="text-foreground leading-relaxed font-sans text-sm sm:text-base whitespace-pre-line">
+                        {body}
+                      </p>
+                    )}
+                  </div>
+                );
+              }
+              return (
+                <p
+                  key={idx}
+                  className="text-foreground leading-relaxed font-sans text-sm sm:text-base whitespace-pre-line"
+                >
+                  {trimmed}
+                </p>
+              );
+            })}
+
+            {/* Specification Action Bar */}
+            <div className="pt-6 border-t border-border flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
+                {project.link && (
+                  <button
+                    type="button"
+                    onClick={() => openExternalUrl(project.link!)}
+                    className="tactile-btn w-full sm:w-auto min-h-12 px-6 bg-primary text-primary-foreground font-mono text-xs font-bold uppercase tracking-wider inline-flex items-center justify-center gap-2 cursor-pointer transition-opacity hover:opacity-90"
+                  >
+                    <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                    <span>{t("LIVE SYSTEM", "ОТКРЫТЬ ПРОЕКТ")}</span>
+                  </button>
+                )}
+
+                <ShareCaseButton slug={project.slug} title={title} />
+              </div>
+
+              {project.link && (
+                <span className="font-mono text-xs text-muted-foreground break-all">
+                  {project.link}
+                </span>
+              )}
+            </div>
+          </div>
+        </article>
+      </main>
+      <SiteFooter />
+    </div>
+  );
+}

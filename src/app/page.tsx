@@ -1,29 +1,31 @@
-"use client";
+import type { Metadata } from "next";
+import { HomePageView } from "@/views/home";
+import { getProfile } from "@/entities/profile/server";
 
-import { Sidebar } from "@/components/sidebar";
-import { MainContent } from "@/components/main-content";
-import { MobileSidebar } from "@/components/mobile-sidebar";
-import { MobileContent } from "@/components/mobile-content";
+export async function generateMetadata(): Promise<Metadata> {
+  const profile = await getProfile();
+  const name = profile.name_en || "Aliaksandr Bullo";
+  const title = profile.title_en || "Fullstack Developer (Node.js, NestJS, React, TypeScript)";
+  const summary =
+    profile.summary_en ||
+    "Fullstack Software Engineer focused on React, Next.js, TypeScript and Node.js. 11-year industrial engineering leadership background, scalable FSD architecture, and fault-tolerant real-time UX.";
 
-export default function Home() {
-  return (
-    <div className="min-h-screen bg-[var(--color-background)]">
-      {/* ===== MOBILE VERSION (hidden on print) ===== */}
-      <div className="md:hidden print:hidden">
-        <MobileSidebar />
-        <MobileContent />
-      </div>
+  return {
+    title: `${name} | ${title}`,
+    description: summary,
+    openGraph: {
+      title: `${name} | ${title}`,
+      description: summary,
+      type: "profile",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${name} | ${title}`,
+      description: summary,
+    },
+  };
+}
 
-      {/* ===== DESKTOP VERSION (always visible on print) ===== */}
-      <div className="hidden md:block print:block">
-        {/* Main Resume Container */}
-        <div className="min-h-screen w-full bg-[var(--color-surface)] print-container">
-          <Sidebar />
-          <div className="md:ml-[var(--sidebar-width)] main-content-wrapper print:ml-0">
-            <MainContent />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+export default async function HomePage() {
+  return <HomePageView />;
 }

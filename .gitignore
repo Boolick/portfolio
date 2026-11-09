@@ -1,6 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
+/.agents
 /node_modules
 /.pnp
 .pnp.*
@@ -40,3 +41,62 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# ── GSD baseline (auto-generated) ──
+.gsd
+.gsd-worktrees/
+.gsd-backups/
+.gsd-id
+.mcp.json
+.bg-shell/
+.claude/settings.local.json
+Thumbs.db
+nul
+nul.*
+con
+con.*
+prn
+prn.*
+aux
+aux.*
+com[1-9]
+com[1-9].*
+lpt[1-9]
+lpt[1-9].*
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.code-workspace
+.env
+.env.*
+!.env.example
+node_modules/
+.next/
+dist/
+build/
+__pycache__/
+*.pyc
+.venv/
+venv/
+target/
+vendor/
+*.log
+coverage/
+.cache/
+tmp/
+
+# GSD files
+.planning/
+GEMINI.md
+AGENTS.md
+
+# Internal documentation
+docs/
+
+# Supabase schema & migrations
+supabase/
+
+# Local administrative & devops scripts
+scripts/

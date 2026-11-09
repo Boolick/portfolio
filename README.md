@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Aliaksandr Bullo — Engineering Portfolio & Blueprint
+
+High-performance personal portfolio, interactive engineering showcase, and Telegram Mini App for **Aliaksandr Bullo**, Senior Fullstack Software Engineer.
+
+The application presents verified production case studies, system architecture patterns, and technical competencies in an authentic Swiss / Constructivist typography aesthetic.
+
+---
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router, Server Actions, Route Handlers)
+- **UI & Runtimes:** React 19, TypeScript, Tailwind CSS v4
+- **State & Fonts:** Native Contexts, Google Manrope & JetBrains Mono
+- **Data & Performance:** Edge caching, Server-Side Rendering (SSR/SSG), strict TypeScript data contracts
+- **Ergonomics:** Telegram Mini App 8.0+ native shell, tactile haptics, spring smooth scroll engine
+
+---
+
+## Architectural Principles
+
+1. **Feature-Sliced Design (FSD):** Strict layering across `app`, `views`, `widgets`, `features`, `entities`, and `shared`.
+2. **Security-First (OWASP):** 
+   - Zero credential or token leakage to client-side bundles.
+   - Strict Origin & CSRF validation on mutating API route handlers.
+   - Cryptographic HMAC-SHA256 signature verification for Telegram Mini App telemetry.
+3. **Deterministic Performance:**
+   - 0ms layout shift (CLS = 0) with pre-calibrated aspect ratios and font fallback metrics.
+   - WebP-first asset delivery with SVG/monogram fallbacks.
+   - Complete WCAG 2.2 AA contrast compliance across light and dark themes.
+
+---
+
+## Project Structure
+
+```text
+src/
+├── app/                  # Next.js App Router entrypoints, route handlers & global styles
+├── views/                # Composite page views (Home, Projects, Not-Found)
+├── widgets/              # Autonomous UI widgets (HardwareConsole, SiteHeader, SiteFooter)
+├── features/             # Interactive UI features (ThemeToggle, LanguageSwitcher, Analytics)
+├── entities/             # Business models & domain entities (Profile, Project, Experience)
+└── shared/               # Reusable primitives, UI design system tokens & utility engines
+public/                   # Static assets, WebP images, and downloadable CV PDFs
+scripts/                  # DevOps & webhook management utilities
+```
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js >= 20.x
+- npm >= 10.x
+
+### Installation
+
+```bash
+npm install
+```
+
+### Local Development
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Quality Gates & Testing
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Run unit tests, linting, and type checking:
 
-## Learn More
+```bash
+npm test             # Run Node.js native test runner (37 tests)
+npm run lint         # Run ESLint checks
+npx tsc --noEmit     # TypeScript typecheck
+npm run build        # Production Next.js build
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Environment Configuration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Configuration template is available in `.env.example`. Copy it to `.env.local`:
 
-## Deploy on Vercel
+```bash
+cp .env.example .env.local
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Populate the required environment variables in your deployment dashboard or local environment.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## License
+
+Private repository. Copyright © Aliaksandr Bullo. All rights reserved.

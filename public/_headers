@@ -1,0 +1,10 @@
+# Netlify CDN Headers for Resume PDF Attachments & Telegram Bot API downloadFile CORS
+/cv_en.pdf
+  Access-Control-Allow-Origin: *
+  Content-Disposition: attachment; filename="CV_Aliaksandr_Bullo_EN.pdf"
+  Cache-Control: public, max-age=3600
+
+/resume_ru.pdf
+  Access-Control-Allow-Origin: *
+  Content-Disposition: attachment; filename="Resume_Aliaksandr_Bullo_RU.pdf"
+  Cache-Control: public, max-age=3600
