@@ -144,7 +144,7 @@ export function HardwareConsole({
           <div className="order-3 lg:order-2 lg:col-span-7 xl:col-span-8 lg:row-start-2 lg:col-start-1 p-5 sm:p-6 lg:p-7 pt-3 sm:pt-4 lg:pt-4 lg:border-r border-t lg:border-t-0 border-border flex flex-col justify-between gap-4">
             <div className="space-y-4">
               {/* Clean Pipe-Separated / Mid-Dot Stack */}
-              <div className="border-y border-border py-2.5 font-mono text-[11px] sm:text-xs leading-relaxed text-foreground">
+              <div className="border-y border-border py-2.5 font-mono text-[11px] sm:text-xs leading-relaxed text-foreground overflow-x-auto whitespace-nowrap scrollbar-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden touch-pan-x">
                 <span className="font-medium">TypeScript</span>
                 <span className="mx-1.5 text-muted-foreground/60">·</span>
                 <span className="font-medium">React</span>

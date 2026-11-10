@@ -1,9 +1,13 @@
 "use client";
 
 import { useLanguage } from "@/features/language-switcher";
+import { useTelegram } from "@/features/telegram";
 
 export function SiteFooter() {
+  const { isTma } = useTelegram();
   const { t } = useLanguage();
+
+  if (isTma) return null;
 
   return (
     <footer className="border-t border-border bg-background pt-8 pb-24 md:py-8 px-4 sm:px-6 font-mono text-xs text-muted-foreground web-only">

@@ -4,6 +4,8 @@ import { ProjectDetailView } from "@/views/project-detail";
 import { getProjects, getProjectBySlug } from "@/entities/project/server";
 import { generateProjectJsonLd } from "@/entities/project/lib/json-ld";
 
+export const revalidate = 60;
+
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
 }

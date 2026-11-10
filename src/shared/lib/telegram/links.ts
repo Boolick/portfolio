@@ -24,6 +24,11 @@ export function openTelegramUrl(url: string): void {
 export function openExternalUrl(url: string): void {
   if (typeof window === "undefined") return;
 
+  if (url.startsWith("https://t.me/")) {
+    openTelegramUrl(url);
+    return;
+  }
+
   const webApp = window.Telegram?.WebApp;
   if (webApp && typeof webApp.openLink === "function") {
     tmaHaptics.impact("light");

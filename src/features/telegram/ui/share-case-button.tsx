@@ -23,7 +23,7 @@ export function ShareCaseButton({ slug, title }: ShareCaseButtonProps) {
   const { lang, t } = useLanguage();
 
   const handleShare = async () => {
-    const botUser = process.env.NEXT_PUBLIC_TG_BOT_USERNAME || "bullo_dev_bot";
+    const botUser = process.env.NEXT_PUBLIC_TG_BOT_USERNAME || "aliaksandr_bullo_bot";
     const appName = process.env.NEXT_PUBLIC_TG_APP_SHORTNAME || "app";
     const deepLink = `https://t.me/${botUser}/${appName}?startapp=case_${slug}`;
 
