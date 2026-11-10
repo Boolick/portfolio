@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/features/language-switcher";
+import { useTelegram } from "@/features/telegram";
 import { useActiveSection } from "@/shared/lib/use-active-section";
 import { openTelegramUrl } from "@/shared/lib/telegram/links";
 import { cn } from "@/shared/lib/utils";
 
 export function MobileBottomCta() {
+  const { isTma } = useTelegram();
   const { lang } = useLanguage();
   const activeSection = useActiveSection();
   const [isVisible, setIsVisible] = useState(false);
@@ -46,6 +48,8 @@ export function MobileBottomCta() {
       : isRu
       ? "НАПИСАТЬ В TELEGRAM"
       : "MESSAGE IN TELEGRAM";
+
+  if (isTma) return null;
 
   return (
     <div

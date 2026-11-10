@@ -61,9 +61,6 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  icons: {
-    icon: "/favicon.ico",
-  },
 };
 
 export default function RootLayout({
@@ -85,7 +82,7 @@ export default function RootLayout({
         />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var h=window.location.hash;var s=window.location.search;var q=new URLSearchParams(s);var isTg=h.indexOf("tgWebAppData")!==-1||q.get("platform")==="tg"||q.has("tgWebAppStartParam")||sessionStorage.getItem("tma")==="1";if(isTg){document.documentElement.setAttribute("data-tma","1");sessionStorage.setItem("tma","1");var scr=document.createElement("script");scr.src="https://telegram.org/js/telegram-web-app.js";scr.async=true;scr.onload=function(){window.dispatchEvent(new Event("tma-sdk-loaded"));};document.head.appendChild(scr);}}catch(e){}})();`,
+            __html: `(function(){try{var h=window.location.hash;var s=window.location.search;var q=new URLSearchParams(s);var isTg=h.indexOf("tgWebAppData")!==-1||q.get("platform")==="tg"||q.has("tgWebAppStartParam")||sessionStorage.getItem("tma")==="1"||typeof window.TelegramWebviewProxy!=="undefined"||Boolean(window.Telegram&&window.Telegram.WebApp);if(isTg){document.documentElement.setAttribute("data-tma","1");sessionStorage.setItem("tma","1");var scr=document.createElement("script");scr.src="https://telegram.org/js/telegram-web-app.js";scr.async=true;scr.onload=function(){window.dispatchEvent(new Event("tma-sdk-loaded"));};document.head.appendChild(scr);}}catch(e){}})();`,
           }}
         />
       </head>

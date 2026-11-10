@@ -116,7 +116,7 @@ export async function POST(req: NextRequest) {
   const alertToken = getAlertBotToken();
   const ownerChatId = process.env.TELEGRAM_CHAT_ID;
   const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://resumeportfoliocv.netlify.app").replace(/\/$/, "");
-  const botUsername = process.env.NEXT_PUBLIC_TG_BOT_USERNAME || "bullo_dev_bot";
+  const botUsername = process.env.NEXT_PUBLIC_TG_BOT_USERNAME || "aliaksandr_bullo_bot";
   const appShortName = process.env.NEXT_PUBLIC_TG_APP_SHORTNAME || "app";
 
   if (!botToken) {

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { LayoutDashboard, FileDown, Menu, X } from "lucide-react";
 import { ThemeThumbwheel } from "@/features/theme-toggle";
 import { LanguageSwitcher, useLanguage } from "@/features/language-switcher";
+import { useTelegram } from "@/features/telegram";
 import { useAuth } from "@/features/auth";
 import { MobileSectionNav } from "@/widgets/mobile-section-nav/ui/mobile-section-nav";
 import { smoothScrollTo } from "@/shared/lib/scroll";
@@ -16,6 +17,7 @@ interface SiteHeaderProps {
 }
 
 export function SiteHeader({ isAdmin: propsIsAdmin }: SiteHeaderProps) {
+  const { isTma } = useTelegram();
   const pathname = usePathname();
   const { lang, t } = useLanguage();
   const { isAdmin: authIsAdmin, session } = useAuth();
@@ -54,6 +56,8 @@ export function SiteHeader({ isAdmin: propsIsAdmin }: SiteHeaderProps) {
     lang === "ru"
       ? "Resume_Aliaksandr_Bullo_RU.pdf"
       : "CV_Aliaksandr_Bullo_EN.pdf";
+
+  if (isTma) return null;
 
   return (
     <>

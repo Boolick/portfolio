@@ -263,7 +263,7 @@ Architected and deployed an end-to-end platform on Next.js App Router (SSR, Serv
 Cut catalog Largest Contentful Paint (LCP) from 2.8s to 1.8s, shipped full technical SEO infrastructure (Schema.org, dynamic sitemaps), and turned offline inquiries into a trackable digital order pipeline.`,
       outcomes: "1.8s catalog LCP · Automated B2B order funnel · Reduced DB load via Redis caching",
       image: "/projects/dkmline.png",
-      link: "https://dkmline.netlify.app/",
+      link: "https://dkmline.by",
       tags: ["Next.js 16", "React", "TypeScript", "PostgreSQL", "Redis", "Payload CMS 3", "Docker", "Zod"],
     },
     {
@@ -299,7 +299,7 @@ Led an incremental migration from legacy JavaScript to strict TypeScript with un
 Reduced production regression bugs by 40%, maintained sub-100ms state synchronization under peak load, and established fast, predictable deployments.`,
       outcomes: "-40% production regressions · Sub-100ms WebSocket sync · Automated CI/CD & E2E gates",
       image: "/projects/tower-empire.png",
-      link: "https://tower-empire.ru/",
+      link: "https://tower-empire.org",
       tags: ["React", "TypeScript", "WebSocket", "Redux Toolkit", "RTK Query", "Zustand", "Vite", "Playwright", "CI/CD"],
     },
     {
@@ -540,7 +540,7 @@ const resumeDataRU: ResumeData = {
 Скорость загрузки ключевых страниц (LCP) снижена с 2.8 с до 1.8 с, настроена полная SEO-индексация (Schema.org, динамический sitemap), а приём оптовых заявок переведён в прозрачную цифровую воронку без потерь обращений.`,
       outcomes: "Загрузка каталога за 1.8 с · Автоматизация B2B-заказов · Снижение нагрузки на БД через Redis",
       image: "/projects/dkmline.png",
-      link: "https://dkmline.netlify.app/",
+      link: "https://dkmline.by",
       tags: ["Next.js 16", "React", "TypeScript", "PostgreSQL", "Redis", "Payload CMS 3", "Docker", "Zod"],
     },
     {
@@ -576,7 +576,7 @@ const resumeDataRU: ResumeData = {
 Количество регрессионных багов в продакшне снизилось на 40%, задержка синхронизации удерживается в пределах 100 мс на пике онлайна, а выпуск релизов стал быстрым и предсказуемым.`,
       outcomes: "-40% багов в продакшне · Синхронизация событий < 100 мс · Автоматизированный CI/CD и E2E-тесты",
       image: "/projects/tower-empire.png",
-      link: "https://tower-empire.ru/",
+      link: "https://tower-empire.org",
       tags: ["React", "TypeScript", "WebSocket", "Redux Toolkit", "RTK Query", "Zustand", "Vite", "Playwright", "CI/CD"],
     },
     {

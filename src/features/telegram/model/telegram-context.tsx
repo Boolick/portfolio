@@ -112,6 +112,11 @@ export function TelegramProvider({ children }: { children: React.ReactNode }) {
 
       if (!isTmaAttr && !app) return;
 
+      document.documentElement.setAttribute("data-tma", "1");
+      try {
+        sessionStorage.setItem("tma", "1");
+      } catch {}
+
       setIsTma(true);
 
       if (app) {

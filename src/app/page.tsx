@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { HomePageView } from "@/views/home";
 import { getProfile } from "@/entities/profile/server";
 
+export const revalidate = 60;
+
 export async function generateMetadata(): Promise<Metadata> {
   const profile = await getProfile();
   const name = profile.name_en || "Aliaksandr Bullo";
