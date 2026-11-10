@@ -7,6 +7,7 @@ import { useLanguage } from "@/features/language-switcher";
 import { useTheme } from "@/features/theme-toggle";
 import { useActiveSection } from "@/shared/lib/use-active-section";
 import { tmaHaptics } from "@/shared/lib/telegram/haptics";
+import { openTelegramUrl, downloadTmaPdf } from "@/shared/lib/telegram/links";
 import { reportTmaEvent } from "../lib/report-tma-event";
 
 /**
@@ -80,7 +81,7 @@ export function TelegramMainButton() {
       const url =
         "https://t.me/AlexanderBullo?text=" +
         encodeURIComponent(prefillRef.current);
-      webApp.openTelegramLink(url);
+      openTelegramUrl(url, { closeAfter: true, skipHaptic: true });
     };
 
     const handleSecondaryClick = () => {
@@ -91,27 +92,7 @@ export function TelegramMainButton() {
         meta: currentLang,
       });
 
-      const isCurrentRu = currentLang === "ru";
-      const origin = typeof window !== "undefined" ? window.location.origin : "";
-      const pdfPath = isCurrentRu ? "/resume_ru.pdf" : "/cv_en.pdf";
-      const url = `${origin}${pdfPath}`;
-      const fileName = isCurrentRu
-        ? "Resume_Aliaksandr_Bullo_RU.pdf"
-        : "CV_Aliaksandr_Bullo_EN.pdf";
-
-      if (
-        typeof webApp.isVersionAtLeast === "function" &&
-        webApp.isVersionAtLeast("8.0") &&
-        typeof webApp.downloadFile === "function"
-      ) {
-        webApp.downloadFile({ url, file_name: fileName }, (accepted) => {
-          if (accepted) {
-            tmaHaptics.notify("success");
-          }
-        });
-      } else {
-        webApp.openLink(url);
-      }
+      downloadTmaPdf(currentLang);
     };
 
     try {

@@ -108,7 +108,7 @@ export function MobileSectionNav({
       {/* Scrollable item strip */}
       <div
         ref={scrollContainerRef}
-        className="flex items-center gap-1 overflow-x-auto px-2 scrollbar-none no-scrollbar h-full"
+        className="flex items-center gap-1 overflow-x-auto px-2 scrollbar-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden touch-pan-x h-full"
       >
         {sections.map((sec) => {
           const isActive = activeSection === sec.id;
@@ -121,7 +121,7 @@ export function MobileSectionNav({
               ref={isActive ? activeItemRef : null}
               onClick={(e) => handleNavClick(e, sec.id)}
               className={cn(
-                "tactile-btn relative flex items-center gap-1.5 px-3 min-h-10 text-xs font-mono whitespace-nowrap shrink-0 transition-colors cursor-pointer",
+                "tactile-btn relative flex items-center gap-1.5 px-2.5 sm:px-3 min-h-10 text-xs font-mono whitespace-nowrap shrink-0 transition-colors cursor-pointer",
                 isActive
                   ? "text-foreground font-bold"
                   : "text-muted-foreground hover:text-foreground font-medium"

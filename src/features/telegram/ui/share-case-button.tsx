@@ -5,6 +5,7 @@ import { Share2 } from "lucide-react";
 import { useTelegram } from "../model/telegram-context";
 import { useLanguage } from "@/features/language-switcher";
 import { tmaHaptics } from "@/shared/lib/telegram/haptics";
+import { openTelegramUrl } from "@/shared/lib/telegram/links";
 import { reportTmaEvent } from "../lib/report-tma-event";
 import { toast } from "@/shared/ui";
 
@@ -42,7 +43,7 @@ export function ShareCaseButton({ slug, title }: ShareCaseButtonProps) {
       const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(
         deepLink
       )}&text=${encodeURIComponent(shareText)}`;
-      webApp.openTelegramLink(shareUrl);
+      openTelegramUrl(shareUrl, { skipHaptic: true, closeAfter: false });
       return;
     }
 

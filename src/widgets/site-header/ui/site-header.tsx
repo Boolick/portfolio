@@ -25,7 +25,6 @@ export function SiteHeader({ isAdmin: propsIsAdmin }: SiteHeaderProps) {
   const {
     isScrolled,
     isOpen,
-    isManualOpen,
     toggleManualOpen,
     closeManualOpen,
     headerRef,
@@ -158,7 +157,7 @@ export function SiteHeader({ isAdmin: propsIsAdmin }: SiteHeaderProps) {
                   : "w-0 opacity-0 scale-90 pointer-events-none overflow-hidden"
               )}
             >
-              {isManualOpen ? (
+              {isOpen ? (
                 <button
                   type="button"
                   onClick={handleCloseMenu}

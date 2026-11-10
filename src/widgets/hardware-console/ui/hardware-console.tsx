@@ -3,9 +3,15 @@
 import Link from "next/link";
 import { Send, Mail, Linkedin, FileDown, ArrowDown } from "lucide-react";
 import { useLanguage } from "@/features/language-switcher";
+import { useTelegram } from "@/features/telegram";
 import { pickLocale, pickLocaleArr, smoothScrollTo } from "@/shared/lib";
-import { HardwareImage } from "@/shared/ui";
-import { openTelegramUrl } from "@/shared/lib/telegram/links";
+import { HardwareImage, toast } from "@/shared/ui";
+import {
+  openTelegramUrl,
+  openExternalUrl,
+  downloadTmaPdf,
+} from "@/shared/lib/telegram/links";
+import { tmaHaptics } from "@/shared/lib/telegram/haptics";
 import type { Profile } from "@/entities/profile";
 import { ProjectCard, type Project } from "@/entities/project";
 import { ExperienceItem, type Experience } from "@/entities/experience";
@@ -32,6 +38,7 @@ export function HardwareConsole({
   languages,
 }: HardwareConsoleProps) {
   const { lang, t } = useLanguage();
+  const { isTma } = useTelegram();
 
   const name = pickLocale(profile, "name", lang) || "Aliaksandr Bullo";
   const summary =
@@ -399,7 +406,9 @@ export function HardwareConsole({
             {profile.telegram && (
               <button
                 type="button"
-                onClick={() => openTelegramUrl(profile.telegram!)}
+                onClick={() =>
+                  openTelegramUrl(profile.telegram!, { closeAfter: isTma })
+                }
                 className="tactile-btn border border-border bg-background p-4 hover:border-primary flex items-center justify-between text-left cursor-pointer min-h-12"
               >
                 <div className="flex items-center gap-2">
@@ -415,6 +424,23 @@ export function HardwareConsole({
             {profile.email && (
               <a
                 href={`mailto:${profile.email}`}
+                onClick={() => {
+                  if (!isTma) return;
+                  tmaHaptics.impact("light");
+                  if (typeof navigator !== "undefined" && navigator.clipboard) {
+                    void navigator.clipboard
+                      .writeText(profile.email!)
+                      .then(() => {
+                        toast.success(
+                          t(
+                            `Email copied: ${profile.email}`,
+                            `Email скопирован: ${profile.email}`
+                          )
+                        );
+                      })
+                      .catch(() => {});
+                  }
+                }}
                 className="tactile-btn border border-border bg-background p-4 hover:border-primary flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 min-h-12"
               >
                 <div className="flex items-center gap-2">
@@ -434,6 +460,11 @@ export function HardwareConsole({
                 href={profile.linkedin}
                 target="_blank"
                 rel="noreferrer"
+                onClick={(e) => {
+                  if (!isTma) return;
+                  e.preventDefault();
+                  openExternalUrl(profile.linkedin!);
+                }}
                 className="tactile-btn border border-border bg-background p-4 hover:border-primary flex items-center justify-between min-h-12"
               >
                 <div className="flex items-center gap-2">
@@ -449,6 +480,12 @@ export function HardwareConsole({
             <a
               href={pdfUrl}
               download={pdfFileName}
+              onClick={(e) => {
+                if (!isTma) return;
+                e.preventDefault();
+                tmaHaptics.impact("medium");
+                downloadTmaPdf(lang);
+              }}
               className="tactile-btn bg-primary text-primary-foreground font-bold p-4 flex items-center justify-between uppercase tracking-wider hover:opacity-90 min-h-12"
             >
               <div className="flex items-center gap-2">

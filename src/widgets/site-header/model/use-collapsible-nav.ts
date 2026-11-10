@@ -2,6 +2,11 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";
+import {
+  isNavOpen,
+  reduceCloseNavState,
+  reduceScrollNavState,
+} from "./collapsible-nav-state";
 
 export interface CollapsibleNavState {
   /** True when the page has scrolled past the hero header zone (> 60px) */
@@ -10,21 +15,17 @@ export interface CollapsibleNavState {
   isCollapsed: boolean;
   /** True when the user manually toggled the menu open while scrolled */
   isManualOpen: boolean;
-  /** Effective open state: true if at top OR manually expanded */
+  /** Effective open state: true if at top, auto-expanded, or manually expanded */
   isOpen: boolean;
   /** Toggle manual expansion when scrolled */
   toggleManualOpen: () => void;
-  /** Close manual expansion */
+  /** Close expanded menu when scrolled */
   closeManualOpen: () => void;
   /** Open manual expansion */
   openManualOpen: () => void;
   /** Ref to attach to the header element for click-outside detection */
   headerRef: React.RefObject<HTMLElement | null>;
 }
-
-const SCROLL_THRESHOLD = 60;
-const COLLAPSE_DELTA_DOWN = 8;
-const EXPAND_DELTA_UP = -14;
 
 export function useCollapsibleNav(): CollapsibleNavState {
   const pathname = usePathname();
@@ -34,20 +35,29 @@ export function useCollapsibleNav(): CollapsibleNavState {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isManualOpen, setIsManualOpen] = useState(false);
 
+  const isScrolledRef = useRef(false);
   const isCollapsedRef = useRef(false);
   const isManualOpenRef = useRef(false);
   const lastScrollYRef = useRef(0);
 
-  // Keep refs in sync with state for immediate access in rAF callback
-  useEffect(() => {
-    isCollapsedRef.current = isCollapsed;
-  }, [isCollapsed]);
+  const applyState = useCallback(
+    (next: { isScrolled: boolean; isCollapsed: boolean; isManualOpen: boolean }) => {
+      if (isScrolledRef.current !== next.isScrolled) {
+        isScrolledRef.current = next.isScrolled;
+        setIsScrolled(next.isScrolled);
+      }
+      if (isCollapsedRef.current !== next.isCollapsed) {
+        isCollapsedRef.current = next.isCollapsed;
+        setIsCollapsed(next.isCollapsed);
+      }
+      if (isManualOpenRef.current !== next.isManualOpen) {
+        isManualOpenRef.current = next.isManualOpen;
+        setIsManualOpen(next.isManualOpen);
+      }
+    },
+    []
+  );
 
-  useEffect(() => {
-    isManualOpenRef.current = isManualOpen;
-  }, [isManualOpen]);
-
-  // Handle passive scroll with requestAnimationFrame for 60/120fps fluid transitions
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -60,37 +70,16 @@ export function useCollapsibleNav(): CollapsibleNavState {
           const currentY = Math.max(0, window.scrollY);
           const delta = currentY - lastScrollYRef.current;
 
-          // Zone 1: At top of page (Hero header zone) -> Always fully expanded
-          if (currentY <= SCROLL_THRESHOLD) {
-            if (isCollapsedRef.current) {
-              isCollapsedRef.current = false;
-              setIsCollapsed(false);
-            }
-            if (isManualOpenRef.current) {
-              isManualOpenRef.current = false;
-              setIsManualOpen(false);
-            }
-            setIsScrolled(false);
-          } else {
-            // Zone 2: Scrolled down past threshold
-            setIsScrolled(true);
-
-            // Downward scroll -> collapse into compact nav button
-            if (delta > COLLAPSE_DELTA_DOWN && !isCollapsedRef.current) {
-              isCollapsedRef.current = true;
-              setIsCollapsed(true);
-              // Closing manual state on downward scroll
-              if (isManualOpenRef.current) {
-                isManualOpenRef.current = false;
-                setIsManualOpen(false);
-              }
-            }
-            // Upward scroll (swipe down gesture) -> smoothly unfold menu like TG header
-            else if (delta < EXPAND_DELTA_UP && isCollapsedRef.current) {
-              isCollapsedRef.current = false;
-              setIsCollapsed(false);
-            }
-          }
+          const next = reduceScrollNavState(
+            {
+              isScrolled: isScrolledRef.current,
+              isCollapsed: isCollapsedRef.current,
+              isManualOpen: isManualOpenRef.current,
+            },
+            currentY,
+            delta
+          );
+          applyState(next);
 
           lastScrollYRef.current = currentY;
           ticking = false;
@@ -101,7 +90,7 @@ export function useCollapsibleNav(): CollapsibleNavState {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [applyState]);
 
   // Close manual expansion on click outside the header
   useEffect(() => {
@@ -109,12 +98,14 @@ export function useCollapsibleNav(): CollapsibleNavState {
 
     const handleClickOutside = (e: MouseEvent | TouchEvent) => {
       if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
+        isManualOpenRef.current = false;
         setIsManualOpen(false);
       }
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
+        isManualOpenRef.current = false;
         setIsManualOpen(false);
       }
     };
@@ -130,7 +121,11 @@ export function useCollapsibleNav(): CollapsibleNavState {
     };
   }, [isManualOpen]);
 
-  // Reset manual state on route/pathname change (React pattern for storing info from previous renders)
+  useEffect(() => {
+    isManualOpenRef.current = isManualOpen;
+  }, [isManualOpen]);
+
+  // Reset manual state on route/pathname change
   const [prevPathname, setPrevPathname] = useState(pathname);
   if (prevPathname !== pathname) {
     setPrevPathname(pathname);
@@ -138,18 +133,24 @@ export function useCollapsibleNav(): CollapsibleNavState {
   }
 
   const toggleManualOpen = useCallback(() => {
-    setIsManualOpen((prev) => !prev);
+    setIsManualOpen((prev) => {
+      const next = !prev;
+      isManualOpenRef.current = next;
+      return next;
+    });
   }, []);
 
   const closeManualOpen = useCallback(() => {
-    setIsManualOpen(false);
-  }, []);
+    const scrollY = typeof window !== "undefined" ? Math.max(0, window.scrollY) : 0;
+    applyState(reduceCloseNavState(scrollY));
+  }, [applyState]);
 
   const openManualOpen = useCallback(() => {
+    isManualOpenRef.current = true;
     setIsManualOpen(true);
   }, []);
 
-  const isOpen = !isCollapsed || isManualOpen;
+  const isOpen = isNavOpen({ isCollapsed, isManualOpen });
 
   return {
     isScrolled,
