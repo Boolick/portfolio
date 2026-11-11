@@ -11,6 +11,7 @@ import {
 import { tmaHaptics } from "@/shared/lib/telegram/haptics";
 import { cn } from "@/shared/lib/utils";
 import { smoothScrollTo } from "@/shared/lib/scroll";
+import { computeNavCenterScrollLeft } from "../model/nav-scroll";
 
 interface MobileSectionNavProps {
   variant?: "web" | "tma";
@@ -25,6 +26,7 @@ export function MobileSectionNav({
   const { lang } = useLanguage();
   const activeSection = useActiveSection();
   const isRu = lang === "ru";
+  const isTma = variant === "tma";
 
   const [isCollapsed, setIsCollapsed] = useState(false);
   const isCollapsedRef = useRef(false);
@@ -35,8 +37,12 @@ export function MobileSectionNav({
   // In 5-stage Kaizen architecture, all sections are core and shared
   const sections: readonly HomeSectionMeta[] = HOME_SECTIONS;
 
-  // Handle auto-hide on downward scroll with passive rAF listener
+  // Keep TMA header height constant inside sticky TelegramShell so document flow never jumps 40px
+  const effectiveCollapsed = isTma ? false : isCollapsed;
+
+  // Handle auto-hide on downward scroll for web header only
   useEffect(() => {
+    if (isTma) return;
     let ticking = false;
 
     const handleScroll = () => {
@@ -69,18 +75,27 @@ export function MobileSectionNav({
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isTma]);
 
-  // Smoothly center the active section item in the horizontal scroll strip
+  // Smoothly center the active section item strictly inside the horizontal scroll strip
+  // (never using Element.scrollIntoView, which can hijack window vertical smooth scroll)
   useEffect(() => {
-    if (activeItemRef.current) {
-      activeItemRef.current.scrollIntoView({
-        inline: "center",
-        block: "nearest",
-        behavior: "smooth",
-      });
+    if (effectiveCollapsed) return;
+    const container = scrollContainerRef.current;
+    const item = activeItemRef.current;
+    if (!container || !item) return;
+
+    const targetLeft = computeNavCenterScrollLeft(
+      item.offsetLeft,
+      item.offsetWidth,
+      container.clientWidth,
+      container.scrollWidth
+    );
+
+    if (targetLeft !== null) {
+      container.scrollTo({ left: targetLeft, behavior: "smooth" });
     }
-  }, [activeSection]);
+  }, [activeSection, effectiveCollapsed]);
 
   const handleNavClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -95,11 +110,11 @@ export function MobileSectionNav({
 
   return (
     <div
-      data-collapsed={isCollapsed}
+      data-collapsed={effectiveCollapsed}
       className={cn(
-        variant === "tma" ? "relative" : "md:hidden relative",
+        isTma ? "relative" : "md:hidden relative",
         "border-t border-border bg-background/95 backdrop-blur-xs transition-all duration-180 ease-out overflow-hidden",
-        isCollapsed
+        effectiveCollapsed
           ? "-translate-y-full opacity-0 pointer-events-none h-0 border-t-0"
           : "translate-y-0 opacity-100 h-10",
         className
@@ -108,7 +123,7 @@ export function MobileSectionNav({
       {/* Scrollable item strip */}
       <div
         ref={scrollContainerRef}
-        className="flex items-center gap-1 overflow-x-auto px-2 scrollbar-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden touch-pan-x h-full"
+        className="flex items-center gap-1 overflow-x-auto px-2 scrollbar-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden touch-pan-x touch-pan-y h-full"
       >
         {sections.map((sec) => {
           const isActive = activeSection === sec.id;

@@ -262,7 +262,7 @@ export function EngineeringChronicle() {
         <div
           ref={trackRef}
           onScroll={handleTrackScroll}
-          className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden touch-pan-x bg-secondary"
+          className="flex overflow-x-auto snap-x snap-mandatory scrollbar-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden touch-pan-x touch-pan-y bg-secondary"
         >
           {CHRONICLE_PANELS.map((panel, index) => (
             <ChroniclePanel

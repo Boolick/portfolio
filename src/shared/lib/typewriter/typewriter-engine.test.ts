@@ -1,10 +1,13 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
 import {
   computeDuration,
   computeVisibleChars,
   TypewriterEngine,
 } from "./typewriter-engine.ts";
+import { resolveTypewriterMode } from "./typewriter-lifecycle.ts";
 
 describe("TypewriterEngine - Duration and Character Calculations", () => {
   it("computeDuration respects clamping bounds [400, 800]", () => {
@@ -150,5 +153,60 @@ describe("TypewriterEngine - Runtime Lifecycle and Mock Clock", () => {
     engine.destroy();
 
     assert.equal(cancelled, true);
+  });
+});
+
+describe("TypewriterText lifecycle & DOM ownership", () => {
+  it("defers inactive off-screen slides to 'idle' until active becomes true", () => {
+    assert.equal(
+      resolveTypewriterMode({
+        hasTriggered: false,
+        prefersReducedMotion: false,
+        hasIntersectionObserver: true,
+        active: false,
+      }),
+      "idle"
+    );
+
+    assert.equal(
+      resolveTypewriterMode({
+        hasTriggered: false,
+        prefersReducedMotion: false,
+        hasIntersectionObserver: true,
+        active: true,
+      }),
+      "observe"
+    );
+  });
+
+  it("updates immediately on language toggle after slide has already triggered or under reduced motion", () => {
+    assert.equal(
+      resolveTypewriterMode({
+        hasTriggered: true,
+        prefersReducedMotion: false,
+        hasIntersectionObserver: true,
+        active: true,
+      }),
+      "immediate"
+    );
+
+    assert.equal(
+      resolveTypewriterMode({
+        hasTriggered: false,
+        prefersReducedMotion: true,
+        hasIntersectionObserver: true,
+        active: true,
+      }),
+      "immediate"
+    );
+  });
+
+  it("keeps textNodeRef free of managed JSX children to prevent reconciliation overwrites", () => {
+    const componentPath = path.resolve(
+      process.cwd(),
+      "src/shared/ui/typewriter-text.tsx"
+    );
+    const source = fs.readFileSync(componentPath, "utf8");
+    assert.match(source, /<span ref=\{textNodeRef\} \/>/);
   });
 });

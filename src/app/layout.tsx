@@ -72,7 +72,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${manrope.variable} ${jetbrainsMono.variable} scroll-smooth`}
+      className={`${manrope.variable} ${jetbrainsMono.variable}`}
     >
       <head>
         <script

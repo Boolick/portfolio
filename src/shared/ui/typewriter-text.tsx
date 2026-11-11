@@ -3,6 +3,7 @@
 import { useEffect, useRef, type ElementType } from "react";
 import { cn } from "@/shared/lib/utils";
 import { TypewriterEngine } from "@/shared/lib/typewriter/typewriter-engine";
+import { resolveTypewriterMode } from "@/shared/lib/typewriter/typewriter-lifecycle";
 
 export interface TypewriterTextProps {
   text: string;
@@ -32,7 +33,6 @@ export function TypewriterText({
 
     if (!textNode || !cursor || !container) return;
 
-    // Check accessibility: if reduced motion or missing IntersectionObserver
     const mediaQuery =
       typeof window !== "undefined" && window.matchMedia
         ? window.matchMedia("(prefers-reduced-motion: reduce)")
@@ -41,19 +41,24 @@ export function TypewriterText({
     const prefersReducedMotion = mediaQuery ? mediaQuery.matches : false;
     const hasIntersectionObserver = typeof IntersectionObserver !== "undefined";
 
-    // If already triggered in a prior run (e.g. language toggle) or reduced motion:
-    if (hasTriggeredRef.current || prefersReducedMotion || !hasIntersectionObserver) {
+    const mode = resolveTypewriterMode({
+      hasTriggered: hasTriggeredRef.current,
+      prefersReducedMotion,
+      hasIntersectionObserver,
+      active,
+    });
+
+    if (mode === "immediate") {
       textNode.textContent = text;
       cursor.setAttribute("data-state", "hidden");
       return;
     }
 
-    // Arm the text node for animation: clear visible content
+    // Arm the text node for animation without React overwriting imperative DOM frames
     textNode.textContent = "";
     cursor.setAttribute("data-state", "idle");
 
-    // Defer animation until this slide becomes active
-    if (!active) {
+    if (mode === "idle") {
       return;
     }
 
@@ -137,9 +142,9 @@ export function TypewriterText({
         <span className="inline-block w-[0.55ch] ml-[2px]" />
       </span>
 
-      {/* Animated text layer */}
+      {/* Animated text layer (owned imperatively by useEffect + TypewriterEngine) */}
       <span aria-hidden="true" className="col-start-1 row-start-1">
-        <span ref={textNodeRef}>{text}</span>
+        <span ref={textNodeRef} />
         <span ref={cursorRef} data-state="idle" className="tw-cursor" />
       </span>
     </Tag>

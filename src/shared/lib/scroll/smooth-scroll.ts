@@ -52,16 +52,19 @@ export function stopSmoothScroll(): void {
 }
 
 /**
- * Returns dynamic, subpixel-accurate header height (56px desktop, ~96px mobile)
+ * Returns dynamic, subpixel-accurate height of the currently visible sticky/fixed header
+ * (skipping display:none headers such as .tma-only in web browsers).
  */
 export function getHeaderOffset(): number {
   if (typeof document === "undefined") return 56;
-  const header =
-    document.querySelector<HTMLElement>("header.sticky") ||
-    document.querySelector<HTMLElement>("header");
-  if (!header) return 56;
-  const rect = header.getBoundingClientRect();
-  return Math.round(rect.height);
+  const headers = Array.from(document.querySelectorAll<HTMLElement>("header"));
+  for (const header of headers) {
+    const rect = header.getBoundingClientRect();
+    if (rect.height > 0) {
+      return Math.round(rect.height);
+    }
+  }
+  return 56;
 }
 
 /**
@@ -173,7 +176,7 @@ export function smoothScrollTo(
 
       // Check settlement threshold
       if (Math.abs(p - 1.0) < 0.003 && Math.abs(velocity) < 0.03) {
-        window.scrollTo(0, targetY);
+        window.scrollTo({ top: targetY, left: 0, behavior: "instant" });
         stopSmoothScroll();
 
         if (typeof target === "string" && options.updateHash !== false) {
@@ -189,7 +192,7 @@ export function smoothScrollTo(
       }
 
       const currentY = Math.round(startY + distance * p);
-      window.scrollTo(0, currentY);
+      window.scrollTo({ top: currentY, left: 0, behavior: "instant" });
 
       activeRafId = requestAnimationFrame(loop);
     };

@@ -98,7 +98,7 @@ export const CHRONICLE_PANELS: readonly ChroniclePanelData[] = [
       width: "92.0%",
       height: "13.8%",
     },
-    delayMs: 120,
+    delayMs: 0,
     title: {
       en: "Race Condition & Data Corruption",
       ru: "Гонка состояний и повреждение данных",
@@ -176,7 +176,7 @@ export const CHRONICLE_PANELS: readonly ChroniclePanelData[] = [
       width: "87.6%",
       height: "9.5%",
     },
-    delayMs: 120,
+    delayMs: 0,
     title: {
       en: "Verified Production Systems",
       ru: "Верифицированные продакшн-системы",

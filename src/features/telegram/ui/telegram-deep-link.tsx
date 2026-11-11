@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTelegram } from "../model/telegram-context";
 import { parseStartParam } from "@/shared/lib/telegram/start-param";
+import { smoothScrollTo } from "@/shared/lib/scroll";
 
 /**
  * Headless controller for session-once Telegram Mini App deep link routing.
@@ -42,10 +43,7 @@ export function TelegramDeepLink() {
       }
     } else if (parsed.type === "section") {
       requestAnimationFrame(() => {
-        const el = document.getElementById(parsed.sectionId);
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth" });
-        }
+        void smoothScrollTo(parsed.sectionId, { updateHash: false });
       });
     }
   }, [isTma, startParam, pathname, router, markDeepLinkReplace]);
