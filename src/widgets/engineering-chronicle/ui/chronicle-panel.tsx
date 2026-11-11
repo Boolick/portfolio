@@ -1,6 +1,5 @@
 "use client";
 
-import { Maximize2 } from "lucide-react";
 import { useLanguage } from "@/features/language-switcher";
 import { HardwareImage, TypewriterText } from "@/shared/ui";
 import { tmaHaptics } from "@/shared/lib/telegram/haptics";
@@ -10,15 +9,20 @@ import type { ChroniclePanelData } from "../model/panels";
 
 interface ChroniclePanelProps {
   panel: ChroniclePanelData;
+  isActive?: boolean;
+  eager?: boolean;
   onZoom?: (panel: ChroniclePanelData) => void;
 }
 
-export function ChroniclePanel({ panel, onZoom }: ChroniclePanelProps) {
+export function ChroniclePanel({
+  panel,
+  isActive = true,
+  eager = true,
+  onZoom,
+}: ChroniclePanelProps) {
   const { lang, t } = useLanguage();
-  const isRu = lang === "ru";
   const title = typograf(panel.title[lang]);
   const punchline = typograf(panel.punchline[lang]);
-  const caption = typograf(panel.caption[lang]);
 
   const handleZoom = () => {
     tmaHaptics.impact("light");
@@ -26,105 +30,58 @@ export function ChroniclePanel({ panel, onZoom }: ChroniclePanelProps) {
   };
 
   return (
-    <article
-      className={cn(
-        "border border-border bg-card flex flex-col justify-between overflow-hidden",
-        panel.variant === "wide" ? "md:col-span-2" : "col-span-1"
-      )}
+    <div
+      role="group"
+      aria-roledescription="slide"
+      aria-label={`${t("Slide", "Кадр")} ${panel.num}: ${title}`}
+      className="w-full shrink-0 snap-center snap-always bg-secondary"
     >
-      {/* Mobile-Only Header Strip (< 640px, sm:hidden) */}
-      <div className="px-3.5 py-2 border-b border-border bg-muted/40 flex items-center justify-between gap-2 sm:hidden">
-        <div className="flex items-center gap-2 min-w-0">
-          <span className="font-mono text-xs font-bold tabular-nums text-accent-aa shrink-0">
-            {panel.num}
-          </span>
-          <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-foreground truncate">
-            {title}
-          </h3>
-        </div>
-
-        <button
-          type="button"
-          onClick={handleZoom}
-          aria-label={
-            isRu
-              ? `Увеличить иллюстрацию кадра ${panel.num}`
-              : `Zoom panel ${panel.num} illustration`
-          }
-          className="tactile-btn flex items-center justify-center min-h-11 min-w-11 text-muted-foreground hover:text-primary transition-colors cursor-pointer shrink-0"
-        >
-          <Maximize2 className="h-4 w-4" aria-hidden="true" />
-        </button>
-      </div>
-
-      {/* Frame Visual with source-accurate aspect ratio and embedded narrator box overlay */}
+      {/* Uniform Passe-Partout Stage: equal outer margins across wide/tall/square frames */}
       <div
         onClick={handleZoom}
-        className={cn(
-          "group relative w-full bg-[#f6f4ee] overflow-hidden cursor-pointer sm:cursor-zoom-in",
-          panel.aspectRatioClass
-        )}
+        className="w-full h-[360px] sm:h-[460px] lg:h-[520px] p-3 sm:p-5 lg:p-6 cursor-pointer sm:cursor-zoom-in"
       >
-        <HardwareImage
-          fileName={panel.fileName}
-          alt={`${panel.num} — ${title}`}
-          fill
-          sizes={
-            panel.variant === "wide"
-              ? "(max-width: 767px) 100vw, 900px"
-              : "(max-width: 767px) 100vw, 450px"
-          }
-          className="w-full h-full object-contain pointer-events-none select-none"
-        />
+        <div className="w-full h-full flex items-center justify-center [container-type:size]">
+          {/* Exact aspect-ratio frame locked to container bounds so panel.box always matches artwork */}
+          <div
+            className="relative shrink-0 overflow-hidden bg-[#f6f4ee] border border-border"
+            style={{
+              width: `min(100cqw, calc(100cqh * ${panel.dimensions.width} / ${panel.dimensions.height}))`,
+              height: `min(100cqh, calc(100cqw * ${panel.dimensions.height} / ${panel.dimensions.width}))`,
+            }}
+          >
+            <HardwareImage
+              fileName={panel.fileName}
+              alt={`${panel.num} — ${title}`}
+              fill
+              loading={eager ? "eager" : "lazy"}
+              sizes="(max-width: 767px) 100vw, 900px"
+              className="w-full h-full object-contain pointer-events-none select-none"
+            />
 
-        {/* Narrative Typewriter text positioned directly inside the artwork's drawn speech/narrator box */}
-        <div
-          className="absolute z-10 flex flex-col justify-center px-3 sm:px-6 py-1 pointer-events-none select-text"
-          style={{
-            top: panel.box.top,
-            left: panel.box.left,
-            width: panel.box.width,
-            height: panel.box.height,
-          }}
-        >
-          {/* Header row shown on sm+ (desktop keeps 2-line layout) */}
-          <div className="hidden sm:flex items-center gap-2 mb-0.5 sm:mb-1">
-            <span className="font-mono text-[10px] sm:text-xs font-bold uppercase tracking-wider text-accent-aa">
-              {panel.num}
-            </span>
-            <span className="font-mono text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-neutral-600 line-clamp-1">
-              {title}
-            </span>
+            {/* Narrative Typewriter text aligned inside the illustration's drawn narrator box */}
+            <div
+              className={cn(
+                "absolute z-10 flex flex-col justify-center px-2.5 sm:px-5 py-0.5 pointer-events-none select-text"
+              )}
+              style={{
+                top: panel.box.top,
+                left: panel.box.left,
+                width: panel.box.width,
+                height: panel.box.height,
+              }}
+            >
+              <TypewriterText
+                as="p"
+                text={punchline}
+                delayMs={panel.delayMs}
+                active={isActive}
+                className="font-sans font-bold text-[10px] leading-[1.16] sm:text-xs md:text-[13.5px] lg:text-[14px] lg:leading-[1.2] text-neutral-900 tracking-tight"
+              />
+            </div>
           </div>
-
-          <TypewriterText
-            as="p"
-            text={punchline}
-            delayMs={panel.delayMs}
-            className="font-sans font-bold text-[10.5px] leading-[1.18] sm:text-sm md:text-base text-neutral-900 tracking-tight"
-          />
         </div>
-
-        {/* Desktop subtle hover zoom hint */}
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleZoom();
-          }}
-          aria-label={t("Zoom illustration", "Увеличить иллюстрацию")}
-          className="tactile-btn hidden sm:flex items-center justify-center absolute top-2 right-2 min-h-9 min-w-9 p-1.5 border border-border bg-card/90 text-foreground hover:text-primary opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity z-20 cursor-pointer"
-        >
-          <Maximize2 className="h-3.5 w-3.5" aria-hidden="true" />
-        </button>
       </div>
-
-      {/* Bottom Architectural Caption */}
-      <div className="px-4 py-2.5 sm:px-5 sm:py-3 bg-card border-t border-border">
-        <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-          {caption}
-        </p>
-      </div>
-    </article>
+    </div>
   );
 }

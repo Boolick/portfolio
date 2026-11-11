@@ -2,95 +2,107 @@
 
 import { useEffect, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
+import {
+  HOME_SECTIONS,
+  resolveActiveSectionId,
+  type HomeSectionMeta,
+  type SectionMeasurement,
+} from "./active-section-engine";
 
-export interface HomeSectionMeta {
-  id: string;
-  en: string;
-  ru: string;
-  tmaCore: boolean;
-}
-
-export const HOME_SECTIONS: readonly HomeSectionMeta[] = [
-  { id: "projects", en: "Projects", ru: "Проекты", tmaCore: true },
-  { id: "approach", en: "Approach", ru: "Подход", tmaCore: true },
-  { id: "experience", en: "Experience", ru: "Опыт", tmaCore: true },
-  { id: "contact", en: "Contact", ru: "Контакты", tmaCore: true },
-] as const;
+export { HOME_SECTIONS, type HomeSectionMeta };
 
 type Listener = () => void;
 const listeners = new Set<Listener>();
 
 let currentActiveId = "";
-let sharedObserver: IntersectionObserver | null = null;
-const sectionRatios = new Map<string, number>();
+let rafId: number | null = null;
+let isListening = false;
 
-function setupObserver() {
-  if (typeof window === "undefined" || sharedObserver) return;
+function getStickyHeaderHeight(): number {
+  if (typeof document === "undefined") return 56;
+  const tmaHeader = document.querySelector<HTMLElement>("header.tma-only");
+  if (tmaHeader && tmaHeader.offsetHeight > 0) {
+    return tmaHeader.offsetHeight;
+  }
+  const webHeader = document.querySelector<HTMLElement>("header.fixed");
+  if (webHeader && webHeader.offsetHeight > 0) {
+    return webHeader.offsetHeight;
+  }
+  return 56;
+}
 
-  sharedObserver = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        const id = entry.target.id;
-        sectionRatios.set(id, entry.isIntersecting ? entry.intersectionRatio : 0);
-      }
+function measureAndUpdate() {
+  if (typeof window === "undefined" || typeof document === "undefined") return;
 
-      let bestId = currentActiveId;
-      let maxRatio = 0.05;
-
-      for (const sec of HOME_SECTIONS) {
-        const ratio = sectionRatios.get(sec.id) || 0;
-        if (ratio > maxRatio) {
-          maxRatio = ratio;
-          bestId = sec.id;
-        }
-      }
-
-      if (bestId !== currentActiveId) {
-        currentActiveId = bestId;
-        listeners.forEach((l) => l());
-      }
-    },
-    {
-      rootMargin: "-15% 0px -50% 0px",
-      threshold: [0, 0.1, 0.25, 0.5, 0.75, 1],
+  const measurements: SectionMeasurement[] = [];
+  for (const sec of HOME_SECTIONS) {
+    const el = document.getElementById(sec.id);
+    if (el) {
+      measurements.push({
+        id: sec.id,
+        top: el.getBoundingClientRect().top,
+      });
     }
-  );
+  }
 
-  for (const s of HOME_SECTIONS) {
-    const el = document.getElementById(s.id);
-    if (el) sharedObserver.observe(el);
+  if (measurements.length === 0) return;
+
+  const nextId = resolveActiveSectionId(measurements, {
+    viewportHeight: window.innerHeight,
+    scrollY: window.scrollY,
+    docHeight: document.documentElement.scrollHeight,
+    headerHeight: getStickyHeaderHeight(),
+  });
+
+  if (nextId && nextId !== currentActiveId) {
+    currentActiveId = nextId;
+    listeners.forEach((l) => l());
+  }
+}
+
+function scheduleUpdate() {
+  if (typeof window === "undefined" || rafId !== null) return;
+  rafId = window.requestAnimationFrame(() => {
+    rafId = null;
+    measureAndUpdate();
+  });
+}
+
+function startListening() {
+  if (typeof window === "undefined" || isListening) return;
+  isListening = true;
+  window.addEventListener("scroll", scheduleUpdate, { passive: true });
+  window.addEventListener("resize", scheduleUpdate, { passive: true });
+  measureAndUpdate();
+}
+
+function stopListening() {
+  if (typeof window === "undefined" || !isListening) return;
+  isListening = false;
+  window.removeEventListener("scroll", scheduleUpdate);
+  window.removeEventListener("resize", scheduleUpdate);
+  if (rafId !== null) {
+    window.cancelAnimationFrame(rafId);
+    rafId = null;
   }
 }
 
 export function rebindObserver() {
   if (typeof window === "undefined") return;
-  if (sharedObserver) {
-    sharedObserver.disconnect();
-    sharedObserver = null;
-    sectionRatios.clear();
-  }
   if (listeners.size > 0) {
-    setupObserver();
-  }
-}
-
-function teardownObserver() {
-  if (sharedObserver) {
-    sharedObserver.disconnect();
-    sharedObserver = null;
-    sectionRatios.clear();
+    measureAndUpdate();
   }
 }
 
 function subscribe(callback: Listener) {
   listeners.add(callback);
   if (listeners.size === 1) {
-    setupObserver();
+    startListening();
   }
   return () => {
     listeners.delete(callback);
     if (listeners.size === 0) {
-      teardownObserver();
+      stopListening();
     }
   };
 }
@@ -104,9 +116,9 @@ function getServerSnapshot(): string {
 }
 
 /**
- * Shared singleton IntersectionObserver hook for tracking active home section.
- * Spawns at most ONE observer regardless of how many components subscribe.
- * Re-binds observer when returning to "/" from subpages like /projects/[slug].
+ * Shared singleton scroll-spy hook for tracking the active home section.
+ * Evaluates section positions in viewport coordinates so tall sections (e.g. comic chronicle)
+ * remain active reliably across the full section span.
  */
 export function useActiveSection(): string {
   const pathname = usePathname();
