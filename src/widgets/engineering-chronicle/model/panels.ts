@@ -5,11 +5,17 @@ export interface ChronicleBoxCoords {
   height: string;
 }
 
+export interface ChroniclePanelDimensions {
+  width: number;
+  height: number;
+}
+
 export interface ChroniclePanelData {
   num: "01" | "02" | "03" | "04" | "05" | "06";
   fileName: string;
   variant: "wide" | "tall" | "square";
   aspectRatioClass: string;
+  dimensions: ChroniclePanelDimensions;
   box: ChronicleBoxCoords;
   delayMs: number;
   objectPosition?: string;
@@ -33,6 +39,7 @@ export const CHRONICLE_PANELS: readonly ChroniclePanelData[] = [
     fileName: "Image_2.png",
     variant: "wide",
     aspectRatioClass: "aspect-[1376/768]",
+    dimensions: { width: 1376, height: 768 },
     box: {
       top: "7.4%",
       left: "3.2%",
@@ -58,6 +65,7 @@ export const CHRONICLE_PANELS: readonly ChroniclePanelData[] = [
     fileName: "Image_3.png",
     variant: "tall",
     aspectRatioClass: "aspect-[896/1200]",
+    dimensions: { width: 896, height: 1200 },
     box: {
       top: "5.1%",
       left: "4.5%",
@@ -83,6 +91,7 @@ export const CHRONICLE_PANELS: readonly ChroniclePanelData[] = [
     fileName: "Image_4.png",
     variant: "square",
     aspectRatioClass: "aspect-square",
+    dimensions: { width: 1024, height: 1024 },
     box: {
       top: "5.7%",
       left: "4.0%",
@@ -108,6 +117,7 @@ export const CHRONICLE_PANELS: readonly ChroniclePanelData[] = [
     fileName: "Image_5.png",
     variant: "wide",
     aspectRatioClass: "aspect-[1376/768]",
+    dimensions: { width: 1376, height: 768 },
     box: {
       top: "7.2%",
       left: "3.2%",
@@ -133,6 +143,7 @@ export const CHRONICLE_PANELS: readonly ChroniclePanelData[] = [
     fileName: "Image_6.png",
     variant: "square",
     aspectRatioClass: "aspect-square",
+    dimensions: { width: 1024, height: 1024 },
     box: {
       top: "5.7%",
       left: "4.0%",
@@ -158,6 +169,7 @@ export const CHRONICLE_PANELS: readonly ChroniclePanelData[] = [
     fileName: "Image_7.png",
     variant: "square",
     aspectRatioClass: "aspect-square",
+    dimensions: { width: 1024, height: 1024 },
     box: {
       top: "7.9%",
       left: "6.2%",

@@ -7,6 +7,7 @@ import { TypewriterEngine } from "@/shared/lib/typewriter/typewriter-engine";
 export interface TypewriterTextProps {
   text: string;
   delayMs?: number;
+  active?: boolean;
   className?: string;
   as?: "p" | "span" | "div";
 }
@@ -14,6 +15,7 @@ export interface TypewriterTextProps {
 export function TypewriterText({
   text,
   delayMs = 0,
+  active = true,
   className,
   as: Component = "p",
 }: TypewriterTextProps) {
@@ -49,6 +51,11 @@ export function TypewriterText({
     // Arm the text node for animation: clear visible content
     textNode.textContent = "";
     cursor.setAttribute("data-state", "idle");
+
+    // Defer animation until this slide becomes active
+    if (!active) {
+      return;
+    }
 
     const onMotionChange = (e: MediaQueryListEvent) => {
       if (e.matches) {
@@ -108,7 +115,7 @@ export function TypewriterText({
         engineRef.current = null;
       }
     };
-  }, [text, delayMs]);
+  }, [text, delayMs, active]);
 
   const Tag = Component as ElementType;
 
