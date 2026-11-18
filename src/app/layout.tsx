@@ -31,9 +31,10 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://resumeportfoliocv.netlify.app"
+    process.env.NEXT_PUBLIC_SITE_URL || "https://resumeportfoliocv.netlify.app",
   ),
-  title: "Aliaksandr Bullo | Fullstack Developer (Node.js, NestJS, React, TypeScript)",
+  title:
+    "Aliaksandr Bullo | Fullstack Developer (Node.js, NestJS, React, TypeScript)",
   description:
     "Fullstack Software Engineer focused on React, Next.js, TypeScript and Node.js with an 11-year technical engineering background. Scalable FSD architecture, strict type safety, and real-time systems.",
   keywords: [
@@ -60,6 +61,9 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+  },
+  verification: {
+    google: "cu_p0mUcUb0O5qN9QE_ogGELis3lryhMywwwce-UgEM",
   },
 };
 
