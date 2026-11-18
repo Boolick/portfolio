@@ -1,0 +1,14 @@
+/* TEAM */
+Developer: Aliaksandr Bullo
+Role: Fullstack Software Engineer
+Contact: https://t.me/AlexanderBullo
+Location: Remote
+
+/* THANKS */
+Next.js, Supabase, Netlify, Tailwind CSS
+
+/* SITE */
+Last update: 2026/11/18
+Standards: HTML5, CSS3, WAI-ARIA, JSON-LD
+Components: Next.js 15, React 19, TypeScript, Tailwind CSS v4, Supabase
+Methodology: Feature-Sliced Design
