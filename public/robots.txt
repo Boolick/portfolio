@@ -1,6 +1,0 @@
-# robots.txt for Resume Site
-
-User-agent: *
-Allow: /
-
-Sitemap: https://your-domain.com/sitemap.xml
