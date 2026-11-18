@@ -8,6 +8,7 @@ import { TelegramProvider, TelegramShell } from "@/features/telegram";
 import { Toaster } from "@/shared/ui";
 import { ConsoleEasterEgg } from "@/features/easter-egg";
 import { RefTracker } from "@/features/analytics";
+import { SITE_URL } from "@/shared/config/site";
 
 const manrope = Manrope({
   subsets: ["latin", "cyrillic"],
@@ -30,12 +31,13 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://resumeportfoliocv.netlify.app"
-  ),
-  title: "Aliaksandr Bullo | Fullstack Developer (Node.js, NestJS, React, TypeScript)",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Aliaksandr Bullo — Fullstack Developer (Next.js, Node.js)",
+    template: "%s | Aliaksandr Bullo",
+  },
   description:
-    "Fullstack Software Engineer focused on React, Next.js, TypeScript and Node.js with an 11-year technical engineering background. Scalable FSD architecture, strict type safety, and real-time systems.",
+    "Senior Fullstack Engineer (Next.js, Node.js/NestJS, TypeScript, PostgreSQL). Web apps and Telegram Mini Apps end to end. Open to projects and remote roles.",
   keywords: [
     "Fullstack Developer",
     "Node.js Developer",
@@ -50,16 +52,39 @@ export const metadata: Metadata = {
     "Supabase",
     "Telegram Mini Apps",
   ],
-  authors: [{ name: "Aliaksandr Bullo" }],
+  authors: [{ name: "Aliaksandr Bullo", url: SITE_URL }],
+  creator: "Aliaksandr Bullo",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "Aliaksandr Bullo | Fullstack Developer",
+    title: "Aliaksandr Bullo — Fullstack Developer",
     description:
       "Fullstack Software Engineer (React, Next.js, Node.js, NestJS, TypeScript). Scalable client-side architecture and robust server-side logic.",
+    url: "/",
+    siteName: "Aliaksandr Bullo",
     type: "profile",
+    firstName: "Aliaksandr",
+    lastName: "Bullo",
+    locale: "en_US",
+    alternateLocale: ["ru_RU"],
+    // Картинка подхватится автоматически, если добавить src/app/opengraph-image.png (1200x630)
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Aliaksandr Bullo — Fullstack Developer",
+    description:
+      "Next.js, Node.js/NestJS, TypeScript, Telegram Mini Apps. Open to projects and remote roles.",
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 

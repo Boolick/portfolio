@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ProjectDetailView } from "@/views/project-detail";
 import { getProjects, getProjectBySlug } from "@/entities/project/server";
 import { generateProjectJsonLd } from "@/entities/project/lib/json-ld";
+import { SITE_URL } from "@/shared/config/site";
 
 export const revalidate = 60;
 
@@ -55,15 +56,23 @@ export async function generateMetadata({
 
   const customKeywords = PROJECT_SEO_KEYWORDS[slug] ?? [];
   const keywords = Array.from(new Set([...project.tags, ...customKeywords]));
+  const pageUrl = `${SITE_URL}/projects/${slug}`;
 
   return {
     title: `${project.title_en} | Aliaksandr Bullo`,
     description: project.description_en,
     keywords,
+    alternates: {
+      canonical: `/projects/${slug}`,
+    },
     openGraph: {
       title: project.title_en,
       description: project.description_en,
+      url: pageUrl,
+      siteName: "Aliaksandr Bullo",
       type: "article",
+      locale: "en_US",
+      alternateLocale: ["ru_RU"],
     },
     twitter: {
       card: "summary_large_image",

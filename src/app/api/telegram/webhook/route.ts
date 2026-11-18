@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import crypto from "node:crypto";
 import { parseStartParam } from "@/shared/lib/telegram/start-param";
 import { escapeHtml } from "@/shared/lib/telegram/escape-html";
+import { SITE_URL } from "@/shared/config/site";
 import {
   getPublicBotToken,
   getAlertBotToken,
@@ -115,7 +116,7 @@ export async function POST(req: NextRequest) {
   const botToken = getPublicBotToken();
   const alertToken = getAlertBotToken();
   const ownerChatId = process.env.TELEGRAM_CHAT_ID;
-  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://resumeportfoliocv.netlify.app").replace(/\/$/, "");
+  const siteUrl = SITE_URL;
   const botUsername = process.env.NEXT_PUBLIC_TG_BOT_USERNAME || "aliaksandr_bullo_bot";
   const appShortName = process.env.NEXT_PUBLIC_TG_APP_SHORTNAME || "app";
 

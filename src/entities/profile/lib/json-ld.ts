@@ -1,12 +1,14 @@
 import type { Profile } from "../model/types";
+import { SITE_URL } from "@/shared/config/site";
 
 export function generatePersonJsonLd(profile: Profile) {
   const person: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": `${SITE_URL}/#person`,
     name: profile.name_en || "Aliaksandr Bullo",
     jobTitle: profile.title_en || "Fullstack Software Engineer",
-    url: "https://resumeportfoliocv.netlify.app/",
+    url: `${SITE_URL}/`,
     knowsAbout: [
       "TypeScript",
       "React",
@@ -69,7 +71,7 @@ export function generateProfilePageJsonLd(profile: Profile) {
   return {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
-    url: "https://resumeportfoliocv.netlify.app/",
+    url: `${SITE_URL}/`,
     mainEntity: personWithoutContext,
   };
 }
